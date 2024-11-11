@@ -7,9 +7,9 @@ import SearchComponent from './components/SearchBar.jsx';  // Import SearchCompo
 function App() {
     return (
         <div className="App">
-            <Navbar />  {/* Render the Navbar component */}
+            <Navbar />
             <div className="container">
-                <SearchComponent /> {/* Render the SearchComponent below the Navbar */}
+                <SearchComponent />
             </div>
         </div>
     );

@@ -50,186 +50,390 @@
 }
 
 
+/* Main search container */
+.search-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
 
-/* Container for the guest selector input */
+/* Search bar styling */
+.search-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    width: 100%;
+}
+
+/* Input field styling */
+.search-input {
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 16px;
+    flex: 1;
+    transition: border-color 0.3s ease;
+}
+
+/* Focus state for input */
+.search-input:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+/* Main search container */
+.search-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+/* Search bar styling */
+.search-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    width: 100%;
+}
+
+/* Input field styling */
+.search-input {
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 16px;
+    flex: 1;
+    transition: border-color 0.3s ease;
+}
+
+/* Focus state for input */
+.search-input:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+/* Guest selector */
 .guest-selector {
     position: relative;
     cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 15px; /* Reduced gap to make it more compact */
 }
 
-/* Dropdown styling for the guest selector */
+/* Search bar styling */
+.search-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    width: 100%;
+    flex-wrap: wrap;  /* Responsive wrap */
+    transition: all 0.3s ease;
+}
+
+/* Input field styling */
+.search-input {
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 16px;
+    flex: 1;
+    min-width: 150px;  /* Min width for responsive view */
+    transition: border-color 0.3s ease, transform 0.3s ease;
+}
+
+/* Input focus and hover states */
+.search-input:focus,
+.search-input:hover {
+    border-color: #007bff;
+    outline: none;
+    transform: scale(1.02);
+}
+
+/* Guest selector */
+.guest-selector {
+    position: relative;
+    cursor: pointer;
+}
+
+/* Search bar styling */
+.search-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    width: 100%;
+    flex-wrap: wrap;  /* Responsive wrap */
+    transition: all 0.3s ease;
+}
+
+/* Input field styling */
+.search-input {
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 16px;
+    flex: 1;
+    min-width: 150px;  /* Min width for responsive view */
+    transition: border-color 0.3s ease, transform 0.3s ease;
+}
+
+/* Input focus and hover states */
+.search-input:focus,
+.search-input:hover {
+    border-color: #007bff;
+    outline: none;
+    transform: scale(1.02);
+}
+
+/* Guest selector */
+.guest-selector {
+    position: relative;
+    cursor: pointer;
+}
+
+/* Search bar styling */
+.search-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    width: 100%;
+    flex-wrap: wrap;  /* Responsive wrap */
+    transition: all 0.3s ease;
+}
+
+/* Input field styling */
+.search-input {
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 16px;
+    flex: 1;
+    min-width: 150px;  /* Min width for responsive view */
+    transition: border-color 0.3s ease, transform 0.3s ease;
+}
+
+/* Input focus and hover states */
+.search-input:focus,
+.search-input:hover {
+    border-color: #007bff;
+    outline: none;
+    transform: scale(1.02);
+}
+
+/* Guest selector */
+.guest-selector {
+    position: relative;
+    cursor: pointer;
+}
+
+/* Search bar styling */
+.search-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    width: 100%;
+    flex-wrap: wrap;  /* Responsive wrap */
+    transition: all 0.3s ease;
+}
+
+/* Input field styling */
+.search-input {
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 16px;
+    flex: 1;
+    min-width: 150px;  /* Min width for responsive view */
+    transition: border-color 0.3s ease, transform 0.3s ease;
+}
+
+/* Input focus and hover states */
+.search-input:focus,
+.search-input:hover {
+    border-color: #007bff;
+    outline: none;
+    transform: scale(1.02);
+}
+
+/* Guest selector */
+.guest-selector {
+    position: relative;
+    cursor: pointer;
+}
+
+/* Search bar styling */
+.search-bar {
+    display: flex;
+    align-items: center;
+    gap: 15px;  /* Larger gap for more space between elements */
+    background-color: #ffffff;
+    border-radius: 12px;  /* More rounded corners */
+    padding: 20px 30px;  /* Increased padding for a larger feel */
+    box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.2);  /* Larger shadow for more depth */
+    max-width: 1200px;  /* Increased max-width for even more width */
+    width: 100%;
+    flex-wrap: wrap;  /* Responsive wrap */
+    transition: all 0.3s ease;
+}
+
+
+
+/* Input field styling */
+.search-input {
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 16px;
+    flex: 1;
+    min-width: 150px;  /* Min width for responsive view */
+    transition: border-color 0.3s ease, transform 0.3s ease;
+}
+
+/* Input focus and hover states */
+.search-input:focus,
+.search-input:hover {
+    border-color: #007bff;
+    outline: none;
+    transform: scale(1.02);
+}
+
+/* Smaller guest dropdown styling with gradient */
 .guest-dropdown {
     position: absolute;
-    background: linear-gradient(135deg, #f2c6e8, #c6e0fb); /* Soft purple and blue gradient */
-    border: 1px solid #e0e0e0; /* Light border */
-    border-radius: 12px; /* Rounded corners for a smoother look */
-    top: 130%; /* Adjust position to reduce unnecessary space */
-    left: 0;
-    width: 100%;
-    max-width: 500px; /* Max width for a cleaner dropdown */
-    padding: 0.8rem; /* Reduced padding for a tighter design */
-    z-index: 1;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-    transition: all 0.3s ease-in-out;
-    max-height: 250px; /* Max height for better scrolling */
-    overflow-y: auto; /* Scrollable content */
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column; /* Stack items vertically */
-    align-items: stretch; /* Full width for each item */
+    top: 120%; /* Adjusted for slightly lower positioning */
+    left: -40px; /* Slightly adjusted left positioning */
+    background: linear-gradient(135deg, #b3e0ff, #ffd1dc); /* Gradient background */
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 20px;
+    width: 300px; /* Smaller dropdown width */
+    max-height: 500px; /* Maintain height for scrolling if needed */
+    overflow-y: auto;
+    box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    opacity: 0;
+    transform: translateY(-10px);
+    visibility: hidden;
 }
 
-/* Custom Scrollbar Styling */
-.guest-dropdown::-webkit-scrollbar {
-    width: 6px;
+/* Show dropdown when active */
+.guest-selector:hover .guest-dropdown,
+.guest-selector:focus-within .guest-dropdown {
+    opacity: 1;
+    transform: translateY(0);
+    visibility: visible;
 }
 
-.guest-dropdown::-webkit-scrollbar-thumb {
-    background-color: rgba(0, 0, 0, 0.2);
-    border-radius: 10px;
-}
-
-.guest-dropdown::-webkit-scrollbar-track {
-    background-color: transparent;
-}
-
-/* Dropdown hover effect */
-.guest-dropdown:hover {
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-}
-
-/* Guest type container styling */
+/* Dropdown item styling */
 .guest-type {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
     align-items: center;
-    padding: 0.8rem 0; /* Reduced padding for a cleaner layout */
-    border-bottom: 1px solid #e0e0e0;
-    width: 100%;
-    text-align: center;
+    justify-content: space-between;
+    margin-bottom: 16px; /* Increased margin for readability */
 }
 
-/* Remove border for last guest type */
-.guest-type:last-child {
-    border-bottom: none;
-}
-
-/* Hover effect for each guest type */
-.guest-type:hover {
-    background-color: #f4e4fb; /* Light purple hover */
-    color: #6a1b9a; /* Dark purple text */
-    cursor: pointer;
-    border-radius: 10px;
-    transform: scale(1.05); /* Smooth scaling effect */
-    transition: transform 0.2s, background-color 0.3s ease-out;
-}
-
-/* Hover text color change */
-.guest-type:hover h4 {
-    color: #9b4dca; /* Stronger color on hover */
-}
-
-/* Guest type label styling */
 .guest-type h4 {
-    font-size: 1rem;
+    margin: 0;
+    font-size: 18px; /* Larger text */
     font-weight: 500;
     color: #333;
-    margin-bottom: 0.4rem; /* Reduced margin for better spacing */
 }
 
-/* Layout for guest type row */
-.guest-type-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    gap: 1rem; /* Moderate gap between elements */
-}
-
-/* Counter container styling */
-.counter-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #f0f0f0;
-    padding: 0.3rem;
-    border-radius: 10px;
-    width: 80px; /* Smaller container for compact look */
-    margin-top: 0.8rem;
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
-}
-
-/* Styling for counter buttons and input field */
+/* Counter styling */
 .counter {
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 0.2rem;
+    gap: 8px; /* Spacing between buttons and input */
 }
 
-/* Styling for the span value */
-.counter span {
-    position: relative;
-    top: -2px;
-    margin-left: 0.2rem;
-    margin-right: 0.2rem;
-}
-
-/* Counter buttons styling */
 .counter button {
-    background-color: #c6e0fb;
+    width: 40px; /* Larger button */
+    height: 40px;
     border: none;
-    padding: 0.3rem;
-    font-size: 0.8rem;
-    border-radius: 8px;
+    border-radius: 50%;
+    background-color: #f0f0f0;
     color: #333;
+    font-size: 20px; /* Larger font size */
     cursor: pointer;
-    transition: background-color 0.3s, transform 0.3s ease-in-out;
-    width: 25px;
-    height: 25px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-/* Button hover effect */
 .counter button:hover {
-    background-color: #9b4dca;
-    color: white;
-    transform: scale(1.2); /* Slight zoom effect */
+    background-color: #007bff;
+    color: #fff;
+    transform: scale(1.1);
 }
 
-/* Input field for counter */
+/* Counter input with age styling */
 .counter input {
+    width: 60px; /* Wider input field */
     text-align: center;
-    width: 30px;
-    font-size: 0.8rem;
-    border-radius: 8px;
-    border: 1px solid #ddd;
-    background-color: #fff;
-    padding: 0.3rem;
-    height: 25px;
+    border: none;
+    background: none;
+    font-size: 18px;
+    position: relative;
 }
 
-/* Input field hover effect */
-.counter input:hover {
-    border-color: #9b4dca;
-    box-shadow: 0 0 5px rgba(155, 77, 202, 0.4); /* Subtle glow */
+.counter input[type="number"]::before {
+    content: "(";
+    position: absolute;
+    left: -10px;
+    color: #007bff;
 }
 
-/* Adjustments for responsiveness */
-@media (max-width: 768px) {
+.counter input[type="number"]::after {
+    content: ")";
+    position: absolute;
+    right: -10px;
+    color: #007bff;
+}
+
+/* Responsive adjustments for mobile view */
+@media (max-width: 600px) {
+    .search-bar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .search-input {
+        width: 100%;
+        margin-bottom: 8px;
+    }
+
     .guest-dropdown {
-        max-width: 100%; /* Full width on smaller screens */
-        padding: 1rem; /* Increased padding on smaller screens */
-    }
-
-    .counter-container {
-        width: 70px; /* Adjust counter container for smaller screens */
+        width: 100%;
     }
 }
+
+
 
 /* Updated search button with purple and pink gradient */
 .simple-search-button {

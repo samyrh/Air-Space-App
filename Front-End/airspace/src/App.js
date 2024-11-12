@@ -12,6 +12,8 @@ function App() {
             <div className="container">
                 <SearchComponent />
                 <CategoryBar />
+                <div className="card-container">
+
                 <Card
 
                     title="Beautiful Beach House"
@@ -20,7 +22,51 @@ function App() {
                     location="Malibu, CA"
                     rating={4.8}
                 />
+                <Card
 
+                    title="Beautiful Beach House"
+                    description="A lovely beachfront house with great views and modern amenities."
+                    price="$199 / night"
+                    location="Malibu, CA"
+                    rating={4.8}
+                />  <Card
+
+                title="Beautiful Beach House"
+                description="A lovely beachfront house with great views and modern amenities."
+                price="$199 / night"
+                location="Malibu, CA"
+                rating={4.8}
+            />  <Card
+
+                title="Beautiful Beach House"
+                description="A lovely beachfront house with great views and modern amenities."
+                price="$199 / night"
+                location="Malibu, CA"
+                rating={4.8}
+            />  <Card
+
+                title="Beautiful Beach House"
+                description="A lovely beachfront house with great views and modern amenities."
+                price="$199 / night"
+                location="Malibu, CA"
+                rating={4.8}
+            />  <Card
+
+                title="Beautiful Beach House"
+                description="A lovely beachfront house with great views and modern amenities."
+                price="$199 / night"
+                location="Malibu, CA"
+                rating={4.8}
+            />  <Card
+
+                title="Beautiful Beach House"
+                description="A lovely beachfront house with great views and modern amenities."
+                price="$199 / night"
+                location="Malibu, CA"
+                rating={4.8}
+            />
+
+                </div>
             </div>
         </div>
     );

@@ -104,7 +104,7 @@
     display: block;
     margin: 1.5rem auto 0;
     padding: 12px 24px;
-    background: linear-gradient(135deg, #89c9f0, #7b2cbf);
+    background: linear-gradient(135deg, #12c2e9, #c471ed, #f64f59); /* Updated gradient */
     color: #fff;
     border: none;
     border-radius: 30px;

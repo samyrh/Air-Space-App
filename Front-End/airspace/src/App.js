@@ -3,7 +3,7 @@ import React from 'react';
 import './App.css';  // Global styles for the app
 import Navbar from './components/Navbar.jsx';  // Import Navbar component
 import SearchComponent from './components/SearchBar.jsx';  // Import SearchComponent
-import CategoryBar from './components/CategoryBar..jsx';  // Import CategoryBar component
+import CategoryBar from './components/CategoryBar..jsx';  // Corrected import for CategoryBar
 
 function App() {
     return (

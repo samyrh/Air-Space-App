@@ -31,24 +31,24 @@ const FilterBar = () => {
             sx={{
                 boxSizing: 'border-box',
                 position: 'relative',
-                marginTop: '150px',  // Increased space above the FilterBar to move it further down
+                marginTop: { xs: '100px', sm: '120px', md: '150px' },
             }}
         >
-            {/* Filter Bar Container */}
+            {/* Filter Bar Container with Gradient Background */}
             <Paper
                 elevation={10}
                 sx={{
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-around',
-                    padding: '10px 20px',
-                    maxWidth: '80vw',
+                    padding: { xs: '8px', sm: '10px 20px' },
+                    maxWidth: { xs: '90vw', sm: '80vw' },
                     width: '100%',
                     borderRadius: '30px',
-                    background: 'linear-gradient(135deg, #a1c4fd, #c2e9fb)', // Smooth gradient for light colors
-                    boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
+                    background: 'linear-gradient(135deg, #b3e0ff, #ffd1dc)', // Gradient background for entire filter bar
+                    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)',
                     position: 'absolute',
-                    bottom: '20px',  // Position the bar 20px above the bottom of the screen
+                    bottom: { xs: '10px', sm: '20px' },
                 }}
             >
                 {filterOptions.map((option, index) => (
@@ -59,35 +59,47 @@ const FilterBar = () => {
                             flexDirection: 'column',
                             alignItems: 'center',
                             transition: 'all 0.3s ease',
+                            '&:hover': {
+                                transform: 'scale(1.05)',
+                            },
                         }}
                     >
                         <Tooltip title={option.label} arrow>
                             <IconButton
                                 sx={{
-                                    padding: '12px',
+                                    padding: { xs: '8px', sm: '12px' },
                                     backgroundColor: selectedFilter === option.label ? '#80b3ff' : 'transparent',
                                     borderRadius: '50%',
-                                    transition: 'background-color 0.3s ease',  // Simple hover effect
+                                    transition: 'background-color 0.3s ease, box-shadow 0.3s ease',
+                                    boxShadow: selectedFilter === option.label
+                                        ? '0px 0px 15px 5px rgb(128, 179, 255)' // Pure RGB for a vibrant glow effect
+                                        : 'none',  // No shadow if not selected
                                     '&:hover': {
-                                        backgroundColor: '#80b3ff',  // Simple color change on hover
+                                        backgroundColor: '#80b3ff',
+                                    },
+                                    '& svg': {
+                                        fontSize: '1.5rem',
+                                        color: selectedFilter === option.label ? '#ffffff' : '#6e7f9e',
                                     },
                                 }}
                                 onClick={() => handleFilterClick(option.label)}
                             >
                                 {option.icon}
                             </IconButton>
+
+
                         </Tooltip>
-                        {/* Title text below icon */}
                         <Typography
                             variant="body2"
                             sx={{
-                                marginTop: '8px',  // Space between icon and text
-                                color: selectedFilter === option.label ? '#ffffff' : '#000',  // Text color white when selected
+                                marginTop: '8px',
+                                color: selectedFilter === option.label ? '#ffffff' : '#000',
                                 fontWeight: 'bold',
+                                fontSize: { xs: '0.75rem', sm: '0.875rem' },
                                 textAlign: 'center',
                                 transition: 'color 0.3s ease',
                                 '&:hover': {
-                                    color: '#80b3ff',  // Change text color on hover
+                                    color: '#80b3ff',
                                 },
                             }}
                         >

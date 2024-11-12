@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { FaSearch } from "react-icons/fa";  // Importing the search icon
-import flatpickr from "flatpickr"; // Importing flatpickr
-import "flatpickr/dist/flatpickr.min.css"; // Importing flatpickr's CSS
+import React, { useState, useEffect, useRef } from "react";
+import { FaSearch } from "react-icons/fa";
+import flatpickr from "flatpickr";
+import "flatpickr/dist/flatpickr.min.css";
 import '../assets/components/SearchBar.css';
 
 function SearchComponent() {
@@ -9,176 +9,204 @@ function SearchComponent() {
     const [departureDate, setDepartureDate] = useState('');
     const [departurePlaceholder, setDeparturePlaceholder] = useState('Departure Date');
     const [isGuestDropdownVisible, setGuestDropdownVisible] = useState(false);
-    const [adults, setAdults] = useState(1);
-    const [children, setChildren] = useState(0);
-    const [infants, setInfants] = useState(0);
+    const [guests, setGuests] = useState({ adults: 1, children: 0, babies: 0 }); // Grouped guest state
+    const dropdownRef = useRef(null); // Reference for dropdown
 
     useEffect(() => {
-        // Initialize Flatpickr for the Arrival Date input
+        // Initialize Flatpickr for Arrival and Departure Date inputs
         flatpickr("#arrivalDate", {
-            dateFormat: "Y-m-d", // Format: YYYY-MM-DD
-            minDate: "today",    // Disable past dates
-            allowInput: true,    // Allow manual input of date
-            theme: "light",      // Light theme for Flatpickr
-            defaultDate: arrivalDate, // Show selected arrival date inside calendar
+            dateFormat: "Y-m-d",
+            minDate: "today",
+            allowInput: true,
+            theme: "light",
+            defaultDate: arrivalDate,
             onChange: function (selectedDates, dateStr) {
-                setArrivalDate(dateStr); // Set the Arrival Date
-
-                // Automatically set the Departure Date to one day after the Arrival Date
+                setArrivalDate(dateStr);
                 if (!departureDate || new Date(departureDate) <= new Date(dateStr)) {
                     const nextDay = new Date(selectedDates[0]);
-                    nextDay.setDate(nextDay.getDate() + 1);  // Set departure to one day after arrival
-                    setDepartureDate(nextDay.toISOString().split("T")[0]); // Set Departure Date to the next day
+                    nextDay.setDate(nextDay.getDate() + 1);
+                    setDepartureDate(nextDay.toISOString().split("T")[0]);
                 }
-
-                // Set the placeholder for Departure Date to indicate it's after Arrival
                 setDeparturePlaceholder(`Departure (after ${dateStr})`);
-
-                // Update the minimum date of the departure picker
                 const departurePicker = flatpickr("#departureDate");
-                departurePicker.set('minDate', selectedDates[0]); // Set the minDate of the departure calendar
+                departurePicker.set('minDate', selectedDates[0]);
             }
         });
 
-        // Initialize Flatpickr for the Departure Date input
         flatpickr("#departureDate", {
-            dateFormat: "Y-m-d", // Format: YYYY-MM-DD
-            minDate: "today",    // Disable past dates
-            allowInput: true,    // Allow manual input of date
-            theme: "light",      // Light theme for Flatpickr
-            defaultDate: departureDate, // Show selected departure date inside calendar
+            dateFormat: "Y-m-d",
+            minDate: "today",
+            allowInput: true,
+            theme: "light",
+            defaultDate: departureDate,
             onChange: function (selectedDates, dateStr) {
-                // Ensure that the Departure Date is always after the Arrival Date
                 if (new Date(dateStr) <= new Date(arrivalDate)) {
-                    setDepartureDate(''); // Reset Departure Date if invalid
+                    setDepartureDate('');
                 } else {
-                    setDepartureDate(dateStr); // Update Departure Date when selected
+                    setDepartureDate(dateStr);
                 }
             },
-            // Disable dates that are before the arrival date
-            disable: [
-                function(date) {
-                    // Disable all dates before the arrival date
-                    return date < new Date(arrivalDate);
-                }
-            ]
+            disable: [date => date < new Date(arrivalDate)]
         });
     }, [arrivalDate, departureDate]);
 
-    const handleArrivalDateChange = (e) => {
-        const arrival = e.target.value;
-        setArrivalDate(arrival);
+    useEffect(() => {
+        // Close dropdown on outside click
+        const handleOutsideClick = (event) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setGuestDropdownVisible(false);
+            }
+        };
 
-        // Automatically adjust Departure Date if it's before the Arrival Date
-        if (new Date(departureDate) <= new Date(arrival)) {
-            const nextDay = new Date(arrival);
-            nextDay.setDate(nextDay.getDate() + 1);  // Set departure to one day after arrival
-            setDepartureDate(nextDay.toISOString().split("T")[0]);
-        }
-
-        // Set the placeholder for Departure Date to indicate it's after Arrival
-        setDeparturePlaceholder(`Departure (after ${arrival})`);
-    };
-
-    const handleDepartureDateChange = (e) => {
-        const departure = e.target.value;
-
-        // Ensure Departure Date is after Arrival Date
-        if (new Date(departure) <= new Date(arrivalDate)) {
-            setDepartureDate(''); // Reset Departure Date if invalid
-        } else {
-            setDepartureDate(departure); // Update Departure Date
-        }
-    };
+        document.addEventListener("mousedown", handleOutsideClick);
+        return () => {
+            document.removeEventListener("mousedown", handleOutsideClick);
+        };
+    }, []);
 
     const toggleGuestDropdown = () => {
         setGuestDropdownVisible(!isGuestDropdownVisible);
     };
 
     const incrementGuestCount = (type) => {
-        if (type === 'adults') setAdults(adults + 1);
-        if (type === 'children') setChildren(children + 1);
-        if (type === 'infants') setInfants(infants + 1);
+        setGuests((prevGuests) => {
+            if (type === 'adults' && prevGuests.adults < 6) {
+                return { ...prevGuests, adults: prevGuests.adults + 1 };
+            }
+            if (type === 'children' && prevGuests.children < 6) {
+                return { ...prevGuests, children: prevGuests.children + 1 };
+            }
+            if (type === 'babies' && prevGuests.babies < 2) {
+                return { ...prevGuests, babies: prevGuests.babies + 1 };
+            }
+            return prevGuests;
+        });
     };
 
     const decrementGuestCount = (type) => {
-        if (type === 'adults' && adults > 1) setAdults(adults - 1);
-        if (type === 'children' && children > 0) setChildren(children - 1);
-        if (type === 'infants' && infants > 0) setInfants(infants - 1);
+        setGuests((prevGuests) => {
+            if (type === 'adults' && prevGuests.adults > 1) {
+                return { ...prevGuests, adults: prevGuests.adults - 1 };
+            }
+            if (type === 'children' && prevGuests.children > 0) {
+                return { ...prevGuests, children: prevGuests.children - 1 };
+            }
+            if (type === 'babies' && prevGuests.babies > 0) {
+                return { ...prevGuests, babies: prevGuests.babies - 1 };
+            }
+            return prevGuests;
+        });
+    };
+
+    const handleGuestButtonClick = (event) => {
+        // Prevent the dropdown from closing when clicking the "+" or "-" buttons
+        event.stopPropagation();
     };
 
     return (
         <div className="search-container">
             <div className="search-bar">
-                {/* Destination Input */}
                 <input
                     type="text"
                     className="search-input"
                     placeholder="Destination city?"
+                    aria-label="Destination city"
                 />
 
-                {/* Arrival Date Input */}
                 <input
                     type="text"
                     className="search-input"
                     id="arrivalDate"
                     placeholder="Arrival Date"
                     value={arrivalDate}
-                    onChange={handleArrivalDateChange}
+                    onChange={(e) => setArrivalDate(e.target.value)}
+                    aria-label="Arrival Date"
                 />
 
-                {/* Departure Date Input */}
                 <input
                     type="text"
                     className="search-input"
                     id="departureDate"
                     placeholder={departurePlaceholder}
                     value={departureDate}
-                    onChange={handleDepartureDateChange}
+                    onChange={(e) => setDepartureDate(e.target.value)}
+                    aria-label="Departure Date"
                 />
 
-                {/* Number of People Input (Click to open guest dropdown) */}
-                <div className="guest-selector" onClick={toggleGuestDropdown}>
+                <div className="guest-selector" onClick={toggleGuestDropdown} ref={dropdownRef}>
                     <input
                         type="text"
                         className="search-input"
                         placeholder="Guests"
                         readOnly
-                        value={`${adults} Adults, ${children} Children, ${infants} Infants`}
+                        value={`${guests.adults} Adults, ${guests.children} Children, ${guests.babies} Babies`}
+                        aria-label="Guests"
                     />
                     {isGuestDropdownVisible && (
                         <div className="guest-dropdown">
                             <div className="guest-type">
                                 <h4>Adults</h4>
+                                <p>13 ans et plus</p>
                                 <div className="counter">
-                                    <button onClick={() => decrementGuestCount('adults')}>-</button>
-                                    <input type="number" value={adults} readOnly />
-                                    <button onClick={() => incrementGuestCount('adults')}>+</button>
+                                    <button
+                                        onClick={(e) => { decrementGuestCount('adults'); handleGuestButtonClick(e); }}
+                                        className={guests.adults <= 1 ? 'disabled-btn' : ''}
+                                    >
+                                        -
+                                    </button>
+                                    <input type="number" value={guests.adults} readOnly />
+                                    <button
+                                        onClick={(e) => { incrementGuestCount('adults'); handleGuestButtonClick(e); }}
+                                        className={guests.adults >= 6 ? 'disabled-btn' : ''}
+                                    >
+                                        +
+                                    </button>
                                 </div>
                             </div>
                             <div className="guest-type">
-                                <h4>Children</h4>
+                                <h4>Enfants</h4>
+                                <p>De 2 à 12 ans</p>
                                 <div className="counter">
-                                    <button onClick={() => decrementGuestCount('children')}>-</button>
-                                    <input type="number" value={children} readOnly />
-                                    <button onClick={() => incrementGuestCount('children')}>+</button>
+                                    <button
+                                        onClick={(e) => { decrementGuestCount('children'); handleGuestButtonClick(e); }}
+                                        className={guests.children <= 0 ? 'disabled-btn' : ''}
+                                    >
+                                        -
+                                    </button>
+                                    <input type="number" value={guests.children} readOnly />
+                                    <button
+                                        onClick={(e) => { incrementGuestCount('children'); handleGuestButtonClick(e); }}
+                                        className={guests.children >= 6 ? 'disabled-btn' : ''}
+                                    >
+                                        +
+                                    </button>
                                 </div>
                             </div>
                             <div className="guest-type">
-                                <h4>Infants</h4>
+                                <h4>Bébés</h4>
+                                <p>- de 2 ans</p>
                                 <div className="counter">
-                                    <button onClick={() => decrementGuestCount('infants')}>-</button>
-                                    <input type="number" value={infants} readOnly />
-                                    <button onClick={() => incrementGuestCount('infants')}>+</button>
+                                    <button
+                                        onClick={(e) => { decrementGuestCount('babies'); handleGuestButtonClick(e); }}
+                                        className={guests.babies <= 0 ? 'disabled-btn' : ''}
+                                    >
+                                        -
+                                    </button>
+                                    <input type="number" value={guests.babies} readOnly />
+                                    <button
+                                        onClick={(e) => { incrementGuestCount('babies'); handleGuestButtonClick(e); }}
+                                        className={guests.babies >= 2 ? 'disabled-btn' : ''}
+                                    >
+                                        +
+                                    </button>
                                 </div>
                             </div>
                         </div>
                     )}
                 </div>
 
-                {/* Search Button with only the search icon */}
-                <button className="simple-search-button">
-                    <FaSearch className="simple-icon"/>
+                <button className="simple-search-button" aria-label="Search">
+                    <FaSearch className="simple-icon" />
                 </button>
             </div>
         </div>

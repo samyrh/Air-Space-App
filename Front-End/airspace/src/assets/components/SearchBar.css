@@ -208,20 +208,7 @@
     cursor: pointer;
 }
 
-/* Search bar styling */
-.search-bar {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background-color: #ffffff;
-    border-radius: 8px;
-    padding: 10px;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-    max-width: 800px;
-    width: 100%;
-    flex-wrap: wrap;  /* Responsive wrap */
-    transition: all 0.3s ease;
-}
+
 
 /* Input field styling */
 .search-input {
@@ -324,27 +311,34 @@
     transform: scale(1.02);
 }
 
-/* Smaller guest dropdown styling with gradient */
+/* Guest selector */
+.guest-selector {
+    position: relative;
+    cursor: pointer;
+}
+
+/* Increase the width of the dropdown */
 .guest-dropdown {
     position: absolute;
-    top: 120%; /* Adjusted for slightly lower positioning */
-    left: -40px; /* Slightly adjusted left positioning */
-    background: linear-gradient(135deg, #b3e0ff, #ffd1dc); /* Gradient background */
+    top: 120%;
+    left: -40px;
+    background: linear-gradient(135deg, #b3e0ff, #ffd1dc);
     border: 1px solid #ddd;
     border-radius: 12px;
-    padding: 20px;
-    width: 300px; /* Smaller dropdown width */
-    max-height: 500px; /* Maintain height for scrolling if needed */
+    padding: 10px 20px 15px;
+    width: 380px; /* Increase width from 320px to 380px */
+    max-height: 500px;
     overflow-y: auto;
     box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.2);
     z-index: 10;
-    transition: transform 0.3s ease, opacity 0.3s ease;
     opacity: 0;
-    transform: translateY(-10px);
+    transform: translateY(-20px);
     visibility: hidden;
+    transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
-/* Show dropdown when active */
+
+/* Show dropdown on hover or focus */
 .guest-selector:hover .guest-dropdown,
 .guest-selector:focus-within .guest-dropdown {
     opacity: 1;
@@ -357,12 +351,14 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 16px; /* Increased margin for readability */
+    margin-bottom: 12px;
+    padding: 6px 0;
+    border-bottom: 1px solid #eee;
 }
 
 .guest-type h4 {
     margin: 0;
-    font-size: 18px; /* Larger text */
+    font-size: 16px;
     font-weight: 500;
     color: #333;
 }
@@ -371,49 +367,46 @@
 .counter {
     display: flex;
     align-items: center;
-    gap: 8px; /* Spacing between buttons and input */
+    gap: 10px;
 }
 
+/* Counter button styling */
 .counter button {
-    width: 40px; /* Larger button */
+    width: 40px;
     height: 40px;
     border: none;
     border-radius: 50%;
     background-color: #f0f0f0;
     color: #333;
-    font-size: 20px; /* Larger font size */
+    font-size: 20px;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .counter button:hover {
-    background-color: #007bff;
-    color: #fff;
-    transform: scale(1.1);
+    background-color: #e0e0e0;
+    transform: scale(1.05);
 }
 
-/* Counter input with age styling */
+/* Counter input styling */
 .counter input {
-    width: 60px; /* Wider input field */
+    width: 70px;
     text-align: center;
     border: none;
-    background: none;
+    background: #f5f5f5;
     font-size: 18px;
-    position: relative;
+    padding: 6px;
+    border-radius: 5px;
 }
 
-.counter input[type="number"]::before {
-    content: "(";
-    position: absolute;
-    left: -10px;
-    color: #007bff;
-}
-
-.counter input[type="number"]::after {
-    content: ")";
-    position: absolute;
-    right: -10px;
-    color: #007bff;
+/* Add hover effect on the counter buttons */
+.counter button:hover {
+    background-color: #007bff;
+    color: white;
+    transform: scale(1.1);
 }
 
 /* Responsive adjustments for mobile view */
@@ -430,6 +423,17 @@
 
     .guest-dropdown {
         width: 100%;
+        left: 0; /* Center align dropdown on smaller screens */
+    }
+
+    /* Adjusted margins for each section to make them closer together */
+    .guest-type {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 8px; /* Reduced margin for a more compact appearance */
+        padding: 4px 0; /* Reduced padding for a tighter look */
+        border-bottom: 1px solid #eee; /* Subtle divider between items */
     }
 }
 
@@ -460,4 +464,24 @@
     width: 22px;
     height: 22px;
     fill: white; /* White color for the icon */
+}
+/* Disable hover effect for disabled buttons */
+.disabled-btn {
+    pointer-events: none;
+    opacity: 0.5; /* Optional: to visually show that the button is inactive */
+}
+
+/* Optional: You can also disable hover styles */
+button:hover:not(.disabled-btn) {
+    background-color: #ddd; /* Example of a hover effect */
+}
+.guest-type p {
+    font-size: 0.9em;
+    color: #777; /* Light gray color for description */
+    margin-top: 5px;
+}
+
+.guest-type h4 {
+    font-size: 1.1em;
+    color: #333; /* Darker color for category title */
 }

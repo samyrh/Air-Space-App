@@ -55,7 +55,7 @@
 }
 
 .navbar-center a:hover {
-    background: linear-gradient(135deg, #ff007f, #ff8c00);
+    background: linear-gradient(135deg, #eeaeca, #94bbe9); /* light pink to soft blue gradient */
     color: white;
     transform: scale(1.05);
 }

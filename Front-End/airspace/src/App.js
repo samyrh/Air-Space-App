@@ -3,6 +3,7 @@ import React from 'react';
 import './App.css';  // Global styles for the app
 import Navbar from './components/Navbar.jsx';  // Import Navbar component
 import SearchComponent from './components/SearchBar.jsx';  // Import SearchComponent
+import CategoryBar from './components/CategoryBar..jsx';  // Import CategoryBar component
 
 function App() {
     return (
@@ -10,6 +11,7 @@ function App() {
             <Navbar />
             <div className="container">
                 <SearchComponent />
+                <CategoryBar />  {/* Add CategoryBar component here */}
             </div>
         </div>
     );

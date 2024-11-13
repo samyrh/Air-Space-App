@@ -1,59 +1,78 @@
-/* Card Container */
-.card-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 3rem;
-    height: 100%;
+/* Card Container Wrapper */
+.card-container-wrapper {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 columns per row for larger cards */
+    gap: 30px; /* Adjusted space between cards */
+    padding: 20px;
+    margin: 0 auto;
+
+    max-width: 1300px; /* Maximum width to keep it centered */
 }
 
+/* Card */
 .card {
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     border-radius: 15px;
     overflow: hidden;
-    width: 320px;
-    background: linear-gradient(135deg, #f7e6ff, #d0f0fd);
+    background: #fff;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     cursor: pointer;
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1), 0 6px 12px rgba(0, 0, 0, 0.05); /* Light shadow */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* Soft shadow */
+    position: relative;
+    transform: scale(0.98); /* Scaled up to 98% of the original size (3% larger) */
 }
 
 /* Hover Effect on Card */
 .card:hover {
-    transform: scale(1.05);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15), 0 8px 16px rgba(0, 0, 0, 0.05); /* Slightly stronger shadow on hover */
+    transform: scale(0.98) translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2); /* Stronger shadow on hover */
 }
 
+/* Card Image */
 .card-image {
     position: relative;
-    height: 220px;
+    width: 100%;
+    height: 50%; /* Reduced image height to make room for content */
     overflow: hidden;
-    border-radius: 15px 15px 0 0;
+    border-radius: 15px 15px 0 0; /* Rounded top corners */
 }
 
 .card-img {
-    object-fit: cover;
+    object-fit: cover; /* Ensures image covers the container without distortion */
     width: 100%;
     height: 100%;
+    transition: transform 0.5s ease;
+}
+
+.card:hover .card-img {
+    transform: scale(1.1); /* Slight zoom-in effect on hover */
 }
 
 /* Card Content */
 .card-content {
     padding: 1.5rem;
     background-color: #fff;
-    border-radius: 0 0 15px 15px;
+    border-radius: 0 0 15px 15px; /* Rounded bottom corners */
+    height: 50%; /* Adjusted content height for a taller card */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Ensure space for all content */
 }
 
+/* Card Title */
 .card-title {
-    font-size: 1.6rem;
+    font-size: 1.8rem;
     font-weight: 700;
     color: #333;
     margin-bottom: 0.5rem;
+    text-transform: capitalize;
 }
 
+/* Card Description */
 .card-description {
-    font-size: 1rem;
+    font-size: 1.1rem;
     color: #555;
     margin-bottom: 1rem;
     line-height: 1.6;
@@ -67,18 +86,20 @@
     margin-top: 1rem;
 }
 
+/* Price */
 .card-price {
     font-weight: 700;
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     background: linear-gradient(135deg, #7b2cbf, #ff7eb3);
     -webkit-background-clip: text;
     color: transparent;
 }
 
+/* Rating */
 .card-rating {
     display: flex;
     align-items: center;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     color: #f39c12;
 }
 
@@ -103,22 +124,22 @@
 .more-details-btn {
     display: block;
     margin: 1.5rem auto 0;
-    padding: 12px 24px;
-    background: linear-gradient(135deg, #12c2e9, #c471ed, #f64f59); /* Updated gradient */
+    padding: 14px 28px;
+    background: linear-gradient(135deg, #12c2e9, #c471ed, #f64f59); /* Gradient */
     color: #fff;
     border: none;
     border-radius: 30px;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     font-weight: 600;
     text-transform: uppercase;
     cursor: pointer;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); /* Light shadow for button */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* Light shadow for button */
 }
 
 .more-details-btn:hover {
     transform: translateY(-3px);
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1); /* Slightly stronger shadow on hover */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Slightly stronger shadow on hover */
 }
 
 .more-details-btn:focus {
@@ -127,4 +148,83 @@
 
 .more-details-btn:active {
     transform: translateY(1px);
+}
+
+/* Responsive Layout for Cards */
+
+/* Medium screens (Tablets) */
+@media (max-width: 1024px) {
+    .card-container-wrapper {
+        grid-template-columns: repeat(2, 1fr); /* 2 columns per row for tablets */
+    }
+}
+
+/* Small screens (Mobile) */
+@media (max-width: 768px) {
+    .card-container-wrapper {
+        grid-template-columns: 1fr; /* 1 column per row for small screens */
+    }
+}
+/* Pagination buttons */
+.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 30px;
+    gap: 10px;
+}
+
+/* Common button styles */
+.page-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+/* Button hover effects */
+.page-button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+/* Active page button */
+.page-button.active {
+    background-color: #28a745;
+    font-weight: bold;
+    transform: scale(1.1);
+}
+
+/* Prev and Next buttons */
+.prev-button,
+.next-button {
+    background-color: #6c757d;
+    padding: 10px 20px;
+}
+
+/* Prev/Next button hover */
+.prev-button:hover,
+.next-button:hover {
+    background-color: #5a6268;
+}
+
+/* Focus effect */
+.page-button:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .pagination {
+        gap: 8px;
+    }
+    .page-button {
+        font-size: 14px;
+        padding: 8px 12px;
+    }
 }

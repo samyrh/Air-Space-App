@@ -5,6 +5,7 @@ function Navbar() {
     const [activeButton, setActiveButton] = useState(null);
     const [dropdownVisible, setDropdownVisible] = useState(false);
     const [selectedOption, setSelectedOption] = useState("Profile");
+    const [navbarShrink, setNavbarShrink] = useState(false);
     const dropdownRef = useRef(null);
 
     const handleButtonClick = (buttonName) => {
@@ -27,16 +28,29 @@ function Navbar() {
         }
     };
 
+    const handleScroll = () => {
+        if (window.scrollY > 100) {
+            setNavbarShrink(true);
+        } else {
+            setNavbarShrink(false);
+        }
+    };
+
     useEffect(() => {
         document.addEventListener("mousedown", handleClickOutside);
-        return () => document.removeEventListener("mousedown", handleClickOutside);
+        window.addEventListener("scroll", handleScroll);
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+            window.removeEventListener("scroll", handleScroll);
+        };
     }, []);
 
     return (
-        <nav className="navbar">
+        <nav className={`navbar ${navbarShrink ? 'navbar-shrink' : ''}`}>
             <div className="navbar-left">
                 <div className="navbar-logo"></div>
-                <span className="navbar-name">AirSpace</span>
+                <span className="navbar-name">Staybnb</span>
             </div>
             <div className="navbar-center">
                 <a href="#" className={activeButton === "Home" ? "active" : ""} onClick={() => handleButtonClick("Home")}>Home</a>

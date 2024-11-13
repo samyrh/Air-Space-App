@@ -1,17 +1,28 @@
-/* Navbar container */
+/* General Navbar Style */
 .navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: linear-gradient(135deg, #a7a8d9, #88c6e8);
+    background: linear-gradient(135deg, #b3e0ff, #ffd1dc);
     padding: 20px 40px;
     position: sticky;
     top: 0;
     z-index: 10;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    transition: all 0.5s ease;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     width: 100%;
     box-sizing: border-box;
+    border-radius: 0px; /* No rounded corners by default */
+    transition: all 0.6s ease-in-out; /* Smooth transition for the whole navbar */
+}
+
+/* Shrink effect with smooth transition and rounded corners */
+.navbar-shrink {
+    padding: 8px 30px;
+    background: linear-gradient(135deg, #d1d9f0, #f7d9e4);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+    transform: scale(0.95); /* Slight scaling down to look like a widget */
+    border-radius: 20px; /* Rounded corners when navbar shrinks */
+    transition: all 0.5s ease-out; /* Smooth transition for shrinking */
 }
 
 /* Left Section: Logo and Name */
@@ -26,14 +37,15 @@
     background-color: #b0c9e7;
     border-radius: 50%;
     margin-right: 10px;
+    transition: all 0.3s ease-out;
 }
 
 .navbar-name {
     font-size: 28px;
     font-weight: bold;
-    color: white;
+    color: #605d5d;
     letter-spacing: 1px;
-    font-family: 'Arial', sans-serif;
+    transition: all 0.3s ease-out;
 }
 
 /* Center Section: Menu Links */
@@ -49,15 +61,14 @@
     font-weight: 500;
     padding: 12px 25px;
     border-radius: 50px;
-    background: #6a5acd;
+    background: linear-gradient(135deg, #9a9aff, #80e0f4);
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease-in-out;
 }
 
 .navbar-center a:hover {
-    background: linear-gradient(135deg, #eeaeca, #94bbe9); /* light pink to soft blue gradient */
-    color: white;
-    transform: scale(1.05);
+    background: linear-gradient(135deg, #eeaeca, #94bbe9);
+    transform: scale(1.1);
 }
 
 .navbar-center a:active {
@@ -71,33 +82,38 @@
     gap: 20px;
 }
 
-/* Profile Button styled like a UI select box */
+/* Profile Button */
 .navbar-profile-button {
-    background-color: #3d25d2;
-    color: #f1f0f6;
+    background: linear-gradient(135deg, #d6c7ff, #b5ecf9);
+    color: black;
+    font-weight: bold;
     padding: 12px 20px;
     border-radius: 30px;
     cursor: pointer;
     font-size: 16px;
-    font-weight: 500;
-    border: 2px solid #3d25d2;
+    border: 2px solid #a2a0d9;
     display: flex;
     align-items: center;
     gap: 10px;
-    transition: background-color 0.3s ease, border-color 0.3s ease;
+    transition: all 0.3s ease-in-out, box-shadow 0.3s ease-out;
 }
 
 .navbar-profile-button:hover {
-    background-color: #7766d5;
-    border-color: #8e7de3;
+    background: linear-gradient(135deg, #b9a6ff, #99e2f7);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
-/* Dropdown Menu with Transition */
+.navbar-profile-button:active {
+    transform: translateY(1px);
+}
+
+/* Dropdown Menu - Enhanced Hover Effect */
 .navbar-dropdown {
     position: absolute;
     top: 100%;
     right: 20px;
-    background-color: #e0f7fa;
+    background: linear-gradient(135deg, #b9a6ff, #99e2f7);
     color: black;
     border-radius: 15px;
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
@@ -107,87 +123,40 @@
     min-width: 250px;
     opacity: 0;
     visibility: hidden;
-    transform: translateY(-10px);
-    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
 }
 
+/* Dropdown visible state */
 .navbar-dropdown.visible {
     opacity: 1;
     visibility: visible;
-    transform: translateY(0);
 }
 
+/* Dropdown item */
 .navbar-dropdown div {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    padding: 12px;
-    font-size: 18px;
-    font-weight: bold;
+    padding: 8px 12px;
+    font-size: 14px;
     cursor: pointer;
-    transition: background-color 0.2s ease, width 0.3s ease, margin-left 0.3s ease;
-    text-align: left;
-    width: 100%;
-    border-radius: 10px;
+    transition: all 0.3s ease-in-out;
+    border-radius: 10px; /* Slightly smaller radius for a more compact feel */
 }
 
+/* Hover effect for dropdown items */
 .navbar-dropdown div:hover {
-    background-color: #b2ebf2;
-    width: 70%;
-    margin-left: 15%;
-    border-radius: 10px;
+    background: linear-gradient(135deg, #f0f8ff, #ffefff); /* Lighter gradient for a cleaner look */
+    transform: scale(1.05); /* Slight scaling for a subtle effect */
+    color: #333; /* Darker text color for contrast */
+    transition: all 0.2s ease-in-out; /* Faster transition for light hover */
 }
 
 /* User Avatar */
 .navbar-user-avatar {
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
-    border: 3px solid #ff007f;
-    cursor: pointer;
     transition: transform 0.3s ease-in-out;
 }
 
 .navbar-user-avatar:hover {
     transform: scale(1.1);
-}
-
-/* Responsive Adjustments */
-@media screen and (max-width: 768px) {
-    .navbar {
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 15px 20px;
-    }
-
-    .navbar-left {
-        margin-bottom: 20px;
-    }
-
-    .navbar-center {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 15px;
-    }
-
-    .navbar-center a {
-        margin: 10px 0;
-        padding: 10px 20px;
-    }
-
-    .navbar-right {
-        margin-right: 0;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 15px;
-    }
-
-    .navbar-profile-button {
-        padding: 10px 18px;
-    }
-
-    .navbar-dropdown {
-        right: auto;
-        left: 0;
-    }
 }

@@ -1,0 +1,248 @@
+/* Main Container - Refined and Professional iOS Widget Style with Fixed Dimensions */
+.ios-style-container {
+    width: 40cm; /* Fixed width of 40cm */
+    height: 17cm; /* Fixed height of 17cm */
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #e0f7fa, #ffebee);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: flex-start;
+    overflow: hidden;
+}
+
+/* Filter and Results Container - Side-by-Side Layout */
+.filter-results-container {
+    display: flex;
+    flex-direction: row; /* Filter and results side-by-side */
+    width: 100%;
+    gap: 20px;
+}
+
+/* Filter Bar Section - Smooth Horizontal Layout */
+.filter-bar {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 450px; /* Increased width for filter section */
+    gap: 20px;
+    padding: 20px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #d0f7ff, #f1faff);
+    box-shadow: 0px 6px 25px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+.filter-bar:hover {
+    box-shadow: 0px 8px 28px rgba(0, 0, 0, 0.2);
+    transform: translateY(-5px);
+}
+
+/* Filter Item - Refined Style for Form Controls */
+.filter-item {
+    width: 100%;
+    padding: 12px;
+    font-size: 14px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    transition: border-color 0.2s ease;
+}
+
+.filter-item:hover {
+    border-color: #ff5722;
+}
+
+.filter-item:focus {
+    outline: none;
+    border-color: #ff5722;
+}
+
+/* Select Box & Range Inputs - Improved Width */
+.filter-item select, .filter-item input[type="range"] {
+    width: 100%;
+}
+
+/* Result Cards Section - Neat Grid Layout */
+.ios-results {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 cards per row */
+    gap: 15px; /* Smaller gap */
+    width: 100%;
+    justify-items: center;
+    padding: 0 10px;
+    overflow-x: hidden;
+    margin-top: 20px;
+}
+
+/* Result Card - Adjusted to Fit the Widget Size */
+.ios-place-card {
+    width: 100%;
+    max-width: 230px; /* Adjusted card width to make it smaller */
+    height: 260px; /* Adjusted height to accommodate card content */
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.12), 0px -8px 22px rgba(255, 255, 255, 0.15);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.2s ease;
+    background: #fff;
+}
+
+.ios-place-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 16px 25px rgba(0, 0, 0, 0.15), 0px -10px 28px rgba(255, 255, 255, 0.2);
+    opacity: 0.9;
+}
+
+/* Card Image */
+.place-image {
+    object-fit: cover;
+    width: 100%;
+    height: 140px; /* Adjusted image height to make it fit better */
+    border-radius: 16px 16px 0 0;
+    transition: transform 0.3s ease;
+}
+
+.place-image:hover {
+    transform: scale(1.1);
+}
+
+/* Card Info Section - Aligns text in the lower section of the card */
+.place-info {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 12px;
+}
+
+.card-title {
+    font-size: 15px; /* Slightly larger title font size */
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.card-description {
+    font-size: 12px; /* Adjusted description font size */
+    color: #777;
+    margin-bottom: 5px;
+}
+
+.price {
+    font-size: 14px;
+    font-weight: bold;
+    color: #ff5722;
+}
+
+/* Pagination Section - Aligned at the Bottom */
+.pagination-section {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+/* Pagination Buttons */
+.pagination-button {
+    background-color: #ff5722;
+    color: white;
+    border: none;
+    padding: 8px 16px; /* Smaller button padding */
+    margin: 0 6px;
+    border-radius: 30px;
+    font-size: 12px; /* Smaller font size for buttons */
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.pagination-button:hover {
+    background-color: #e64a19;
+    transform: translateY(-3px);
+}
+
+.pagination-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+/* Smooth transition for filter results */
+.filter-results-container {
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 1600px) {
+    .ios-style-container {
+        flex-direction: column; /* Stack filter and results vertically */
+        padding: 20px;
+    }
+
+    .ios-results {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .filter-bar {
+        width: 270px;
+        padding: 20px;
+    }
+}
+
+@media (max-width: 1200px) {
+    .ios-style-container {
+        flex-direction: column; /* Stack filter and results vertically on smaller screens */
+        padding: 20px;
+    }
+
+    .ios-results {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .filter-bar {
+        width: 100%;
+        padding: 15px;
+    }
+
+    .ios-place-card {
+        max-width: 220px;
+        height: 280px; /* Adjusted card height for small screens */
+    }
+}
+
+@media (max-width: 768px) {
+    .ios-results {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .ios-place-card {
+        max-width: 220px;
+        height: 280px;
+    }
+
+    .filter-bar {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .filter-item {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .ios-results {
+        grid-template-columns: 1fr;
+    }
+
+    .ios-place-card {
+        max-width: 100%;
+        height: 250px; /* Adjusted height for mobile */
+    }
+
+    .filter-bar {
+        width: 100%;
+    }
+}

@@ -6,7 +6,7 @@ import SearchComponent from './components/SearchBar.jsx';  // Import SearchCompo
 import CategoryBar from './components/CategoryBar..jsx';  // Corrected import for CategoryBar
 import CardContainer from './components/CardContainer.jsx'; // Import CardContainer component
 import Footer from './components/Footer.jsx';  // Import Footer component
-
+import TravelIdeas from './components/TravelIdeas.jsx';
 function App() {
     return (
         <div className="App">
@@ -18,6 +18,7 @@ function App() {
                 <SearchComponent />
                 <CategoryBar />
                 <CardContainer />
+                <TravelIdeas/>
             </div>
 
                 <Footer />

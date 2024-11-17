@@ -5,7 +5,9 @@ import {
 } from '@mui/material';
 import houseImage from '../assets/images/house.jpg';
 import '../assets/components/TravelIdeas.css';
-
+import { FaStar, FaStarHalfAlt, FaRegStar } from 'react-icons/fa';
+import { FaArrowUp, FaArrowDown } from 'react-icons/fa'; // For arrows
+import numeral from 'numeral';
 const TravelIdeas = () => {
     const places = [
         { id: 1, name: 'Modern Apartment in Paris', type: 'Apartment', price: 150, rating: 4.5, location: 'Paris', amenities: ['Wi-Fi', 'Parking'], image: houseImage },
@@ -194,32 +196,105 @@ const TravelIdeas = () => {
                         </Typography>
                     ) : (
                         paginatedPlaces.map((place) => (
-                            <Card className="ios-place-card" key={place.id}>
+                            <Card
+                                key={place.id}
+                                className="ios-place-card"
+                                sx={{
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    background: 'linear-gradient(145deg, #f3f4f6, #e2e8f0)', // Default gradient
+                                    boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
+                                    borderRadius: 12,
+                                    marginBottom: 2,
+                                    overflow: 'hidden',
+                                    transition: 'transform 0.3s ease, background 0.3s ease', // Smooth hover transition
+                                    '&:hover': {
+                                        transform: 'scale(1.05)', // Slight scaling on hover
+                                        background: 'linear-gradient(145deg, #FFEB3B, #FFEB3B)', // Yellow gradient on hover
+                                        boxShadow: '0px 8px 12px rgba(0, 0, 0, 0.2)', // More prominent shadow on hover
+                                    },
+                                }}
+                            >
                                 <CardMedia
                                     component="img"
                                     height="160"
                                     image={place.image}
                                     alt={place.name}
-                                    className="place-image"
+                                    sx={{
+                                        objectFit: 'cover',
+                                        borderTopLeftRadius: 12,
+                                        borderTopRightRadius: 12,
+                                    }}
                                 />
-                                <CardContent className="place-info">
-                                    <Typography variant="h5" sx={{ fontWeight: 'bold' }}>{place.name}</Typography>
-                                    <Typography variant="body2" sx={{ color: '#fff', opacity: 0.8 }}>{place.type}</Typography>
-                                    <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.7)', fontSize: '0.9rem' }}>
+                                <CardContent
+                                    sx={{
+                                        padding: 2,
+                                        background: 'linear-gradient(145deg, #ffffff, #f7fafc)',
+                                        borderBottomLeftRadius: 12,
+                                        borderBottomRightRadius: 12,
+                                        textAlign: 'center',
+                                    }}
+                                >
+                                    <Typography variant="h5" sx={{ fontWeight: 'bold', color: '#333' }}>
+                                        {place.name}
+                                    </Typography>
+                                    <Typography variant="body2" sx={{ color: '#777', marginTop: 1 }}>
+                                        {place.type}
+                                    </Typography>
+                                    <Typography
+                                        variant="body2"
+                                        sx={{
+                                            color: 'rgba(0, 0, 0, 0.7)',
+                                            fontSize: '0.9rem',
+                                            marginTop: 1,
+                                            textAlign: 'center',
+                                        }}
+                                    >
                                         {place.location}
                                     </Typography>
-                                    <Typography variant="body2" sx={{ fontSize: '0.9rem', marginTop: 1 }}>
-                                        <span style={{
-                                            background: 'linear-gradient(90deg, #6a1b9a, #8e24aa)',
-                                            WebkitBackgroundClip: 'text',
-                                            color: 'transparent'
-                                        }}>
-                                            ${place.price}
-                                        </span>
+
+                                    {/* Price Section */}
+                                    <Typography
+                                        variant="h6" // Larger text size
+                                        sx={{
+                                            marginTop: 1,
+                                            color: place.price > 300 ? '#d32f2f' : '#388e3c', // Red for expensive, green for cheap
+                                            fontWeight: 'bold',
+                                            textAlign: 'center',
+                                            display: 'inline-flex',
+                                            alignItems: 'center',
+                                            fontSize: '1.4rem', // Larger font size for price
+                                            transition: 'color 0.3s, transform 0.3s', // Smooth transition
+                                            '&:hover': {
+                                                transform: 'scale(1.1)', // Slight zoom effect on hover
+                                                color: place.price > 300 ? '#b71c1c' : '#1b5e20', // Darker red/green on hover
+                                            },
+                                        }}
+                                    >
+                                        ${numeral(place.price).format('0,0')} {/* Price formatted with thousands separator */}
+                                        {place.price > 300 ? (
+                                            <FaArrowUp style={{ color: '#d32f2f', marginLeft: 8 }} /> // Up arrow for expensive
+                                        ) : (
+                                            <FaArrowDown style={{ color: '#388e3c', marginLeft: 8 }} /> // Down arrow for cheap
+                                        )}
                                     </Typography>
-                                    <Typography variant="body2" sx={{ color: '#f8d210', marginTop: 1 }}>
-                                        Rating: {place.rating} ★
-                                    </Typography>
+
+                                    {/* Rating Section */}
+                                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: 1 }}>
+                                        {/* Loop through to show the appropriate number of full, half, and empty stars */}
+                                        {Array.from({ length: 5 }, (_, index) => {
+                                            if (place.rating >= index + 1) {
+                                                return <FaStar key={index} style={{ color: '#f8d210', fontSize: '1.2rem' }} />;
+                                            } else if (place.rating > index && place.rating < index + 1) {
+                                                return <FaStarHalfAlt key={index} style={{ color: '#f8d210', fontSize: '1.2rem' }} />;
+                                            } else {
+                                                return <FaRegStar key={index} style={{ color: '#f8d210', fontSize: '1.2rem' }} />;
+                                            }
+                                        })}
+                                        <span style={{ marginLeft: 8, fontSize: '1rem', color: '#777', fontWeight: 'bold' }}>
+                {place.rating} / 5
+            </span>
+                                    </div>
                                 </CardContent>
                             </Card>
                         ))

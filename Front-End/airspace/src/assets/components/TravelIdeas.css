@@ -61,55 +61,10 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Responsive Grid */
     gap: 20px;
+    padding: 20px;
 }
 
-/* Card Styling - Rounded and Hover Effects */
-.ios-place-card {
-    border-radius: var(--border-radius);
-    overflow: hidden;
-    background: rgba(255, 255, 255, 0.2); /* More Transparent */
-    backdrop-filter: blur(15px); /* Stronger Frosted Glass Effect */
-    box-shadow: 0px 8px 20px var(--card-shadow);
-    transition: transform var(--transition-speed), box-shadow var(--transition-speed);
-    cursor: pointer;
-    border: 1px solid rgba(255, 255, 255, 0.3); /* Light Border for Glass Effect */
-}
 
-.ios-place-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0px 15px 30px var(--card-hover-shadow); /* Shadow on Hover */
-}
-
-/* Card Media Styling */
-.place-image {
-    height: 180px;
-    object-fit: cover;
-    transition: transform var(--transition-speed);
-}
-
-.place-image:hover {
-    transform: scale(1.06); /* Slight Zoom on Hover */
-}
-
-/* Card Content Styling */
-.place-info {
-    padding: 15px;
-    color: #333;
-    text-align: left;
-}
-
-.place-info .MuiTypography-h5 {
-    font-size: 18px;
-    font-weight: bold;
-    color: #007aff; /* Blue Color */
-}
-
-.place-info .price {
-    font-size: 16px;
-    background: linear-gradient(45deg, #8e44ad, #9b59b6); /* Gradient Text Color */
-    -webkit-background-clip: text;
-    color: transparent;
-}
 
 /* Pagination Footer Section */
 .pagination-section {

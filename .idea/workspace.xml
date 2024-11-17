@@ -5,8 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f7b5a855-55b6-4103-bd03-4441aa4d2f7d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Front-End/airspace/src/assets/components/SearchBar.css" beforeDir="false" afterPath="$PROJECT_DIR$/Front-End/airspace/src/assets/components/SearchBar.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Front-End/airspace/src/components/SearchBar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Front-End/airspace/src/components/SearchBar.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -95,6 +94,8 @@
       <workItem from="1731441371827" duration="359000" />
       <workItem from="1731808355465" duration="79000" />
       <workItem from="1731809009056" duration="1000" />
+      <workItem from="1731817265872" duration="354000" />
+      <workItem from="1731817804801" duration="70000" />
     </task>
     <servers />
   </component>

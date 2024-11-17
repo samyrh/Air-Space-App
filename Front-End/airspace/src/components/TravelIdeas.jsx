@@ -210,7 +210,7 @@ const TravelIdeas = () => {
                                     transition: 'transform 0.3s ease, background 0.3s ease', // Smooth hover transition
                                     '&:hover': {
                                         transform: 'scale(1.05)', // Slight scaling on hover
-                                        background: 'linear-gradient(145deg, #FFEB3B, #FFEB3B)', // Yellow gradient on hover
+                                        background: 'linear-gradient(145deg, #A7C7E7, #D0E7F0)', // Light blue gradient on hover
                                         boxShadow: '0px 8px 12px rgba(0, 0, 0, 0.2)', // More prominent shadow on hover
                                     },
                                 }}
@@ -297,6 +297,7 @@ const TravelIdeas = () => {
                                     </div>
                                 </CardContent>
                             </Card>
+
                         ))
                     )}
                 </Box>

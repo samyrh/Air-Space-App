@@ -3,7 +3,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: linear-gradient(135deg, #b3e0ff, #ffd1dc);
+    background: linear-gradient(135deg, #b3e0ff, #ffd1dc); /* Original Gradient */
     padding: 20px 40px;
     position: sticky;
     top: 0;
@@ -11,19 +11,45 @@
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     width: 100%;
     box-sizing: border-box;
-    border-radius: 0px; /* No rounded corners by default */
-    transition: all 0.6s ease-in-out; /* Smooth transition for the whole navbar */
+    border-radius: 0px;
+    transition: all 0.6s ease-in-out;
 }
 
-/* Shrink effect with smooth transition and rounded corners */
+/* Shrink effect with smooth transition and smaller size */
 .navbar-shrink {
-    padding: 8px 30px;
-    background: linear-gradient(135deg, #d1d9f0, #f7d9e4);
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
-    transform: scale(0.95); /* Slight scaling down to look like a widget */
-    border-radius: 20px; /* Rounded corners when navbar shrinks */
-    transition: all 0.5s ease-out; /* Smooth transition for shrinking */
+    padding: 8px 20px; /* Smaller padding when scrolled */
+    background: linear-gradient(135deg, rgba(179, 224, 255, 0.85), rgba(255, 209, 220, 0.85)); /* Semi-transparent gradient */
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15); /* Softer shadow for a more refined look */
+    transform: scale(0.95); /* Shrink effect for smaller navbar */
+    border-radius: 25px; /* Rounded corners */
+    transition: background 0.6s ease-in-out, padding 0.4s ease-out, transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
+
+
+
+/* Navbar active state */
+.navbar-shrink:active {
+    background: linear-gradient(135deg, rgba(179, 224, 255, 0.75), rgba(255, 209, 220, 0.75)); /* Subtle darker gradient */
+    transform: scale(0.93); /* Slightly reduce scale for an active feel */
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15); /* Lighter shadow when active */
+}
+
+/* Navbar when fully scrolled (triggered on scroll) */
+.navbar-shrink.scrolled {
+    padding: 5px 15px; /* Even smaller padding when fully scrolled */
+    background: linear-gradient(135deg, rgba(179, 224, 255, 0.9), rgba(255, 209, 220, 0.9)); /* Lighter gradient on scroll */
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2); /* Stronger shadow when scrolled */
+    transform: scale(0.9); /* Shrink navbar to make it smaller */
+}
+
+/* Optional: Adjust navbar text size on scroll */
+.navbar-shrink.scrolled .navbar-text {
+    font-size: 0.9rem; /* Smaller text when scrolled */
+    transition: font-size 0.3s ease-out;
+}
+
+
+
 
 /* Left Section: Logo and Name */
 .navbar-left {
@@ -34,7 +60,7 @@
 .navbar-logo {
     width: 40px;
     height: 40px;
-    background-color: #b0c9e7;
+    background-color: #ff91a3;
     border-radius: 50%;
     margin-right: 10px;
     transition: all 0.3s ease-out;
@@ -43,7 +69,7 @@
 .navbar-name {
     font-size: 28px;
     font-weight: bold;
-    color: #605d5d;
+    color: #fff;
     letter-spacing: 1px;
     transition: all 0.3s ease-out;
 }
@@ -56,18 +82,18 @@
 
 .navbar-center a {
     text-decoration: none;
-    color: white;
+    color: #fff;
     font-size: 18px;
     font-weight: 500;
     padding: 12px 25px;
     border-radius: 50px;
-    background: linear-gradient(135deg, #9a9aff, #80e0f4);
+    background: linear-gradient(135deg, #8a7eff, #6de2f2);
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease-in-out;
 }
 
 .navbar-center a:hover {
-    background: linear-gradient(135deg, #eeaeca, #94bbe9);
+    background: linear-gradient(135deg, #f0a7e0, #3db4e3);
     transform: scale(1.1);
 }
 
@@ -108,13 +134,13 @@
     transform: translateY(1px);
 }
 
-/* Dropdown Menu - Enhanced Hover Effect */
+/* Dropdown Menu */
 .navbar-dropdown {
     position: absolute;
     top: 100%;
     right: 20px;
-    background: linear-gradient(135deg, #b9a6ff, #99e2f7);
-    color: black;
+    background: linear-gradient(135deg, #ff6a88, #f7b2b7);
+    color: #fff;
     border-radius: 15px;
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
     display: flex;
@@ -138,15 +164,15 @@
     font-size: 14px;
     cursor: pointer;
     transition: all 0.3s ease-in-out;
-    border-radius: 10px; /* Slightly smaller radius for a more compact feel */
+    border-radius: 10px;
 }
 
 /* Hover effect for dropdown items */
 .navbar-dropdown div:hover {
-    background: linear-gradient(135deg, #f0f8ff, #ffefff); /* Lighter gradient for a cleaner look */
-    transform: scale(1.05); /* Slight scaling for a subtle effect */
-    color: #333; /* Darker text color for contrast */
-    transition: all 0.2s ease-in-out; /* Faster transition for light hover */
+    background: linear-gradient(135deg, #f0f8ff, #ffefff);
+    transform: scale(1.05);
+    color: #333;
+    transition: all 0.2s ease-in-out;
 }
 
 /* User Avatar */
@@ -160,3 +186,69 @@
 .navbar-user-avatar:hover {
     transform: scale(1.1);
 }
+/* Search Input Style */
+.navbar-search {
+    display: flex;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 50px;
+    padding: 5px 15px;
+    border: none;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease-in-out;
+    width: 220px;
+    position: relative;
+}
+
+.navbar-search input {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: black;
+    font-weight: bold;
+    font-size: 16px;
+    padding: 8px;
+    width: 100%;
+    border-radius: 50px;
+    transition: all 0.3s ease-in-out;
+}
+
+.navbar-search input::placeholder {
+    color: #fff;
+}
+
+.navbar-search:hover {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.navbar-search:focus-within {
+    width: 300px;
+}
+
+/* Search Icon Style */
+.search-icon-button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    position: absolute;
+    right: 10px; /* Position the icon inside the input */
+    padding: 0;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.search-icon-button:hover {
+    transform: scale(1.2);
+    color: #3db4e3;
+}
+
+.navbar-search i {
+    color: white;
+    font-size: 18px;
+}
+
+.navbar-search i:hover {
+    color: #3db4e3;
+}
+
+
+

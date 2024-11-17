@@ -6,6 +6,7 @@ function Navbar() {
     const [dropdownVisible, setDropdownVisible] = useState(false);
     const [selectedOption, setSelectedOption] = useState("Profile");
     const [navbarShrink, setNavbarShrink] = useState(false);
+    const [searchQuery, setSearchQuery] = useState('');
     const dropdownRef = useRef(null);
 
     const handleButtonClick = (buttonName) => {
@@ -36,6 +37,19 @@ function Navbar() {
         }
     };
 
+    const handleSearchChange = (e) => {
+        setSearchQuery(e.target.value);
+    };
+
+    const handleSearchIconClick = () => {
+        // Trigger the search logic here, such as filtering or API call
+        if (searchQuery.trim()) {
+            alert('Searching for: ' + searchQuery); // Replace with actual search logic
+        } else {
+            alert('Please enter a search query.');
+        }
+    };
+
     useEffect(() => {
         document.addEventListener("mousedown", handleClickOutside);
         window.addEventListener("scroll", handleScroll);
@@ -59,6 +73,19 @@ function Navbar() {
                 <a href="#" className={activeButton === "Contact" ? "active" : ""} onClick={() => handleButtonClick("Contact")}>Contact</a>
             </div>
             <div className="navbar-right">
+                {/* Search Input */}
+                <div className="navbar-search">
+                    <input
+                        type="text"
+                        placeholder="Search..."
+                        value={searchQuery}
+                        onChange={handleSearchChange}
+                    />
+                    <button className="search-icon-button" onClick={handleSearchIconClick}>
+                        <i className="fa fa-search"></i>
+                    </button>
+                </div>
+
                 <img className="navbar-user-avatar" src="https://randomuser.me/api/portraits/men/1.jpg" alt="User Avatar" />
                 <div className="navbar-profile-button" onClick={handleProfileClick}>
                     <span>{selectedOption || "Profile"}</span>

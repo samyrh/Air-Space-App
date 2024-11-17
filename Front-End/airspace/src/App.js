@@ -7,6 +7,8 @@ import CategoryBar from './components/CategoryBar..jsx';  // Corrected import fo
 import CardContainer from './components/CardContainer.jsx'; // Import CardContainer component
 import Footer from './components/Footer.jsx';  // Import Footer component
 import TravelIdeas from './components/TravelIdeas.jsx';
+import ScrollToTopButton from './components/ScrollToTopButton.jsx'; // Import ScrollToTopButton component
+
 function App() {
     return (
         <div className="App">
@@ -21,8 +23,10 @@ function App() {
                 <TravelIdeas/>
             </div>
 
-                <Footer />
+            {/* Add the ScrollToTopButton here */}
+            <ScrollToTopButton />
 
+            <Footer />
         </div>
     );
 }

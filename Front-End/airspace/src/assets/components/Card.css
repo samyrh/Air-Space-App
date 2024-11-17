@@ -12,7 +12,7 @@
 /* Load More Button */
 
 
-.load-more-button {background-image: linear-gradient(to right, #16222A 0%, #3A6073  51%, #16222A  100%)}
+.load-more-button { background-image: linear-gradient( 58.2deg,  rgba(40,91,212,0.73) -3%, rgba(171,53,163,0.45) 49.3%, rgba(255,204,112,0.37) 97.7% );}
 .load-more-button {
     display: block;
     width: 130px;

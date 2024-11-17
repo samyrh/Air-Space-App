@@ -20,9 +20,40 @@
     max-width: 1800px; /* Increased max-width to make it wider */
     margin: 30px auto;
     overflow: hidden;
+    transition: box-shadow var(--transition-speed), transform var(--transition-speed); /* Smooth transition on hover */
+}
+
+/* Hover Effect for Container */
+.ios-style-container:hover {
+    box-shadow: 0px 20px 50px var(--card-hover-shadow); /* Enhanced shadow on hover */
+    transform: scale(1.02); /* Slightly increase size on hover */
+}
+
+/* Scrollable Content Area */
+.ios-style-container .scrollable-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px; /* Space between items */
+    max-height: 500px; /* Set a max-height to allow scrolling */
+    overflow-y: auto; /* Enable vertical scrolling */
+    padding-right: 10px; /* Add padding on the right to prevent the scrollbar from overlapping content */
+}
+
+/* Individual Item Styles inside the Container */
+.ios-style-container .scrollable-content .card {
+    width: 30%;
+    min-width: 200px; /* Ensure items are responsive */
+    margin-bottom: 16px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: box-shadow var(--transition-speed);
 }
 
+/* Hover Effect for Cards inside the Container */
+.ios-style-container .scrollable-content .card:hover {
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Enhanced shadow for individual items */
+}
 
 /* Responsive Layout: Left Sidebar for Filters, Right for Results */
 .ios-style-layout {
@@ -65,8 +96,6 @@
     gap: 20px;
     padding: 20px;
 }
-
-
 
 /* Pagination Footer Section */
 .pagination-section {

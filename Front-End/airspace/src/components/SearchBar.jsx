@@ -106,6 +106,7 @@ function SearchComponent() {
     return (
         <div className="search-container">
             <div className="search-bar">
+
                 <input
                     type="text"
                     className="search-input"
@@ -133,14 +134,15 @@ function SearchComponent() {
                     aria-label="Departure Date"
                 />
 
-                <div className="guest-selector" onClick={toggleGuestDropdown} ref={dropdownRef}>
+                <div className="guest-selector" onClick={toggleGuestDropdown} ref={dropdownRef} >
                     <input
                         type="text"
-                        className="search-input"
+                        className="search-inputG"
                         placeholder="Guests"
                         readOnly
-                        value={`${guests.adults} Adults, ${guests.children} Children, ${guests.babies} Babies`}
+                        value={`${guests.adults  + guests.children} Guests, ${guests.babies} Babies`}
                         aria-label="Guests"
+                        style={{ border: 'none' }}
                     />
                     {isGuestDropdownVisible && (
                         <div className="guest-dropdown">

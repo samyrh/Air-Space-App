@@ -1,0 +1,1434 @@
+Index: Front-End/airspace/src/components/SearchBar.jsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import React, { useState, useEffect, useRef } from \"react\";\r\nimport { FaSearch } from \"react-icons/fa\";\r\nimport flatpickr from \"flatpickr\";\r\nimport \"flatpickr/dist/flatpickr.min.css\";\r\nimport '../assets/components/SearchBar.css';\r\n\r\nfunction SearchComponent() {\r\n    const [arrivalDate, setArrivalDate] = useState('');\r\n    const [departureDate, setDepartureDate] = useState('');\r\n    const [departurePlaceholder, setDeparturePlaceholder] = useState('Departure Date');\r\n    const [isGuestDropdownVisible, setGuestDropdownVisible] = useState(false);\r\n    const [guests, setGuests] = useState({ adults: 1, children: 0, babies: 0 }); // Grouped guest state\r\n    const dropdownRef = useRef(null); // Reference for dropdown\r\n\r\n    useEffect(() => {\r\n        // Initialize Flatpickr for Arrival and Departure Date inputs\r\n        flatpickr(\"#arrivalDate\", {\r\n            dateFormat: \"Y-m-d\",\r\n            minDate: \"today\",\r\n            allowInput: true,\r\n            theme: \"light\",\r\n            defaultDate: arrivalDate,\r\n            onChange: function (selectedDates, dateStr) {\r\n                setArrivalDate(dateStr);\r\n                if (!departureDate || new Date(departureDate) <= new Date(dateStr)) {\r\n                    const nextDay = new Date(selectedDates[0]);\r\n                    nextDay.setDate(nextDay.getDate() + 1);\r\n                    setDepartureDate(nextDay.toISOString().split(\"T\")[0]);\r\n                }\r\n                setDeparturePlaceholder(`Departure (after ${dateStr})`);\r\n                const departurePicker = flatpickr(\"#departureDate\");\r\n                departurePicker.set('minDate', selectedDates[0]);\r\n            }\r\n        });\r\n\r\n        flatpickr(\"#departureDate\", {\r\n            dateFormat: \"Y-m-d\",\r\n            minDate: \"today\",\r\n            allowInput: true,\r\n            theme: \"light\",\r\n            defaultDate: departureDate,\r\n            onChange: function (selectedDates, dateStr) {\r\n                if (new Date(dateStr) <= new Date(arrivalDate)) {\r\n                    setDepartureDate('');\r\n                } else {\r\n                    setDepartureDate(dateStr);\r\n                }\r\n            },\r\n            disable: [date => date < new Date(arrivalDate)]\r\n        });\r\n    }, [arrivalDate, departureDate]);\r\n\r\n    useEffect(() => {\r\n        // Close dropdown on outside click\r\n        const handleOutsideClick = (event) => {\r\n            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {\r\n                setGuestDropdownVisible(false);\r\n            }\r\n        };\r\n\r\n        document.addEventListener(\"mousedown\", handleOutsideClick);\r\n        return () => {\r\n            document.removeEventListener(\"mousedown\", handleOutsideClick);\r\n        };\r\n    }, []);\r\n\r\n    const toggleGuestDropdown = () => {\r\n        setGuestDropdownVisible(!isGuestDropdownVisible);\r\n    };\r\n\r\n    const incrementGuestCount = (type) => {\r\n        setGuests((prevGuests) => {\r\n            if (type === 'adults' && prevGuests.adults < 6) {\r\n                return { ...prevGuests, adults: prevGuests.adults + 1 };\r\n            }\r\n            if (type === 'children' && prevGuests.children < 6) {\r\n                return { ...prevGuests, children: prevGuests.children + 1 };\r\n            }\r\n            if (type === 'babies' && prevGuests.babies < 2) {\r\n                return { ...prevGuests, babies: prevGuests.babies + 1 };\r\n            }\r\n            return prevGuests;\r\n        });\r\n    };\r\n\r\n    const decrementGuestCount = (type) => {\r\n        setGuests((prevGuests) => {\r\n            if (type === 'adults' && prevGuests.adults > 1) {\r\n                return { ...prevGuests, adults: prevGuests.adults - 1 };\r\n            }\r\n            if (type === 'children' && prevGuests.children > 0) {\r\n                return { ...prevGuests, children: prevGuests.children - 1 };\r\n            }\r\n            if (type === 'babies' && prevGuests.babies > 0) {\r\n                return { ...prevGuests, babies: prevGuests.babies - 1 };\r\n            }\r\n            return prevGuests;\r\n        });\r\n    };\r\n\r\n    const handleGuestButtonClick = (event) => {\r\n        // Prevent the dropdown from closing when clicking the \"+\" or \"-\" buttons\r\n        event.stopPropagation();\r\n    };\r\n\r\n    return (\r\n        <div className=\"search-container\">\r\n            <div className=\"search-bar\">\r\n                <input\r\n                    type=\"text\"\r\n                    className=\"search-input\"\r\n                    placeholder=\"Destination city?\"\r\n                    aria-label=\"Destination city\"\r\n                />\r\n\r\n                <input\r\n                    type=\"text\"\r\n                    className=\"search-input\"\r\n                    id=\"arrivalDate\"\r\n                    placeholder=\"Arrival Date\"\r\n                    value={arrivalDate}\r\n                    onChange={(e) => setArrivalDate(e.target.value)}\r\n                    aria-label=\"Arrival Date\"\r\n                />\r\n\r\n                <input\r\n                    type=\"text\"\r\n                    className=\"search-input\"\r\n                    id=\"departureDate\"\r\n                    placeholder={departurePlaceholder}\r\n                    value={departureDate}\r\n                    onChange={(e) => setDepartureDate(e.target.value)}\r\n                    aria-label=\"Departure Date\"\r\n                />\r\n\r\n                <div className=\"guest-selector\" onClick={toggleGuestDropdown} ref={dropdownRef}>\r\n                    <input\r\n                        type=\"text\"\r\n                        className=\"search-input\"\r\n                        placeholder=\"Guests\"\r\n                        readOnly\r\n                        value={`${guests.adults} Adults, ${guests.children} Children, ${guests.babies} Babies`}\r\n                        aria-label=\"Guests\"\r\n                    />\r\n                    {isGuestDropdownVisible && (\r\n                        <div className=\"guest-dropdown\">\r\n                            <div className=\"guest-type\">\r\n                                <h4>Adults</h4>\r\n                                <p>13 ans et plus</p>\r\n                                <div className=\"counter\">\r\n                                    <button\r\n                                        onClick={(e) => { decrementGuestCount('adults'); handleGuestButtonClick(e); }}\r\n                                        className={guests.adults <= 1 ? 'disabled-btn' : ''}\r\n                                    >\r\n                                        -\r\n                                    </button>\r\n                                    <input type=\"number\" value={guests.adults} readOnly />\r\n                                    <button\r\n                                        onClick={(e) => { incrementGuestCount('adults'); handleGuestButtonClick(e); }}\r\n                                        className={guests.adults >= 6 ? 'disabled-btn' : ''}\r\n                                    >\r\n                                        +\r\n                                    </button>\r\n                                </div>\r\n                            </div>\r\n                            <div className=\"guest-type\">\r\n                                <h4>Enfants</h4>\r\n                                <p>De 2 à 12 ans</p>\r\n                                <div className=\"counter\">\r\n                                    <button\r\n                                        onClick={(e) => { decrementGuestCount('children'); handleGuestButtonClick(e); }}\r\n                                        className={guests.children <= 0 ? 'disabled-btn' : ''}\r\n                                    >\r\n                                        -\r\n                                    </button>\r\n                                    <input type=\"number\" value={guests.children} readOnly />\r\n                                    <button\r\n                                        onClick={(e) => { incrementGuestCount('children'); handleGuestButtonClick(e); }}\r\n                                        className={guests.children >= 6 ? 'disabled-btn' : ''}\r\n                                    >\r\n                                        +\r\n                                    </button>\r\n                                </div>\r\n                            </div>\r\n                            <div className=\"guest-type\">\r\n                                <h4>Bébés</h4>\r\n                                <p>- de 2 ans</p>\r\n                                <div className=\"counter\">\r\n                                    <button\r\n                                        onClick={(e) => { decrementGuestCount('babies'); handleGuestButtonClick(e); }}\r\n                                        className={guests.babies <= 0 ? 'disabled-btn' : ''}\r\n                                    >\r\n                                        -\r\n                                    </button>\r\n                                    <input type=\"number\" value={guests.babies} readOnly />\r\n                                    <button\r\n                                        onClick={(e) => { incrementGuestCount('babies'); handleGuestButtonClick(e); }}\r\n                                        className={guests.babies >= 2 ? 'disabled-btn' : ''}\r\n                                    >\r\n                                        +\r\n                                    </button>\r\n                                </div>\r\n                            </div>\r\n                        </div>\r\n                    )}\r\n                </div>\r\n\r\n                <button className=\"simple-search-button\" aria-label=\"Search\">\r\n                    <FaSearch className=\"simple-icon\" />\r\n                </button>\r\n            </div>\r\n        </div>\r\n    );\r\n}\r\n\r\nexport default SearchComponent;\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Front-End/airspace/src/components/SearchBar.jsx b/Front-End/airspace/src/components/SearchBar.jsx
+--- a/Front-End/airspace/src/components/SearchBar.jsx	(revision 44f193845ba7d1b788dc76a251b90f017f48b2b8)
++++ b/Front-End/airspace/src/components/SearchBar.jsx	(date 1731807442335)
+@@ -106,6 +106,7 @@
+     return (
+         <div className="search-container">
+             <div className="search-bar">
++
+                 <input
+                     type="text"
+                     className="search-input"
+@@ -133,14 +134,15 @@
+                     aria-label="Departure Date"
+                 />
+ 
+-                <div className="guest-selector" onClick={toggleGuestDropdown} ref={dropdownRef}>
++                <div className="guest-selector" onClick={toggleGuestDropdown} ref={dropdownRef} >
+                     <input
+                         type="text"
+-                        className="search-input"
++                        className="search-inputG"
+                         placeholder="Guests"
+                         readOnly
+-                        value={`${guests.adults} Adults, ${guests.children} Children, ${guests.babies} Babies`}
++                        value={`${guests.adults  + guests.children} Guests, ${guests.babies} Babies`}
+                         aria-label="Guests"
++                        style={{ border: 'none' }}
+                     />
+                     {isGuestDropdownVisible && (
+                         <div className="guest-dropdown">
+Index: Front-End/airspace/src/assets/components/SearchBar.css
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>/* Container for the entire search bar */\r\n.search-container {\r\n    display: flex;\r\n    justify-content: center;\r\n    align-items: center;\r\n    padding: 20px;\r\n    background-color: #fafafa;\r\n    width: 100%;\r\n    box-sizing: border-box;\r\n}\r\n\r\n/* Search Bar styling */\r\n.search-bar {\r\n    display: flex;\r\n    align-items: center;\r\n    background: linear-gradient(135deg, #f2c6e8, #c6e0fb, #d7c7fb);\r\n    padding: 16px 32px;\r\n    width: 100%;\r\n    max-width: 1000px;\r\n    border-radius: 40px;\r\n    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);\r\n    transition: all 0.5s ease;\r\n    min-height: 70px;\r\n    gap: 15px;\r\n    box-sizing: border-box;\r\n    flex-wrap: nowrap;\r\n}\r\n\r\n/* Styling for the input fields */\r\n.search-input {\r\n    background-color: #ffffff;\r\n    border: 2px solid #dcdcdc;\r\n    border-radius: 30px;\r\n    padding: 12px 20px;\r\n    font-size: 16px;\r\n    font-weight: bold;\r\n    transition: all 0.3s ease-in-out;\r\n    outline: none;\r\n    min-width: 150px;\r\n    flex-grow: 1;\r\n    box-sizing: border-box;\r\n    color: #333;\r\n}\r\n\r\n/* Hover and focus effect for inputs */\r\n.search-input:hover,\r\n.search-input:focus {\r\n    border-color: #a8a8a8;\r\n    background-color: #f9f9f9;\r\n}\r\n\r\n\r\n/* Main search container */\r\n.search-container {\r\n    display: flex;\r\n    justify-content: center;\r\n    margin-top: 20px;\r\n}\r\n\r\n/* Search bar styling */\r\n.search-bar {\r\n    display: flex;\r\n    align-items: center;\r\n    gap: 8px;\r\n    background-color: #ffffff;\r\n    border-radius: 8px;\r\n    padding: 10px;\r\n    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);\r\n    max-width: 800px;\r\n    width: 100%;\r\n}\r\n\r\n/* Input field styling */\r\n.search-input {\r\n    padding: 10px 12px;\r\n    border: 1px solid #ddd;\r\n    border-radius: 6px;\r\n    font-size: 16px;\r\n    flex: 1;\r\n    transition: border-color 0.3s ease;\r\n}\r\n\r\n/* Focus state for input */\r\n.search-input:focus {\r\n    border-color: #007bff;\r\n    outline: none;\r\n}\r\n\r\n/* Main search container */\r\n.search-container {\r\n    display: flex;\r\n    justify-content: center;\r\n    margin-top: 20px;\r\n}\r\n\r\n/* Search bar styling */\r\n.search-bar {\r\n    display: flex;\r\n    align-items: center;\r\n    gap: 8px;\r\n    background-color: #ffffff;\r\n    border-radius: 8px;\r\n    padding: 10px;\r\n    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);\r\n    max-width: 800px;\r\n    width: 100%;\r\n}\r\n\r\n/* Input field styling */\r\n.search-input {\r\n    padding: 10px 12px;\r\n    border: 1px solid #ddd;\r\n    border-radius: 6px;\r\n    font-size: 16px;\r\n    flex: 1;\r\n    transition: border-color 0.3s ease;\r\n}\r\n\r\n/* Focus state for input */\r\n.search-input:focus {\r\n    border-color: #007bff;\r\n    outline: none;\r\n}\r\n\r\n/* Guest selector */\r\n.guest-selector {\r\n    position: relative;\r\n    cursor: pointer;\r\n}\r\n\r\n/* Search bar styling */\r\n.search-bar {\r\n    display: flex;\r\n    align-items: center;\r\n    gap: 8px;\r\n    background-color: #ffffff;\r\n    border-radius: 8px;\r\n    padding: 10px;\r\n    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);\r\n    max-width: 800px;\r\n    width: 100%;\r\n    flex-wrap: wrap;  /* Responsive wrap */\r\n    transition: all 0.3s ease;\r\n}\r\n\r\n/* Input field styling */\r\n.search-input {\r\n    padding: 10px 12px;\r\n    border: 1px solid #ddd;\r\n    border-radius: 6px;\r\n    font-size: 16px;\r\n    flex: 1;\r\n    min-width: 150px;  /* Min width for responsive view */\r\n    transition: border-color 0.3s ease, transform 0.3s ease;\r\n}\r\n\r\n/* Input focus and hover states */\r\n.search-input:focus,\r\n.search-input:hover {\r\n    border-color: #007bff;\r\n    outline: none;\r\n    transform: scale(1.02);\r\n}\r\n\r\n/* Guest selector */\r\n.guest-selector {\r\n    position: relative;\r\n    cursor: pointer;\r\n}\r\n\r\n/* Search bar styling */\r\n.search-bar {\r\n    display: flex;\r\n    align-items: center;\r\n    gap: 8px;\r\n    background-color: #ffffff;\r\n    border-radius: 8px;\r\n    padding: 10px;\r\n    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);\r\n    max-width: 800px;\r\n    width: 100%;\r\n    flex-wrap: wrap;  /* Responsive wrap */\r\n    transition: all 0.3s ease;\r\n}\r\n\r\n/* Input field styling */\r\n.search-input {\r\n    padding: 10px 12px;\r\n    border: 1px solid #ddd;\r\n    border-radius: 6px;\r\n    font-size: 16px;\r\n    flex: 1;\r\n    min-width: 150px;  /* Min width for responsive view */\r\n    transition: border-color 0.3s ease, transform 0.3s ease;\r\n}\r\n\r\n/* Input focus and hover states */\r\n.search-input:focus,\r\n.search-input:hover {\r\n    border-color: #007bff;\r\n    outline: none;\r\n    transform: scale(1.02);\r\n}\r\n\r\n/* Guest selector */\r\n.guest-selector {\r\n    position: relative;\r\n    cursor: pointer;\r\n}\r\n\r\n\r\n\r\n/* Input field styling */\r\n.search-input {\r\n    padding: 10px 12px;\r\n    border: 1px solid #ddd;\r\n    border-radius: 6px;\r\n    font-size: 16px;\r\n    flex: 1;\r\n    min-width: 150px;  /* Min width for responsive view */\r\n    transition: border-color 0.3s ease, transform 0.3s ease;\r\n}\r\n\r\n/* Input focus and hover states */\r\n.search-input:focus,\r\n.search-input:hover {\r\n    border-color: #007bff;\r\n    outline: none;\r\n    transform: scale(1.02);\r\n}\r\n\r\n/* Guest selector */\r\n.guest-selector {\r\n    position: relative;\r\n    cursor: pointer;\r\n}\r\n\r\n/* Search bar styling */\r\n.search-bar {\r\n    display: flex;\r\n    align-items: center;\r\n    gap: 8px;\r\n    background-color: #ffffff;\r\n    border-radius: 8px;\r\n    padding: 10px;\r\n    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);\r\n    max-width: 800px;\r\n    width: 100%;\r\n    flex-wrap: wrap;  /* Responsive wrap */\r\n    transition: all 0.3s ease;\r\n}\r\n\r\n/* Input field styling */\r\n.search-input {\r\n    padding: 10px 12px;\r\n    border: 1px solid #ddd;\r\n    border-radius: 6px;\r\n    font-size: 16px;\r\n    flex: 1;\r\n    min-width: 150px;  /* Min width for responsive view */\r\n    transition: border-color 0.3s ease, transform 0.3s ease;\r\n}\r\n\r\n/* Input focus and hover states */\r\n.search-input:focus,\r\n.search-input:hover {\r\n    border-color: #007bff;\r\n    outline: none;\r\n    transform: scale(1.02);\r\n}\r\n\r\n/* Guest selector */\r\n.guest-selector {\r\n    position: relative;\r\n    cursor: pointer;\r\n}\r\n\r\n/* Search bar styling */\r\n.search-bar {\r\n    display: flex;\r\n    align-items: center;\r\n    gap: 15px;  /* Larger gap for more space between elements */\r\n    background-color: #ffffff;\r\n    border-radius: 12px;  /* More rounded corners */\r\n    padding: 20px 30px;  /* Increased padding for a larger feel */\r\n    box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.2);  /* Larger shadow for more depth */\r\n    max-width: 1200px;  /* Increased max-width for even more width */\r\n    width: 100%;\r\n    flex-wrap: wrap;  /* Responsive wrap */\r\n    transition: all 0.3s ease;\r\n}\r\n\r\n\r\n\r\n/* Input field styling */\r\n.search-input {\r\n    padding: 10px 12px;\r\n    border: 1px solid #ddd;\r\n    border-radius: 6px;\r\n    font-size: 16px;\r\n    flex: 1;\r\n    min-width: 150px;  /* Min width for responsive view */\r\n    transition: border-color 0.3s ease, transform 0.3s ease;\r\n}\r\n\r\n/* Input focus and hover states */\r\n.search-input:focus,\r\n.search-input:hover {\r\n    border-color: #007bff;\r\n    outline: none;\r\n    transform: scale(1.02);\r\n}\r\n\r\n/* Guest selector */\r\n.guest-selector {\r\n    position: relative;\r\n    cursor: pointer;\r\n}\r\n\r\n/* Increase the width of the dropdown */\r\n.guest-dropdown {\r\n    position: absolute;\r\n    top: 120%;\r\n    left: -40px;\r\n    background: linear-gradient(135deg, #b3e0ff, #ffd1dc);\r\n    border: 1px solid #ddd;\r\n    border-radius: 12px;\r\n    padding: 10px 20px 15px;\r\n    width: 380px; /* Increase width from 320px to 380px */\r\n    max-height: 500px;\r\n    overflow-y: auto;\r\n    box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.2);\r\n    z-index: 10;\r\n    opacity: 0;\r\n    transform: translateY(-20px);\r\n    visibility: hidden;\r\n    transition: transform 0.3s ease, opacity 0.3s ease;\r\n}\r\n\r\n\r\n/* Show dropdown on hover or focus */\r\n.guest-selector:hover .guest-dropdown,\r\n.guest-selector:focus-within .guest-dropdown {\r\n    opacity: 1;\r\n    transform: translateY(0);\r\n    visibility: visible;\r\n}\r\n\r\n/* Dropdown item styling */\r\n.guest-type {\r\n    display: flex;\r\n    align-items: center;\r\n    justify-content: space-between;\r\n    margin-bottom: 12px;\r\n    padding: 6px 0;\r\n    border-bottom: 1px solid #eee;\r\n}\r\n\r\n.guest-type h4 {\r\n    margin: 0;\r\n    font-size: 16px;\r\n    font-weight: 500;\r\n    color: #333;\r\n}\r\n\r\n/* Counter styling */\r\n.counter {\r\n    display: flex;\r\n    align-items: center;\r\n    gap: 10px;\r\n}\r\n\r\n/* Counter button styling */\r\n.counter button {\r\n    width: 40px;\r\n    height: 40px;\r\n    border: none;\r\n    border-radius: 50%;\r\n    background-color: #f0f0f0;\r\n    color: #333;\r\n    font-size: 20px;\r\n    cursor: pointer;\r\n    transition: background-color 0.3s ease, transform 0.3s ease;\r\n    display: flex;\r\n    justify-content: center;\r\n    align-items: center;\r\n}\r\n\r\n.counter button:hover {\r\n    background-color: #e0e0e0;\r\n    transform: scale(1.05);\r\n}\r\n\r\n/* Counter input styling */\r\n.counter input {\r\n    width: 70px;\r\n    text-align: center;\r\n    border: none;\r\n    background: #f5f5f5;\r\n    font-size: 18px;\r\n    padding: 6px;\r\n    border-radius: 5px;\r\n}\r\n\r\n/* Add hover effect on the counter buttons */\r\n.counter button:hover {\r\n    background-color: #007bff;\r\n    color: white;\r\n    transform: scale(1.1);\r\n}\r\n\r\n/* Responsive adjustments for mobile view */\r\n@media (max-width: 600px) {\r\n    .search-bar {\r\n        flex-direction: column;\r\n        align-items: stretch;\r\n    }\r\n\r\n    .search-input {\r\n        width: 100%;\r\n        margin-bottom: 8px;\r\n    }\r\n\r\n    .guest-dropdown {\r\n        width: 100%;\r\n        left: 0; /* Center align dropdown on smaller screens */\r\n    }\r\n\r\n    /* Adjusted margins for each section to make them closer together */\r\n    .guest-type {\r\n        display: flex;\r\n        align-items: center;\r\n        justify-content: space-between;\r\n        margin-bottom: 8px; /* Reduced margin for a more compact appearance */\r\n        padding: 4px 0; /* Reduced padding for a tighter look */\r\n        border-bottom: 1px solid #eee; /* Subtle divider between items */\r\n    }\r\n}\r\n\r\n\r\n\r\n/* Updated search button with purple and pink gradient */\r\n.simple-search-button {\r\n    background: linear-gradient(135deg, #9b4dca, #f06292); /* Purple to Pink gradient */\r\n    border: none;\r\n    border-radius: 50%;\r\n    padding: 12px;\r\n    display: flex;\r\n    align-items: center;\r\n    justify-content: center;\r\n    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);\r\n    cursor: pointer;\r\n    transition: all 0.3s ease-in-out;\r\n}\r\n\r\n/* Hover effect for the search button */\r\n.simple-search-button:hover {\r\n    transform: scale(1.1); /* Slightly enlarges on hover */\r\n    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Slightly larger shadow */\r\n}\r\n\r\n/* Styling for the search icon inside the button */\r\n.search-icon {\r\n    width: 22px;\r\n    height: 22px;\r\n    fill: white; /* White color for the icon */\r\n}\r\n/* Disable hover effect for disabled buttons */\r\n.disabled-btn {\r\n    pointer-events: none;\r\n    opacity: 0.5; /* Optional: to visually show that the button is inactive */\r\n}\r\n\r\n/* Optional: You can also disable hover styles */\r\nbutton:hover:not(.disabled-btn) {\r\n    background-color: #ddd; /* Example of a hover effect */\r\n}\r\n.guest-type p {\r\n    font-size: 0.9em;\r\n    color: #777; /* Light gray color for description */\r\n    margin-top: 5px;\r\n}\r\n\r\n.guest-type h4 {\r\n    font-size: 1.1em;\r\n    color: #333; /* Darker color for category title */\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Front-End/airspace/src/assets/components/SearchBar.css b/Front-End/airspace/src/assets/components/SearchBar.css
+--- a/Front-End/airspace/src/assets/components/SearchBar.css	(revision 44f193845ba7d1b788dc76a251b90f017f48b2b8)
++++ b/Front-End/airspace/src/assets/components/SearchBar.css	(date 1731807628326)
+@@ -4,12 +4,12 @@
+     justify-content: center;
+     align-items: center;
+     padding: 20px;
+-    background-color: #fafafa;
+     width: 100%;
+     box-sizing: border-box;
++
+ }
+ 
+-/* Search Bar styling */
++/* Search Bar styling
+ .search-bar {
+     display: flex;
+     align-items: center;
+@@ -24,14 +24,13 @@
+     gap: 15px;
+     box-sizing: border-box;
+     flex-wrap: nowrap;
+-}
++}*/
+ 
+ /* Styling for the input fields */
+ .search-input {
+     background-color: #ffffff;
+     border: 2px solid #dcdcdc;
+     border-radius: 30px;
+-    padding: 12px 20px;
+     font-size: 16px;
+     font-weight: bold;
+     transition: all 0.3s ease-in-out;
+@@ -39,16 +38,30 @@
+     min-width: 150px;
+     flex-grow: 1;
+     box-sizing: border-box;
+-    color: #333;
++    height: 100%;
++    color: #757575;
++}
++.search-inputG {
++    background-color: #ffffff;
++    border: 2px solid #dcdcdc;
++    border-radius: 30px;
++    font-size: 16px;
++    font-weight: bold;
++    transition: all 0.3s ease-in-out;
++    outline: none;
++    min-width: 50px;
++    flex-grow: 1;
++    box-sizing: border-box;
++    height: 100%;
++    color: #757575;
+ }
+ 
+ /* Hover and focus effect for inputs */
+ .search-input:hover,
+ .search-input:focus {
+     border-color: #a8a8a8;
+-    background-color: #f9f9f9;
++    background-color: #e6e6e6;
+ }
+-
+ 
+ /* Main search container */
+ .search-container {
+@@ -57,7 +70,7 @@
+     margin-top: 20px;
+ }
+ 
+-/* Search bar styling */
++/* Search bar styling
+ .search-bar {
+     display: flex;
+     align-items: center;
+@@ -68,9 +81,9 @@
+     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+     max-width: 800px;
+     width: 100%;
+-}
++}*/
+ 
+-/* Input field styling */
++/* Input field styling
+ .search-input {
+     padding: 10px 12px;
+     border: 1px solid #ddd;
+@@ -78,13 +91,13 @@
+     font-size: 16px;
+     flex: 1;
+     transition: border-color 0.3s ease;
+-}
++}*/
+ 
+-/* Focus state for input */
++/* Focus state for input
+ .search-input:focus {
+     border-color: #007bff;
+     outline: none;
+-}
++}*/
+ 
+ /* Main search container */
+ .search-container {
+@@ -93,7 +106,7 @@
+     margin-top: 20px;
+ }
+ 
+-/* Search bar styling */
++/* Search bar styling
+ .search-bar {
+     display: flex;
+     align-items: center;
+@@ -104,9 +117,9 @@
+     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+     max-width: 800px;
+     width: 100%;
+-}
++}*/
+ 
+-/* Input field styling */
++/* Input field styling
+ .search-input {
+     padding: 10px 12px;
+     border: 1px solid #ddd;
+@@ -114,13 +127,13 @@
+     font-size: 16px;
+     flex: 1;
+     transition: border-color 0.3s ease;
+-}
++}*/
+ 
+-/* Focus state for input */
++/* Focus state for input
+ .search-input:focus {
+     border-color: #007bff;
+     outline: none;
+-}
++} */
+ 
+ /* Guest selector */
+ .guest-selector {
+@@ -128,7 +141,7 @@
+     cursor: pointer;
+ }
+ 
+-/* Search bar styling */
++/* Search bar styling
+ .search-bar {
+     display: flex;
+     align-items: center;
+@@ -139,28 +152,27 @@
+     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+     max-width: 800px;
+     width: 100%;
+-    flex-wrap: wrap;  /* Responsive wrap */
++
+     transition: all 0.3s ease;
+-}
++}*/
+ 
+-/* Input field styling */
++/* Input field styling
+ .search-input {
+     padding: 10px 12px;
+     border: 1px solid #ddd;
+     border-radius: 6px;
+     font-size: 16px;
+     flex: 1;
+-    min-width: 150px;  /* Min width for responsive view */
+     transition: border-color 0.3s ease, transform 0.3s ease;
+-}
++}*/
+ 
+-/* Input focus and hover states */
++/* Input focus and hover states
+ .search-input:focus,
+ .search-input:hover {
+     border-color: #007bff;
+     outline: none;
+     transform: scale(1.02);
+-}
++}*/
+ 
+ /* Guest selector */
+ .guest-selector {
+@@ -168,7 +180,7 @@
+     cursor: pointer;
+ }
+ 
+-/* Search bar styling */
++/* Search bar styling
+ .search-bar {
+     display: flex;
+     align-items: center;
+@@ -179,28 +191,27 @@
+     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+     max-width: 800px;
+     width: 100%;
+-    flex-wrap: wrap;  /* Responsive wrap */
++
+     transition: all 0.3s ease;
+-}
++}*/
+ 
+-/* Input field styling */
++/* Input field styling
+ .search-input {
+     padding: 10px 12px;
+     border: 1px solid #ddd;
+     border-radius: 6px;
+     font-size: 16px;
+     flex: 1;
+-    min-width: 150px;  /* Min width for responsive view */
+     transition: border-color 0.3s ease, transform 0.3s ease;
+-}
++}*/
+ 
+-/* Input focus and hover states */
++/* Input focus and hover states
+ .search-input:focus,
+ .search-input:hover {
+     border-color: #007bff;
+     outline: none;
+     transform: scale(1.02);
+-}
++}*/
+ 
+ /* Guest selector */
+ .guest-selector {
+@@ -210,24 +221,23 @@
+ 
+ 
+ 
+-/* Input field styling */
++/* Input field styling
+ .search-input {
+     padding: 10px 12px;
+     border: 1px solid #ddd;
+     border-radius: 6px;
+     font-size: 16px;
+     flex: 1;
+-    min-width: 150px;  /* Min width for responsive view */
+     transition: border-color 0.3s ease, transform 0.3s ease;
+-}
++}*/
+ 
+-/* Input focus and hover states */
++/* Input focus and hover states
+ .search-input:focus,
+ .search-input:hover {
+     border-color: #007bff;
+     outline: none;
+     transform: scale(1.02);
+-}
++}*/
+ 
+ /* Guest selector */
+ .guest-selector {
+@@ -235,7 +245,7 @@
+     cursor: pointer;
+ }
+ 
+-/* Search bar styling */
++/* Search bar styling
+ .search-bar {
+     display: flex;
+     align-items: center;
+@@ -246,28 +256,26 @@
+     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+     max-width: 800px;
+     width: 100%;
+-    flex-wrap: wrap;  /* Responsive wrap */
+     transition: all 0.3s ease;
+-}
++}*/
+ 
+-/* Input field styling */
++/* Input field styling
+ .search-input {
+     padding: 10px 12px;
+     border: 1px solid #ddd;
+     border-radius: 6px;
+     font-size: 16px;
+     flex: 1;
+-    min-width: 150px;  /* Min width for responsive view */
+     transition: border-color 0.3s ease, transform 0.3s ease;
+-}
++}*/
+ 
+-/* Input focus and hover states */
++/* Input focus and hover states
+ .search-input:focus,
+ .search-input:hover {
+     border-color: #007bff;
+     outline: none;
+     transform: scale(1.02);
+-}
++}*/
+ 
+ /* Guest selector */
+ .guest-selector {
+@@ -279,12 +287,12 @@
+ .search-bar {
+     display: flex;
+     align-items: center;
+-    gap: 15px;  /* Larger gap for more space between elements */
+     background-color: #ffffff;
+-    border-radius: 12px;  /* More rounded corners */
+-    padding: 20px 30px;  /* Increased padding for a larger feel */
+-    box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.2);  /* Larger shadow for more depth */
+-    max-width: 1200px;  /* Increased max-width for even more width */
++    border-radius: 32px;  /* More rounded corners */
++    height: 66px;
++    padding: 0 0;  /* Increased padding for a larger feel */
++    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);  /* Larger shadow for more depth */
++    max-width: 900px;  /* Increased max-width for even more width */
+     width: 100%;
+     flex-wrap: wrap;  /* Responsive wrap */
+     transition: all 0.3s ease;
+@@ -294,19 +302,23 @@
+ 
+ /* Input field styling */
+ .search-input {
+-    padding: 10px 12px;
+-    border: 1px solid #ddd;
+-    border-radius: 6px;
++    height: 100%;
++    padding: 0 25px;
++    border: none; /* Remove all borders */
++    border-right: 1px solid #ddd; /* Add a left border with the same color and thickness */
++    border-radius: 32px; /* Remove border radius */
+     font-size: 16px;
+     flex: 1;
+-    min-width: 150px;  /* Min width for responsive view */
++    min-width: 150px; /* Min width for responsive view */
+     transition: border-color 0.3s ease, transform 0.3s ease;
+ }
+ 
++
+ /* Input focus and hover states */
+ .search-input:focus,
+ .search-input:hover {
+-    border-color: #007bff;
++    border: none;
++    border-radius: 32px;
+     outline: none;
+     transform: scale(1.02);
+ }
+@@ -315,6 +327,7 @@
+ .guest-selector {
+     position: relative;
+     cursor: pointer;
++
+ }
+ 
+ /* Increase the width of the dropdown */
+@@ -441,14 +454,15 @@
+ 
+ /* Updated search button with purple and pink gradient */
+ .simple-search-button {
+-    background: linear-gradient(135deg, #9b4dca, #f06292); /* Purple to Pink gradient */
++    background: linear-gradient(135deg, #9a9aff, #80e0f4); /* Purple to Pink gradient */
++    height: 80%;
++
+     border: none;
+     border-radius: 50%;
+-    padding: 12px;
++    padding: 18px;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+     cursor: pointer;
+     transition: all 0.3s ease-in-out;
+ }
+Index: Front-End/airspace/package-lock.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Front-End/airspace/package-lock.json b/Front-End/airspace/package-lock.json
+--- a/Front-End/airspace/package-lock.json	(revision 44f193845ba7d1b788dc76a251b90f017f48b2b8)
++++ b/Front-End/airspace/package-lock.json	(date 1731609254465)
+@@ -8,8 +8,6 @@
+       "name": "airspace",
+       "version": "0.1.0",
+       "dependencies": {
+-        "@chakra-ui/icons": "^2.2.4",
+-        "@chakra-ui/react": "^3.1.1",
+         "@emotion/react": "^11.13.3",
+         "@emotion/styled": "^11.13.0",
+         "@fortawesome/fontawesome-svg-core": "^6.6.0",
+@@ -63,66 +61,6 @@
+         "node": ">=6.0.0"
+       }
+     },
+-    "node_modules/@ark-ui/react": {
+-      "version": "4.1.2",
+-      "resolved": "https://registry.npmjs.org/@ark-ui/react/-/react-4.1.2.tgz",
+-      "integrity": "sha512-7Y8NToONNbfDngQh15GNzn4i4RLJTRRmXm9tXB09a1nKbuYICbxFcX+5IgdhvRudoIFR9r2sCbeEy69I6T13gg==",
+-      "dependencies": {
+-        "@internationalized/date": "3.5.6",
+-        "@zag-js/accordion": "0.74.2",
+-        "@zag-js/anatomy": "0.74.2",
+-        "@zag-js/avatar": "0.74.2",
+-        "@zag-js/carousel": "0.74.2",
+-        "@zag-js/checkbox": "0.74.2",
+-        "@zag-js/clipboard": "0.74.2",
+-        "@zag-js/collapsible": "0.74.2",
+-        "@zag-js/collection": "0.74.2",
+-        "@zag-js/color-picker": "0.74.2",
+-        "@zag-js/color-utils": "0.74.2",
+-        "@zag-js/combobox": "0.74.2",
+-        "@zag-js/core": "0.74.2",
+-        "@zag-js/date-picker": "0.74.2",
+-        "@zag-js/date-utils": "0.74.2",
+-        "@zag-js/dialog": "0.74.2",
+-        "@zag-js/dom-query": "0.74.2",
+-        "@zag-js/editable": "0.74.2",
+-        "@zag-js/file-upload": "0.74.2",
+-        "@zag-js/file-utils": "0.74.2",
+-        "@zag-js/highlight-word": "0.74.2",
+-        "@zag-js/hover-card": "0.74.2",
+-        "@zag-js/i18n-utils": "0.74.2",
+-        "@zag-js/menu": "0.74.2",
+-        "@zag-js/number-input": "0.74.2",
+-        "@zag-js/pagination": "0.74.2",
+-        "@zag-js/pin-input": "0.74.2",
+-        "@zag-js/popover": "0.74.2",
+-        "@zag-js/presence": "0.74.2",
+-        "@zag-js/progress": "0.74.2",
+-        "@zag-js/qr-code": "0.74.2",
+-        "@zag-js/radio-group": "0.74.2",
+-        "@zag-js/rating-group": "0.74.2",
+-        "@zag-js/react": "0.74.2",
+-        "@zag-js/select": "0.74.2",
+-        "@zag-js/signature-pad": "0.74.2",
+-        "@zag-js/slider": "0.74.2",
+-        "@zag-js/splitter": "0.74.2",
+-        "@zag-js/steps": "0.74.2",
+-        "@zag-js/switch": "0.74.2",
+-        "@zag-js/tabs": "0.74.2",
+-        "@zag-js/tags-input": "0.74.2",
+-        "@zag-js/time-picker": "0.74.2",
+-        "@zag-js/timer": "0.74.2",
+-        "@zag-js/toast": "0.74.2",
+-        "@zag-js/toggle-group": "0.74.2",
+-        "@zag-js/tooltip": "0.74.2",
+-        "@zag-js/tree-view": "0.74.2",
+-        "@zag-js/types": "0.74.2"
+-      },
+-      "peerDependencies": {
+-        "react": ">=18.0.0",
+-        "react-dom": ">=18.0.0"
+-      }
+-    },
+     "node_modules/@babel/code-frame": {
+       "version": "7.26.2",
+       "resolved": "https://registry.npmjs.org/@babel/code-frame/-/code-frame-7.26.2.tgz",
+@@ -2036,35 +1974,6 @@
+       "resolved": "https://registry.npmjs.org/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz",
+       "integrity": "sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw=="
+     },
+-    "node_modules/@chakra-ui/icons": {
+-      "version": "2.2.4",
+-      "resolved": "https://registry.npmjs.org/@chakra-ui/icons/-/icons-2.2.4.tgz",
+-      "integrity": "sha512-l5QdBgwrAg3Sc2BRqtNkJpfuLw/pWRDwwT58J6c4PqQT6wzXxyNa8Q0PForu1ltB5qEiFb1kxr/F/HO1EwNa6g==",
+-      "peerDependencies": {
+-        "@chakra-ui/react": ">=2.0.0",
+-        "react": ">=18"
+-      }
+-    },
+-    "node_modules/@chakra-ui/react": {
+-      "version": "3.1.1",
+-      "resolved": "https://registry.npmjs.org/@chakra-ui/react/-/react-3.1.1.tgz",
+-      "integrity": "sha512-n7sDBwr99nUNJiLYy6WOIXZr5Sn9W5myo982MGuo5GieFxrP40uH8VyXbq9XaQk+KiZiF4PleQd4R/7yG597RA==",
+-      "dependencies": {
+-        "@ark-ui/react": "4.1.2",
+-        "@emotion/is-prop-valid": "1.3.1",
+-        "@emotion/serialize": "1.3.2",
+-        "@emotion/use-insertion-effect-with-fallbacks": "1.1.0",
+-        "@emotion/utils": "1.4.1",
+-        "@pandacss/is-valid-prop": "0.41.0",
+-        "@zag-js/anatomy": "0.74.2",
+-        "csstype": "3.1.3"
+-      },
+-      "peerDependencies": {
+-        "@emotion/react": ">=11",
+-        "react": ">=18",
+-        "react-dom": ">=18"
+-      }
+-    },
+     "node_modules/@csstools/normalize.css": {
+       "version": "12.1.1",
+       "resolved": "https://registry.npmjs.org/@csstools/normalize.css/-/normalize.css-12.1.1.tgz",
+@@ -2673,22 +2582,6 @@
+       "integrity": "sha512-93zYdMES/c1D69yZiKDBj0V24vqNzB/koF26KPaagAfd3P/4gUlh3Dys5ogAK+Exi9QyzlD8x/08Zt7wIKcDcA==",
+       "deprecated": "Use @eslint/object-schema instead"
+     },
+-    "node_modules/@internationalized/date": {
+-      "version": "3.5.6",
+-      "resolved": "https://registry.npmjs.org/@internationalized/date/-/date-3.5.6.tgz",
+-      "integrity": "sha512-jLxQjefH9VI5P9UQuqB6qNKnvFt1Ky1TPIzHGsIlCi7sZZoMR8SdYbBGRvM0y+Jtb+ez4ieBzmiAUcpmPYpyOw==",
+-      "dependencies": {
+-        "@swc/helpers": "^0.5.0"
+-      }
+-    },
+-    "node_modules/@internationalized/number": {
+-      "version": "3.5.3",
+-      "resolved": "https://registry.npmjs.org/@internationalized/number/-/number-3.5.3.tgz",
+-      "integrity": "sha512-rd1wA3ebzlp0Mehj5YTuTI50AQEx80gWFyHcQu+u91/5NgdwBecO8BH6ipPfE+lmQ9d63vpB3H9SHoIUiupllw==",
+-      "dependencies": {
+-        "@swc/helpers": "^0.5.0"
+-      }
+-    },
+     "node_modules/@isaacs/cliui": {
+       "version": "8.0.2",
+       "resolved": "https://registry.npmjs.org/@isaacs/cliui/-/cliui-8.0.2.tgz",
+@@ -3457,11 +3350,6 @@
+         "node": ">= 8"
+       }
+     },
+-    "node_modules/@pandacss/is-valid-prop": {
+-      "version": "0.41.0",
+-      "resolved": "https://registry.npmjs.org/@pandacss/is-valid-prop/-/is-valid-prop-0.41.0.tgz",
+-      "integrity": "sha512-BE6h6CsJk14ugIRrsazJtN3fcg+KDFRat1Bs93YFKH6jd4DOb1yUyVvC70jKqPVvg70zEcV8acZ7VdcU5TLu+w=="
+-    },
+     "node_modules/@pkgjs/parseargs": {
+       "version": "0.11.0",
+       "resolved": "https://registry.npmjs.org/@pkgjs/parseargs/-/parseargs-0.11.0.tgz",
+@@ -5135,767 +5023,6 @@
+       "resolved": "https://registry.npmjs.org/@xtuc/long/-/long-4.2.2.tgz",
+       "integrity": "sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ=="
+     },
+-    "node_modules/@zag-js/accordion": {
+-      "version": "0.74.2",
+-      "resolved": "https://registry.npmjs.org/@zag-js/accordion/-/accordion-0.74.2.tgz",
+-      "integrity": "sha512-0E6LpQgmcbDe12akh2sKYVvk+fwxVUwjVdclj8ntzlkAYy8PNTTbd9kfNB6rX9+lJUXk/Iqb5+Qgy9RjWplnNw==",
+-      "dependencies": {
+-        "@zag-js/anatomy": "0.74.2",
+-        "@zag-js/core": "0.74.2",
+-        "@zag-js/dom-event": "0.74.2",
+-        "@zag-js/dom-query": "0.74.2",
+-        "@zag-js/types": "0.74.2",
+-        "@zag-js/utils": "0.74.2"
+-      }
+-    },
+-    "node_modules/@zag-js/anatomy": {
+-      "version": "0.74.2",
+-      "resolved": "https://registry.npmjs.org/@zag-js/anatomy/-/anatomy-0.74.2.tgz",
+-      "integrity": "sha512-wIJQGBiSHYB94UA7k7o4a8xbyqDwIQ0dG52xcD7+eV1ypT+dP+BtxQKmS5w06aghNdHs8b4F2hVLDVSdyLqRkQ=="
+-    },
+-    "node_modules/@zag-js/aria-hidden": {
+-      "version": "0.74.2",
+-      "resolved": "https://registry.npmjs.org/@zag-js/aria-hidden/-/aria-hidden-0.74.2.tgz",
+-      "integrity": "sha512-F4dkdLZ3Qeu6Er9rwl8IWEAdhAjcOTRKsE1Otoi0SKjcQKlQfLTPutVDVaZQxz1ZNXNlyq3YUgFE+EiwMV7jxA==",
+-      "dependencies": {
+-        "aria-hidden": "1.2.4"
+-      }
+-    },
+-    "node_modules/@zag-js/auto-resize": {
+-      "version": "0.74.2",
+-      "resolved": "https://registry.npmjs.org/@zag-js/auto-resize/-/auto-resize-0.74.2.tgz",
+-      "integrity": "sha512-h7gR3LCcxgURg/Xz4IoI4ccN/A+u63zNT8HoXjBWezy050YsItj20q2Yelm6ADT9qcbC+a6W83j4C43ejy5Q5w==",
+-      "dependencies": {
+-        "@zag-js/dom-query": "0.74.2"
+-      }
+-    },
+-    "node_modules/@zag-js/avatar": {
+-      "version": "0.74.2",
+-      "resolved": "https://registry.npmjs.org/@zag-js/avatar/-/avatar-0.74.2.tgz",
+-      "integrity": "sha512-Ctk/r+rbA0ZvdORRKyLMvtxxulda5m0moa5NtT2TuZe3WlTmJRYBMlSQzXwfOAXCjQlLp+zkeyyriP441sm9OQ==",
+-      "dependencies": {
+-        "@zag-js/anatomy": "0.74.2",
+-        "@zag-js/core": "0.74.2",
+-        "@zag-js/dom-query": "0.74.2",
+-        "@zag-js/types": "0.74.2",
+-        "@zag-js/utils": "0.74.2"
+-      }
+-    },
+-    "node_modules/@zag-js/carousel": {
+-      "version": "0.74.2",
+-      "resolved": "https://registry.npmjs.org/@zag-js/carousel/-/carousel-0.74.2.tgz",
+-      "integrity": "sha512-EAM3hHXlC5HNcT7D2IaX7p4aOaXLaLYkSCJcMqqo9H3CxVWa7Kfw00yTG1Z0HcRNKiPYTBF/W9fqtHwfpa5s+w==",
+-      "dependencies": {
+-        "@zag-js/anatomy": "0.74.2",
+-        "@zag-js/core": "0.74.2",
+-        "@zag-js/dom-query": "0.74.2",
+-        "@zag-js/types": "0.74.2",
+-        "@zag-js/utils": "0.74.2"
+-      }
+-    },
+-    "node_modules/@zag-js/checkbox": {
+-      "version": "0.74.2",
+-      "resolved": "https://registry.npmjs.org/@zag-js/checkbox/-/checkbox-0.74.2.tgz",
+-      "integrity": "sha512-bmF1I179fhEvEXBJU5yzHi+W2Oett0PUVUw2GFFzfIn6w0AgZKNIr8+NLtEWR0Wn0UELXNhLnBSqZC3j2jZHlA==",
+-      "dependencies": {
+-        "@zag-js/anatomy": "0.74.2",
+-        "@zag-js/core": "0.74.2",
+-        "@zag-js/dom-event": "0.74.2",
+-        "@zag-js/dom-query": "0.74.2",
+-        "@zag-js/focus-visible": "0.74.2",
+-        "@zag-js/form-utils": "0.74.2",
+-        "@zag-js/types": "0.74.2",
+-        "@zag-js/utils": "0.74.2"
+-      }
+-    },
+-    "node_modules/@zag-js/clipboard": {
+-      "version": "0.74.2",
+-      "resolved": "https://registry.npmjs.org/@zag-js/clipboard/-/clipboard-0.74.2.tgz",
+-      "integrity": "sha512-0D7sIBilV+KTMwArmfa73uJUtDbAqHH3g5o3RFJ+RYpAIYQTINGLw13tsmUK7xQ8gd6M8ARAcAv1khZdwO4ykA==",
+-      "dependencies": {
+-        "@zag-js/anatomy": "0.74.2",
+-        "@zag-js/core": "0.74.2",
+-        "@zag-js/dom-query": "0.74.2",
+-        "@zag-js/types": "0.74.2",
+-        "@zag-js/utils": "0.74.2"
+-      }
+-    },
+-    "node_modules/@zag-js/collapsible": {
+-      "version": "0.74.2",
+-      "resolved": "https://registry.npmjs.org/@zag-js/collapsible/-/collapsible-0.74.2.tgz",
+-      "integrity": "sha512-wZI57xWU2tlcJDPlQBUyBxg39PUkY12H6MKcf/+1KBOpJiWc87+4HDBCVSt31diUAhJwcbNsYFwJg3BA4vTw7Q==",
+-      "dependencies": {
+-        "@zag-js/anatomy": "0.74.2",
+-        "@zag-js/core": "0.74.2",
+-        "@zag-js/dom-query": "0.74.2",
+-        "@zag-js/types": "0.74.2",
+-        "@zag-js/utils": "0.74.2"
+-      }
+-    },
+-    "node_modules/@zag-js/collection": {
+-      "version": "0.74.2",
+-      "resolved": "https://registry.npmjs.org/@zag-js/collection/-/collection-0.74.2.tgz",
+-      "integrity": "sha512-8Ls5TR1kKPLDucuJJ0kuwJ45jOEzhcVN4T/mbkShUrgRSB4FrcNzwdpMrKqidNz8OrtphgYYcn3xx/gGUIHLRQ==",
+-      "dependencies": {
+-        "@zag-js/utils": "0.74.2"
+-      }
+-    },
+-    "node_modules/@zag-js/color-picker": {
+-      "version": "0.74.2",
+-      "resolved": "https://registry.npmjs.org/@zag-js/color-picker/-/color-picker-0.74.2.tgz",
+-      "integrity": "sha512-l5YAxXjSNWT++gCBLkP/qKwdHpNSxZYGdLU5f1fNupFSSZgZlNTz99ArxsypqFrJKTVvPjDSoOhjG4BeKHAAdg==",
+-      "dependencies": {
+-        "@zag-js/anatomy": "0.74.2",
+-        "@zag-js/color-utils": "0.74.2",
+-        "@zag-js/core": "0.74.2",
+-        "@zag-js/dismissable": "0.74.2",
+-        "@zag-js/dom-event": "0.74.2",
+-        "@zag-js/dom-query": "0.74.2",
+-        "@zag-js/form-utils": "0.74.2",
+-        "@zag-js/popper": "0.74.2",
+-        "@zag-js/text-selection": "0.74.2",
+-        "@zag-js/types": "0.74.2",
+-        "@zag-js/utils": "0.74.2"
+-      }
+-    },
+-    "node_modules/@zag-js/color-utils": {
+-      "version": "0.74.2",
+-      "resolved": "https://registry.npmjs.org/@zag-js/color-utils/-/color-utils-0.74.2.tgz",
+-      "integrity": "sha512-yoavZXIGuVXi/QCO89hBu9Ni0xH7o8ZcDFX/CIjr3S9sI3fjNak9efkfPFx0Ooo9x0Fvz8mpu+DPB2uk7voXDA==",
+-      "dependencies": {
+-        "@zag-js/numeric-range": "0.74.2"
+-      }
+-    },
+-    "node_modules/@zag-js/combobox": {
+-      "version": "0.74.2",
+-      "resolved": "https://registry.npmjs.org/@zag-js/combobox/-/combobox-0.74.2.tgz",
+-      "integrity": "sha512-NqG2R01NjZz5a3hGYI0Ok7MNM7OkMlYlTI5fJXDgkkhgXi5Mk87R4+AQNjP7xzSEI35rSlVIJt4ecW59cklHng==",
+-      "dependencies": {
+-        "@zag-js/anatomy": "0.74.2",
+-        "@zag-js/aria-hidden": "0.74.2",
+-        "@zag-js/collection": "0.74.2",
+-        "@zag-js/core": "0.74.2",
+-        "@zag-js/dismissable": "0.74.2",
+-        "@zag-js/dom-event": "0.74.2",
+-        "@zag-js/dom-query": "0.74.2",
+-        "@zag-js/popper": "0.74.2",
+-        "@zag-js/types": "0.74.2",
+-        "@zag-js/utils": "0.74.2"
+-      }
+-    },
+-    "node_modules/@zag-js/core": {
+-      "version": "0.74.2",
+-      "resolved": "https://registry.npmjs.org/@zag-js/core/-/core-0.74.2.tgz",
+-      "integrity": "sha512-UAnj9WJdFYeTxbwSCdX8zRYhtLvlJqfqy9cn2NEugpxf+9W/GA89JzH1ZdKLyVJUIuIPoqGd4ZaAgv2p64DZ1Q==",
+-      "dependencies": {
+-        "@zag-js/store": "0.74.2",
+-        "@zag-js/utils": "0.74.2",
+-        "klona": "2.0.6"
+-      }
+-    },
+-    "node_modules/@zag-js/date-picker": {
+-      "version": "0.74.2",
+-      "resolved": "https://registry.npmjs.org/@zag-js/date-picker/-/date-picker-0.74.2.tgz",
+-      "integrity": "sha512-iIVQLEAV1FKM+aB7v7Xk5o4w95vdmJhe3aTYDxc6Xo+Fw4tsdUmg/UtQ1ScPzbagBo8Cut2krvkG/8SrlCRMyw==",
+-      "dependencies": {
+-        "@zag-js/anatomy": "0.74.2",
+-        "@zag-js/core": "0.74.2",
+-        "@zag-js/date-utils": "0.74.2",
+-        "@zag-js/dismissable": "0.74.2",
+-        "@zag-js/dom-event": "0.74.2",
+-        "@zag-js/dom-query": "0.74.2",
+-        "@zag-js/form-utils": "0.74.2",
+-        "@zag-js/live-region": "0.74.2",
+-        "@zag-js/popper": "0.74.2",
+-        "@zag-js/text-selection": "0.74.2",
+-        "@zag-js/types": "0.74.2",
+-        "@zag-js/utils": "0.74.2"
+-      },
+-      "peerDependencies": {
+-        "@internationalized/date": ">=3.0.0"
+-      }
+-    },
+-    "node_modules/@zag-js/date-utils": {
+-      "version": "0.74.2",
+-      "resolved": "https://registry.npmjs.org/@zag-js/date-utils/-/date-utils-0.74.2.tgz",
+-      "integrity": "sha512-Pb7FggFOTzCTyo+ap4uuA6vBFrYDSoqW/sMI6kwuOBWL3IjFKfmmSVaem6MYycycWN8d7on4IOp0muWCcJaDUQ==",
+-      "peerDependencies": {
+-        "@internationalized/date": ">=3.0.0"
+-      }
+-    },
+-    "node_modules/@zag-js/dialog": {
+-      "version": "0.74.2",
+-      "resolved": "https://registry.npmjs.org/@zag-js/dialog/-/dialog-0.74.2.tgz",
+-      "integrity": "sha512-2kYqFSqpa1SShS2Z8cVqtoOML3uiwIUOZxNVKIea3ItdlMTqHJI+X/NudFvgpUvVj4NMLbUhwIgC+jN2SWDL7g==",
+-      "dependencies": {
+-        "@zag-js/anatomy": "0.74.2",
+-        "@zag-js/aria-hidden": "0.74.2",
+-        "@zag-js/core": "0.74.2",
+-        "@zag-js/dismissable": "0.74.2",
+-        "@zag-js/dom-query": "0.74.2",
+-        "@zag-js/remove-scroll": "0.74.2",
+-        "@zag-js/types": "0.74.2",
+-        "@zag-js/utils": "0.74.2",
+-        "focus-trap": "7.6.0"
+-      }
+-    },
+-    "node_modules/@zag-js/dismissable": {
+-      "version": "0.74.2",
+-      "resolved": "https://registry.npmjs.org/@zag-js/dismissable/-/dismissable-0.74.2.tgz",
+-      "integrity": "sha512-Wl6n1lW1eTKKu5Kg+6jum9nZDXYGA86XL24Rip2aOScrAo2UGCA+nSIgg7GGO5qGs52iawITba38tAe6maZQLw==",
+-      "dependencies": {
+-        "@zag-js/dom-event": "0.74.2",
+-        "@zag-js/dom-query": "0.74.2",
+-        "@zag-js/interact-outside": "0.74.2",
+-        "@zag-js/utils": "0.74.2"
+-      }
+-    },
+-    "node_modules/@zag-js/dom-event": {
+-      "version": "0.74.2",
+-      "resolved": "https://registry.npmjs.org/@zag-js/dom-event/-/dom-event-0.74.2.tgz",
+-      "integrity": "sha512-duuwxowflkY7UUI+1vHr9ttzqn2JtJ+mgAS0cBeNmqtvK6XrNaHSrm0B4u4R/KIJ73Tx8TZGbmgN9Vwj/U2FrA==",
+-      "dependencies": {
+-        "@zag-js/dom-query": "0.74.2",
+-        "@zag-js/text-selection": "0.74.2",
+-        "@zag-js/types": "0.74.2"
+-      }
+-    },
+-    "node_modules/@zag-js/dom-query": {
+-      "version": "0.74.2",
+-      "resolved": "https://registry.npmjs.org/@zag-js/dom-query/-/dom-query-0.74.2.tgz",
+-      "integrity": "sha512-g+7wIdhT1nlY5yhQWoMDzin8uYoBXeQk8TNUj3GZH/1dTX9YC0vs7vz7rotzunLkEA7nEGfLNzdO5CRQBhGp0w=="
+-    },
+-    "node_modules/@zag-js/editable": {
+-      "version": "0.74.2",
+-      "resolved": "https://registry.npmjs.org/@zag-js/editable/-/editable-0.74.2.tgz",
+-      "integrity": "sha512-SXSaAmaqvhFPJmX25tz487skF+GTIGAmp0Y6iHqDUsUh0qDncUPOr90M+kFtud/6YUPFkzEpKQtmeczJR0LURw==",
+-      "dependencies": {
+-        "@zag-js/anatomy": "0.74.2",
+-        "@zag-js/core": "0.74.2",
+-        "@zag-js/dom-event": "0.74.2",
+-        "@zag-js/dom-query": "0.74.2",
+-        "@zag-js/form-utils": "0.74.2",
+-        "@zag-js/interact-outside": "0.74.2",
+-        "@zag-js/types": "0.74.2",
+-        "@zag-js/utils": "0.74.2"
+-      }
+-    },
+-    "node_modules/@zag-js/element-rect": {
+-      "version": "0.74.2",
+-      "resolved": "https://registry.npmjs.org/@zag-js/element-rect/-/element-rect-0.74.2.tgz",
+-      "integrity": "sha512-FK+bQ4nhdcR52868uE0rlmmq4+un5P++WDoe6S4Aldrx7FJS2XTtWMBdx09zBe48DvUYjGM4o3RbuxbCQoD0BQ=="
+-    },
+-    "node_modules/@zag-js/element-size": {
+-      "version": "0.74.2",
+-      "resolved": "https://registry.npmjs.org/@zag-js/element-size/-/element-size-0.74.2.tgz",
+-      "integrity": "sha512-mqw0PLdPs17zrolZBlsYby5kUfo8+QpaU/HAVQavnHQZwNiX4CRBvG1YeqSP699Mvh6QDKc0JhchwAfh+eGGnA=="
+-    },
+-    "node_modules/@zag-js/file-upload": {
+-      "version": "0.74.2",
+-      "resolved": "https://registry.npmjs.org/@zag-js/file-upload/-/file-upload-0.74.2.tgz",
+-      "integrity": "sha512-VVko5ojAoRQsalsaQxGwTt5ONcYaHuw6yFL/HqPKNzGyyG8zPBl0nRGMSZQprTyUSMDtsxNp8ydL1cbauDqU3Q==",
+-      "dependencies": {
+-        "@zag-js/anatomy": "0.74.2",
+-        "@zag-js/core": "0.74.2",
+-        "@zag-js/dom-query": "0.74.2",
+-        "@zag-js/file-utils": "0.74.2",
+-        "@zag-js/i18n-utils": "0.74.2",
+-        "@zag-js/types": "0.74.2",
+-        "@zag-js/utils": "0.74.2"
+-      }
+-    },
+-    "node_modules/@zag-js/file-utils": {
+-      "version": "0.74.2",
+-      "resolved": "https://registry.npmjs.org/@zag-js/file-utils/-/file-utils-0.74.2.tgz",
+-      "integrity": "sha512-pTyU33Ag7533X3/RCBvfbGBHFMncg5x2/3n1htSxEVLIIHxbRvvDab2IN550n3OIjMzBLfM4xjNu1R87ed2hlQ==",
+-      "dependencies": {
+-        "@zag-js/i18n-utils": "0.74.2"
+-      }
+-    },
+-    "node_modules/@zag-js/focus-visible": {
+-      "version": "0.74.2",
+-      "resolved": "https://registry.npmjs.org/@zag-js/focus-visible/-/focus-visible-0.74.2.tgz",
+-      "integrity": "sha512-CO5x3uCGKgigQ91S3c3vy/KEKyXK+eTveIzprFTxlQs4Zu2qMe/nJCIhIkG54fhvW/a5F9wY7Ox1f8hGZ1Z1fA==",
+-      "dependencies": {
+-        "@zag-js/dom-query": "0.74.2"
+-      }
+-    },
+-    "node_modules/@zag-js/form-utils": {
+-      "version": "0.74.2",
+-      "resolved": "https://registry.npmjs.org/@zag-js/form-utils/-/form-utils-0.74.2.tgz",
+-      "integrity": "sha512-LPaZfDhQmhyL4fMMKm4gZGUg6vwcSzaHOVlQHdAR8yoSqvO4yXEdxr2xz4civNNknD0crST2erfexGHEY6Oa/Q=="
+-    },
+-    "node_modules/@zag-js/highlight-word": {
+-      "version": "0.74.2",
+-      "resolved": "https://registry.npmjs.org/@zag-js/highlight-word/-/highlight-word-0.74.2.tgz",
+-      "integrity": "sha512-zuy2E62F/w3G94kh4l3iEAtNxqwuAdNkMwcS8EhT6mnzNcf4BgzW7Ne+O1fRb4IGazZwHPaWC0rYdTUuErK9IA=="
+-    },
+-    "node_modules/@zag-js/hover-card": {
+-      "version": "0.74.2",
+-      "resolved": "https://registry.npmjs.org/@zag-js/hover-card/-/hover-card-0.74.2.tgz",
+-      "integrity": "sha512-Li1lrePYcTC2UqAP/oOLcK4syyBomTmAp06CJukSXpGcYe6qUD4CqhLva0qYjvZ6SKaB9Y3BryD9RTjFvZOuZA==",
+-      "dependencies": {
+-        "@zag-js/anatomy": "0.74.2",
+-        "@zag-js/core": "0.74.2",
+-        "@zag-js/dismissable": "0.74.2",
+-        "@zag-js/dom-query": "0.74.2",
+-        "@zag-js/popper": "0.74.2",
+-        "@zag-js/types": "0.74.2",
+-        "@zag-js/utils": "0.74.2"
+-      }
+-    },
+-    "node_modules/@zag-js/i18n-utils": {
+-      "version": "0.74.2",
+-      "resolved": "https://registry.npmjs.org/@zag-js/i18n-utils/-/i18n-utils-0.74.2.tgz",
+-      "integrity": "sha512-S+ZJ3OFUtCoUdKkDfiF3sgXr+98rhVV+BmHgfAiEYRQA7RjeHDB3jX+eBbeZTLFqvHGtaGWCRE3knto3Ed7YvQ==",
+-      "dependencies": {
+-        "@zag-js/dom-query": "0.74.2"
+-      }
+-    },
+-    "node_modules/@zag-js/interact-outside": {
+-      "version": "0.74.2",
+-      "resolved": "https://registry.npmjs.org/@zag-js/interact-outside/-/interact-outside-0.74.2.tgz",
+-      "integrity": "sha512-58ilkSC2UQw9PsFo4HKBrYcWC1+WRA8M6MqNf9MnxxOvAq+Y8APH0I6ExxAfUhLsk9v+6kPf0txM9MDoB0iNFA==",
+-      "dependencies": {
+-        "@zag-js/dom-event": "0.74.2",
+-        "@zag-js/dom-query": "0.74.2",
+-        "@zag-js/utils": "0.74.2"
+-      }
+-    },
+-    "node_modules/@zag-js/live-region": {
+-      "version": "0.74.2",
+-      "resolved": "https://registry.npmjs.org/@zag-js/live-region/-/live-region-0.74.2.tgz",
+-      "integrity": "sha512-l9cipG1hykvSWIbKc3/3imFQ+Sp3u2VjZirmdM2K9julo7DKxU3r63aQI2s6SpD4tfQPq4AcoXqzZBF0RnQRUg=="
+-    },
+-    "node_modules/@zag-js/menu": {
+-      "version": "0.74.2",
+-      "resolved": "https://registry.npmjs.org/@zag-js/menu/-/menu-0.74.2.tgz",
+-      "integrity": "sha512-dEBerxdgPH4dGWEbFM/aY8zYtUAQL7hopv4iWPHv1NMFhWu7IShmKe2xm/4ZSKaOkiWZ2CJyMI0oHr+qQ+ZhWg==",
+-      "dependencies": {
+-        "@zag-js/anatomy": "0.74.2",
+-        "@zag-js/core": "0.74.2",
+-        "@zag-js/dismissable": "0.74.2",
+-        "@zag-js/dom-event": "0.74.2",
+-        "@zag-js/dom-query": "0.74.2",
+-        "@zag-js/popper": "0.74.2",
+-        "@zag-js/rect-utils": "0.74.2",
+-        "@zag-js/types": "0.74.2",
+-        "@zag-js/utils": "0.74.2"
+-      }
+-    },
+-    "node_modules/@zag-js/number-input": {
+-      "version": "0.74.2",
+-      "resolved": "https://registry.npmjs.org/@zag-js/number-input/-/number-input-0.74.2.tgz",
+-      "integrity": "sha512-I889jfoTiKX9gRbyZCgKDyBj1+VgFCKyELbFVJhgnWQhip4MLjzI0YjWWp/wgHs/ZwEBaxvy6CRq1KOtvGkQNg==",
+-      "dependencies": {
+-        "@internationalized/number": "3.5.3",
+-        "@zag-js/anatomy": "0.74.2",
+-        "@zag-js/core": "0.74.2",
+-        "@zag-js/dom-event": "0.74.2",
+-        "@zag-js/dom-query": "0.74.2",
+-        "@zag-js/form-utils": "0.74.2",
+-        "@zag-js/number-utils": "0.74.2",
+-        "@zag-js/types": "0.74.2",
+-        "@zag-js/utils": "0.74.2"
+-      }
+-    },
+-    "node_modules/@zag-js/number-utils": {
+-      "version": "0.74.2",
+-      "resolved": "https://registry.npmjs.org/@zag-js/number-utils/-/number-utils-0.74.2.tgz",
+-      "integrity": "sha512-wNaixDQDotwUUKtpA524tfDvsiQQroDFZYFPZfnwKq89rPT0Zlh8LMKLL/Mfi32Zqp8UP9srdcMEy1XEGrIiNA=="
+-    },
+-    "node_modules/@zag-js/numeric-range": {
+-      "version": "0.74.2",
+-      "resolved": "https://registry.npmjs.org/@zag-js/numeric-range/-/numeric-range-0.74.2.tgz",
+-      "integrity": "sha512-sm2xlc03Zy4DdCRNmr7jUgL9s34rK0bVDezn35TCq3QMPWQndIlsCbywcmxqxxtUymwnSwizWenZaWVlspFlgg=="
+-    },
+-    "node_modules/@zag-js/pagination": {
+-      "version": "0.74.2",
+-      "resolved": "https://registry.npmjs.org/@zag-js/pagination/-/pagination-0.74.2.tgz",
+-      "integrity": "sha512-aqwqxHrgvfm6rAcxIRTSRFaWA9/UCQGiLP+P01Hg+/+IkVJeJIdxN10ImSOL4Sl9zvsu3jVCXg6xLh4ydnaWqw==",
+-      "dependencies": {
+-        "@zag-js/anatomy": "0.74.2",
+-        "@zag-js/core": "0.74.2",
+-        "@zag-js/dom-query": "0.74.2",
+-        "@zag-js/types": "0.74.2",
+-        "@zag-js/utils": "0.74.2"
+-      }
+-    },
+-    "node_modules/@zag-js/pin-input": {
+-      "version": "0.74.2",
+-      "resolved": "https://registry.npmjs.org/@zag-js/pin-input/-/pin-input-0.74.2.tgz",
+-      "integrity": "sha512-1LxK/VSU8t9w9/c726gZNHXnawU4SnN0DxsYQa4YxN1RDwFp/RwKp0hLAsunKx7yBdyC1VVyqVPYZdZYQotdQg==",
+-      "dependencies": {
+-        "@zag-js/anatomy": "0.74.2",
+-        "@zag-js/core": "0.74.2",
+-        "@zag-js/dom-event": "0.74.2",
+-        "@zag-js/dom-query": "0.74.2",
+-        "@zag-js/form-utils": "0.74.2",
+-        "@zag-js/types": "0.74.2",
+-        "@zag-js/utils": "0.74.2"
+-      }
+-    },
+-    "node_modules/@zag-js/popover": {
+-      "version": "0.74.2",
+-      "resolved": "https://registry.npmjs.org/@zag-js/popover/-/popover-0.74.2.tgz",
+-      "integrity": "sha512-B0U2/XJ630kWYY1x5UTBMxXjy2EfbH9T3eRQlSXZS/uToEzvhsYvw/YaIRqyvYxPyrnmB72to6r5Kw8omryw4Q==",
+-      "dependencies": {
+-        "@zag-js/anatomy": "0.74.2",
+-        "@zag-js/aria-hidden": "0.74.2",
+-        "@zag-js/core": "0.74.2",
+-        "@zag-js/dismissable": "0.74.2",
+-        "@zag-js/dom-query": "0.74.2",
+-        "@zag-js/popper": "0.74.2",
+-        "@zag-js/remove-scroll": "0.74.2",
+-        "@zag-js/types": "0.74.2",
+-        "@zag-js/utils": "0.74.2",
+-        "focus-trap": "7.6.0"
+-      }
+-    },
+-    "node_modules/@zag-js/popper": {
+-      "version": "0.74.2",
+-      "resolved": "https://registry.npmjs.org/@zag-js/popper/-/popper-0.74.2.tgz",
+-      "integrity": "sha512-gsS32rxw+bSKOLOtF/VPNNafzO/fEU58OYIfM7yA4swrEupUqdfAF/ihNH+Uj/AZQKj2tnwLTR1fJ1w3czpY9w==",
+-      "dependencies": {
+-        "@floating-ui/dom": "1.6.11",
+-        "@zag-js/dom-query": "0.74.2",
+-        "@zag-js/utils": "0.74.2"
+-      }
+-    },
+-    "node_modules/@zag-js/popper/node_modules/@floating-ui/dom": {
+-      "version": "1.6.11",
+-      "resolved": "https://registry.npmjs.org/@floating-ui/dom/-/dom-1.6.11.tgz",
+-      "integrity": "sha512-qkMCxSR24v2vGkhYDo/UzxfJN3D4syqSjyuTFz6C7XcpU1pASPRieNI0Kj5VP3/503mOfYiGY891ugBX1GlABQ==",
+-      "dependencies": {
+-        "@floating-ui/core": "^1.6.0",
+-        "@floating-ui/utils": "^0.2.8"
+-      }
+-    },
+-    "node_modules/@zag-js/presence": {
+-      "version": "0.74.2",
+-      "resolved": "https://registry.npmjs.org/@zag-js/presence/-/presence-0.74.2.tgz",
+-      "integrity": "sha512-57eBd5C205jYUQ7Rsbft9YRy4euNDdxKDpdLdInqk8egf2vFaUWIV152pm5iOGRVidDGgcIunTFvHFCT1rbATQ==",
+-      "dependencies": {
+-        "@zag-js/core": "0.74.2",
+-        "@zag-js/types": "0.74.2"
+-      }
+-    },
+-    "node_modules/@zag-js/progress": {
+-      "version": "0.74.2",
+-      "resolved": "https://registry.npmjs.org/@zag-js/progress/-/progress-0.74.2.tgz",
+-      "integrity": "sha512-4LNhFP18g21ni4Hv0RQEYqcMhiyMzTsu1IPizy8I5l3mJvsV6b7w591K2iC4mybLynPBodvkl+fLKqKm3Z+1IA==",
+-      "dependencies": {
+-        "@zag-js/anatomy": "0.74.2",
+-        "@zag-js/core": "0.74.2",
+-        "@zag-js/dom-query": "0.74.2",
+-        "@zag-js/types": "0.74.2",
+-        "@zag-js/utils": "0.74.2"
+-      }
+-    },
+-    "node_modules/@zag-js/qr-code": {
+-      "version": "0.74.2",
+-      "resolved": "https://registry.npmjs.org/@zag-js/qr-code/-/qr-code-0.74.2.tgz",
+-      "integrity": "sha512-GHAmnHz9pdaP0c5/n4aPSo67Bk1Cvv9PIHuOKKLyalRcao/ARvtiS6371logfB1l9DHtMSARWaZXDrIdNZx/gQ==",
+-      "dependencies": {
+-        "@zag-js/anatomy": "0.74.2",
+-        "@zag-js/core": "0.74.2",
+-        "@zag-js/dom-query": "0.74.2",
+-        "@zag-js/types": "0.74.2",
+-        "@zag-js/utils": "0.74.2",
+-        "proxy-memoize": "3.0.1",
+-        "uqr": "0.1.2"
+-      }
+-    },
+-    "node_modules/@zag-js/radio-group": {
+-      "version": "0.74.2",
+-      "resolved": "https://registry.npmjs.org/@zag-js/radio-group/-/radio-group-0.74.2.tgz",
+-      "integrity": "sha512-Ntbi21CTqXIVMrGccVSefwCapACSTOy4XFDM9/piTLeRlfmNxsy7j9hl7EFBpovbe4WYLHjNQaL3MM+hXEjRRQ==",
+-      "dependencies": {
+-        "@zag-js/anatomy": "0.74.2",
+-        "@zag-js/core": "0.74.2",
+-        "@zag-js/dom-query": "0.74.2",
+-        "@zag-js/element-rect": "0.74.2",
+-        "@zag-js/focus-visible": "0.74.2",
+-        "@zag-js/form-utils": "0.74.2",
+-        "@zag-js/types": "0.74.2",
+-        "@zag-js/utils": "0.74.2"
+-      }
+-    },
+-    "node_modules/@zag-js/rating-group": {
+-      "version": "0.74.2",
+-      "resolved": "https://registry.npmjs.org/@zag-js/rating-group/-/rating-group-0.74.2.tgz",
+-      "integrity": "sha512-Yg30ph9YMy5g6TPHU9MD/NEheaz8qOsVVkefG2EvRVfO2ZGXJclqZHg8/TW8nzUGp3Mt/fAq0A7jfeKvJBcNng==",
+-      "dependencies": {
+-        "@zag-js/anatomy": "0.74.2",
+-        "@zag-js/core": "0.74.2",
+-        "@zag-js/dom-event": "0.74.2",
+-        "@zag-js/dom-query": "0.74.2",
+-        "@zag-js/form-utils": "0.74.2",
+-        "@zag-js/types": "0.74.2",
+-        "@zag-js/utils": "0.74.2"
+-      }
+-    },
+-    "node_modules/@zag-js/react": {
+-      "version": "0.74.2",
+-      "resolved": "https://registry.npmjs.org/@zag-js/react/-/react-0.74.2.tgz",
+-      "integrity": "sha512-Vli4cigN032dQM69Dr/2rR5FSSN+rzYJUiqAo3oNyvvWSSsgLvoNYcfltxY0Tah/PIftbF1NBUNYaUtv3OJgzA==",
+-      "dependencies": {
+-        "@zag-js/core": "0.74.2",
+-        "@zag-js/store": "0.74.2",
+-        "@zag-js/types": "0.74.2",
+-        "proxy-compare": "3.0.0"
+-      },
+-      "peerDependencies": {
+-        "react": ">=18.0.0",
+-        "react-dom": ">=18.0.0"
+-      }
+-    },
+-    "node_modules/@zag-js/rect-utils": {
+-      "version": "0.74.2",
+-      "resolved": "https://registry.npmjs.org/@zag-js/rect-utils/-/rect-utils-0.74.2.tgz",
+-      "integrity": "sha512-bG48u1NsWBRx/fTQfDFskOkwKzpROVhuzJQi/OtnugHQj1nFfZ5CMpEX3BPv5PGwvOia2ZDm84+e12WucFhr0g=="
+-    },
+-    "node_modules/@zag-js/remove-scroll": {
+-      "version": "0.74.2",
+-      "resolved": "https://registry.npmjs.org/@zag-js/remove-scroll/-/remove-scroll-0.74.2.tgz",
+-      "integrity": "sha512-aEuspeZ98eAEGlAfnCh0syzbmFnMuov9yJc8Ud//pbXd+96J7X1xa4TilHZ+ppm8IZZLGc91axXHwkbIINC1Qw==",
+-      "dependencies": {
+-        "@zag-js/dom-query": "0.74.2"
+-      }
+-    },
+-    "node_modules/@zag-js/select": {
+-      "version": "0.74.2",
+-      "resolved": "https://registry.npmjs.org/@zag-js/select/-/select-0.74.2.tgz",
+-      "integrity": "sha512-Xl3CV1ONpQG3Ah0sriiuCFHXuiuzYz9KQkmEapcE+O5kzLADheIvgFRQYiMdLCltEfSBSBJvPrRM08aGyQgSpw==",
+-      "dependencies": {
+-        "@zag-js/anatomy": "0.74.2",
+-        "@zag-js/collection": "0.74.2",
+-        "@zag-js/core": "0.74.2",
+-        "@zag-js/dismissable": "0.74.2",
+-        "@zag-js/dom-event": "0.74.2",
+-        "@zag-js/dom-query": "0.74.2",
+-        "@zag-js/form-utils": "0.74.2",
+-        "@zag-js/popper": "0.74.2",
+-        "@zag-js/types": "0.74.2",
+-        "@zag-js/utils": "0.74.2"
+-      }
+-    },
+-    "node_modules/@zag-js/signature-pad": {
+-      "version": "0.74.2",
+-      "resolved": "https://registry.npmjs.org/@zag-js/signature-pad/-/signature-pad-0.74.2.tgz",
+-      "integrity": "sha512-Ba5v3J/fQWVR81wvhHAfwbCjqJlv/15If0SCbKiTA879I5s9dZVYAkvibeGlIEK46SEKbeUpAewE/+eGgrrE6A==",
+-      "dependencies": {
+-        "@zag-js/anatomy": "0.74.2",
+-        "@zag-js/core": "0.74.2",
+-        "@zag-js/dom-event": "0.74.2",
+-        "@zag-js/dom-query": "0.74.2",
+-        "@zag-js/types": "0.74.2",
+-        "@zag-js/utils": "0.74.2",
+-        "perfect-freehand": "^1.2.2"
+-      }
+-    },
+-    "node_modules/@zag-js/slider": {
+-      "version": "0.74.2",
+-      "resolved": "https://registry.npmjs.org/@zag-js/slider/-/slider-0.74.2.tgz",
+-      "integrity": "sha512-aDuzKySgFOm/D0opDyQOo2KMWFN9ZHuF50rG5cfIgl9dzo447iJfLzObcpAwNpQJq5P7/q+23K+sh+/NRGoUbw==",
+-      "dependencies": {
+-        "@zag-js/anatomy": "0.74.2",
+-        "@zag-js/core": "0.74.2",
+-        "@zag-js/dom-event": "0.74.2",
+-        "@zag-js/dom-query": "0.74.2",
+-        "@zag-js/element-size": "0.74.2",
+-        "@zag-js/form-utils": "0.74.2",
+-        "@zag-js/numeric-range": "0.74.2",
+-        "@zag-js/types": "0.74.2",
+-        "@zag-js/utils": "0.74.2"
+-      }
+-    },
+-    "node_modules/@zag-js/splitter": {
+-      "version": "0.74.2",
+-      "resolved": "https://registry.npmjs.org/@zag-js/splitter/-/splitter-0.74.2.tgz",
+-      "integrity": "sha512-2PHBD4Y8h4ZcVphMWSDP6EsSamLYburQDDgJTSN5npcWsLu4iZ45T1U8bV0uICs+UJP9fko4YvjABrPv42asLQ==",
+-      "dependencies": {
+-        "@zag-js/anatomy": "0.74.2",
+-        "@zag-js/core": "0.74.2",
+-        "@zag-js/dom-event": "0.74.2",
+-        "@zag-js/dom-query": "0.74.2",
+-        "@zag-js/number-utils": "0.74.2",
+-        "@zag-js/types": "0.74.2",
+-        "@zag-js/utils": "0.74.2"
+-      }
+-    },
+-    "node_modules/@zag-js/steps": {
+-      "version": "0.74.2",
+-      "resolved": "https://registry.npmjs.org/@zag-js/steps/-/steps-0.74.2.tgz",
+-      "integrity": "sha512-UTf5SIvfIfuAuGxRZLi5zDN3LGWQp2jdycS9JnKwL+KJKeHPmTu4OtXbRc2c4lEO0z1T9sVOHB0GPwBGK4+c3Q==",
+-      "dependencies": {
+-        "@zag-js/anatomy": "0.74.2",
+-        "@zag-js/core": "0.74.2",
+-        "@zag-js/dom-query": "0.74.2",
+-        "@zag-js/types": "0.74.2",
+-        "@zag-js/utils": "0.74.2"
+-      }
+-    },
+-    "node_modules/@zag-js/store": {
+-      "version": "0.74.2",
+-      "resolved": "https://registry.npmjs.org/@zag-js/store/-/store-0.74.2.tgz",
+-      "integrity": "sha512-LXCSyIVf6G4SvoPojNxOUiK45Lg1Qo/I8NCIoWAgSh6WgthuyEP05oLlW0OdvfHWLsnSwUjJmfuoRQAQNS3M8Q==",
+-      "dependencies": {
+-        "proxy-compare": "3.0.0"
+-      }
+-    },
+-    "node_modules/@zag-js/switch": {
+-      "version": "0.74.2",
+-      "resolved": "https://registry.npmjs.org/@zag-js/switch/-/switch-0.74.2.tgz",
+-      "integrity": "sha512-I5OTZ26Rp3ADySnzpIlI47+BiUAhSIXLMpQQ/T2XCpF9hsrxmAwmpyyJ+48L7aLHtzeEusBOATU+CWMEgycRPQ==",
+-      "dependencies": {
+-        "@zag-js/anatomy": "0.74.2",
+-        "@zag-js/core": "0.74.2",
+-        "@zag-js/dom-event": "0.74.2",
+-        "@zag-js/dom-query": "0.74.2",
+-        "@zag-js/focus-visible": "0.74.2",
+-        "@zag-js/form-utils": "0.74.2",
+-        "@zag-js/types": "0.74.2",
+-        "@zag-js/utils": "0.74.2"
+-      }
+-    },
+-    "node_modules/@zag-js/tabs": {
+-      "version": "0.74.2",
+-      "resolved": "https://registry.npmjs.org/@zag-js/tabs/-/tabs-0.74.2.tgz",
+-      "integrity": "sha512-e/xkk4aihOikJsw47Q8nwAm/vUlfgXkkGxydquZg4Z42EDNYt5XcxPpIW+7gbzK+ergDYN7JyHQ4+sIRRPA/jg==",
+-      "dependencies": {
+-        "@zag-js/anatomy": "0.74.2",
+-        "@zag-js/core": "0.74.2",
+-        "@zag-js/dom-event": "0.74.2",
+-        "@zag-js/dom-query": "0.74.2",
+-        "@zag-js/element-rect": "0.74.2",
+-        "@zag-js/types": "0.74.2",
+-        "@zag-js/utils": "0.74.2"
+-      }
+-    },
+-    "node_modules/@zag-js/tags-input": {
+-      "version": "0.74.2",
+-      "resolved": "https://registry.npmjs.org/@zag-js/tags-input/-/tags-input-0.74.2.tgz",
+-      "integrity": "sha512-bE1Z2dANz7f734AuX2b4RtGk6/L8Nf44Q1wxCZ++3CLYV6EBBBDb2kNWr/Pz23md58ve+AcFcd/pzKtoXfWcdw==",
+-      "dependencies": {
+-        "@zag-js/anatomy": "0.74.2",
+-        "@zag-js/auto-resize": "0.74.2",
+-        "@zag-js/core": "0.74.2",
+-        "@zag-js/dom-event": "0.74.2",
+-        "@zag-js/dom-query": "0.74.2",
+-        "@zag-js/form-utils": "0.74.2",
+-        "@zag-js/interact-outside": "0.74.2",
+-        "@zag-js/live-region": "0.74.2",
+-        "@zag-js/types": "0.74.2",
+-        "@zag-js/utils": "0.74.2"
+-      }
+-    },
+-    "node_modules/@zag-js/text-selection": {
+-      "version": "0.74.2",
+-      "resolved": "https://registry.npmjs.org/@zag-js/text-selection/-/text-selection-0.74.2.tgz",
+-      "integrity": "sha512-c7fLss1VyFnQzs5f5HNMD3qyJczH+SNzOgqMwU6apKpgYRLMMI0S4F03I/cyDQrCPZMcy6F/bl6zlQmdqb6WLQ==",
+-      "dependencies": {
+-        "@zag-js/dom-query": "0.74.2"
+-      }
+-    },
+-    "node_modules/@zag-js/time-picker": {
+-      "version": "0.74.2",
+-      "resolved": "https://registry.npmjs.org/@zag-js/time-picker/-/time-picker-0.74.2.tgz",
+-      "integrity": "sha512-VSsIQ+RUKo1hC+ip2Hq2jsiBTZNV+cuRntGXvVFegI1VG8W2ug6CtW5ilfxcQte8dfn1s6g2F4TY0g79F7svgA==",
+-      "dependencies": {
+-        "@zag-js/anatomy": "0.74.2",
+-        "@zag-js/core": "0.74.2",
+-        "@zag-js/dismissable": "0.74.2",
+-        "@zag-js/dom-event": "^0.74.2",
+-        "@zag-js/dom-query": "0.74.2",
+-        "@zag-js/popper": "0.74.2",
+-        "@zag-js/types": "0.74.2",
+-        "@zag-js/utils": "0.74.2"
+-      },
+-      "peerDependencies": {
+-        "@internationalized/date": ">=3.0.0"
+-      }
+-    },
+-    "node_modules/@zag-js/timer": {
+-      "version": "0.74.2",
+-      "resolved": "https://registry.npmjs.org/@zag-js/timer/-/timer-0.74.2.tgz",
+-      "integrity": "sha512-T8JGTNd9tJXUZqerBSDVsv1upD0vpccZqXZthpl8u4KFXj8vR/CZ9fW00linc+tR9XdxvBbkxk3EW/BPbNvoDw==",
+-      "dependencies": {
+-        "@zag-js/anatomy": "0.74.2",
+-        "@zag-js/core": "0.74.2",
+-        "@zag-js/dom-query": "0.74.2",
+-        "@zag-js/types": "0.74.2",
+-        "@zag-js/utils": "0.74.2"
+-      }
+-    },
+-    "node_modules/@zag-js/toast": {
+-      "version": "0.74.2",
+-      "resolved": "https://registry.npmjs.org/@zag-js/toast/-/toast-0.74.2.tgz",
+-      "integrity": "sha512-Xt4F1BxP0U15WoNx73gIpnFRkCB3/dRkA5zQPECzR/U2drN2JAoCdb9wNQjxmR/6DWkT4PuCeWliUcskHDY8Wg==",
+-      "dependencies": {
+-        "@zag-js/anatomy": "0.74.2",
+-        "@zag-js/core": "0.74.2",
+-        "@zag-js/dismissable": "0.74.2",
+-        "@zag-js/dom-event": "0.74.2",
+-        "@zag-js/dom-query": "0.74.2",
+-        "@zag-js/types": "0.74.2",
+-        "@zag-js/utils": "0.74.2"
+-      }
+-    },
+-    "node_modules/@zag-js/toggle-group": {
+-      "version": "0.74.2",
+-      "resolved": "https://registry.npmjs.org/@zag-js/toggle-group/-/toggle-group-0.74.2.tgz",
+-      "integrity": "sha512-4wAsl33rP/LQq052sE+UYn0tfiJtZeINishI+0xrWc7iQY61F6l6UtZUR4I/NT3sa8XV2xSgunVPP4dVN0JlpA==",
+-      "dependencies": {
+-        "@zag-js/anatomy": "0.74.2",
+-        "@zag-js/core": "0.74.2",
+-        "@zag-js/dom-event": "0.74.2",
+-        "@zag-js/dom-query": "0.74.2",
+-        "@zag-js/types": "0.74.2",
+-        "@zag-js/utils": "0.74.2"
+-      }
+-    },
+-    "node_modules/@zag-js/tooltip": {
+-      "version": "0.74.2",
+-      "resolved": "https://registry.npmjs.org/@zag-js/tooltip/-/tooltip-0.74.2.tgz",
+-      "integrity": "sha512-lHs7dp1wUK4B+iY227ZfsQelVcRrad7ZVAh27ZzRdCkUE7KMi8ev45YudbnSM3ltCMGe6F+it7jWcalccFad4w==",
+-      "dependencies": {
+-        "@zag-js/anatomy": "0.74.2",
+-        "@zag-js/core": "0.74.2",
+-        "@zag-js/dom-event": "0.74.2",
+-        "@zag-js/dom-query": "0.74.2",
+-        "@zag-js/focus-visible": "0.74.2",
+-        "@zag-js/popper": "0.74.2",
+-        "@zag-js/types": "0.74.2",
+-        "@zag-js/utils": "0.74.2"
+-      }
+-    },
+-    "node_modules/@zag-js/tree-view": {
+-      "version": "0.74.2",
+-      "resolved": "https://registry.npmjs.org/@zag-js/tree-view/-/tree-view-0.74.2.tgz",
+-      "integrity": "sha512-oLizz/iU5xj3KCIy/oADAIhs2NjLl3LawYYktD8k02JF2XRPi8bDnRF96E0YPeLOnf5XdEEXmDD2A1l+gWrReg==",
+-      "dependencies": {
+-        "@zag-js/anatomy": "0.74.2",
+-        "@zag-js/core": "0.74.2",
+-        "@zag-js/dom-event": "0.74.2",
+-        "@zag-js/dom-query": "0.74.2",
+-        "@zag-js/types": "0.74.2",
+-        "@zag-js/utils": "0.74.2"
+-      }
+-    },
+-    "node_modules/@zag-js/types": {
+-      "version": "0.74.2",
+-      "resolved": "https://registry.npmjs.org/@zag-js/types/-/types-0.74.2.tgz",
+-      "integrity": "sha512-UYdHh5Jj2LZZwP8Amm9YEoj9f/zYNWuuw+HRGCLZew6moHvKj/HHKJHLooPPjGztFIeRsnicE1mJ9E2bDllBaw==",
+-      "dependencies": {
+-        "csstype": "3.1.3"
+-      }
+-    },
+-    "node_modules/@zag-js/utils": {
+-      "version": "0.74.2",
+-      "resolved": "https://registry.npmjs.org/@zag-js/utils/-/utils-0.74.2.tgz",
+-      "integrity": "sha512-WtIsNyDvnslCjtIIP/bRzx3bJMaT0cIgI3f+TgiFWhtQMlUZMpBkwkKVfvUwI5qcZ+ZOMeoonAWFqFECCb3h3g=="
+-    },
+     "node_modules/abab": {
+       "version": "2.0.6",
+       "resolved": "https://registry.npmjs.org/abab/-/abab-2.0.6.tgz",
+@@ -6147,17 +5274,6 @@
+         "sprintf-js": "~1.0.2"
+       }
+     },
+-    "node_modules/aria-hidden": {
+-      "version": "1.2.4",
+-      "resolved": "https://registry.npmjs.org/aria-hidden/-/aria-hidden-1.2.4.tgz",
+-      "integrity": "sha512-y+CcFFwelSXpLZk/7fMB2mUbGtX9lKycf1MWJ7CaTIERyitVlyQx6C+sxcROU2BAJ24OiZyK+8wj2i8AlBoS3A==",
+-      "dependencies": {
+-        "tslib": "^2.0.0"
+-      },
+-      "engines": {
+-        "node": ">=10"
+-      }
+-    },
+     "node_modules/aria-query": {
+       "version": "5.3.2",
+       "resolved": "https://registry.npmjs.org/aria-query/-/aria-query-5.3.2.tgz",
+@@ -9569,14 +8685,6 @@
+       "resolved": "https://registry.npmjs.org/flatted/-/flatted-3.3.1.tgz",
+       "integrity": "sha512-X8cqMLLie7KsNUDSdzeN8FYK9rEt4Dt67OsG/DNGnYTSDBG4uFAJFBnUeiV+zCVAvwFy56IjM9sH51jVaEhNxw=="
+     },
+-    "node_modules/focus-trap": {
+-      "version": "7.6.0",
+-      "resolved": "https://registry.npmjs.org/focus-trap/-/focus-trap-7.6.0.tgz",
+-      "integrity": "sha512-1td0l3pMkWJLFipobUcGaf+5DTY4PLDDrcqoSaKP8ediO/CoWCCYk/fT/Y2A4e6TNB+Sh6clRJCjOPPnKoNHnQ==",
+-      "dependencies": {
+-        "tabbable": "^6.2.0"
+-      }
+-    },
+     "node_modules/follow-redirects": {
+       "version": "1.15.9",
+       "resolved": "https://registry.npmjs.org/follow-redirects/-/follow-redirects-1.15.9.tgz",
+@@ -13235,11 +12343,6 @@
+         "node": ">=8"
+       }
+     },
+-    "node_modules/perfect-freehand": {
+-      "version": "1.2.2",
+-      "resolved": "https://registry.npmjs.org/perfect-freehand/-/perfect-freehand-1.2.2.tgz",
+-      "integrity": "sha512-eh31l019WICQ03pkF3FSzHxB8n07ItqIQ++G5UV8JX0zVOXzgTGCqnRR0jJ2h9U8/2uW4W4mtGJELt9kEV0CFQ=="
+-    },
+     "node_modules/performance-now": {
+       "version": "2.1.0",
+       "resolved": "https://registry.npmjs.org/performance-now/-/performance-now-2.1.0.tgz",
+@@ -14680,19 +13783,6 @@
+         "node": ">= 0.10"
+       }
+     },
+-    "node_modules/proxy-compare": {
+-      "version": "3.0.0",
+-      "resolved": "https://registry.npmjs.org/proxy-compare/-/proxy-compare-3.0.0.tgz",
+-      "integrity": "sha512-y44MCkgtZUCT9tZGuE278fB7PWVf7fRYy0vbRXAts2o5F0EfC4fIQrvQQGBJo1WJbFcVLXzApOscyJuZqHQc1w=="
+-    },
+-    "node_modules/proxy-memoize": {
+-      "version": "3.0.1",
+-      "resolved": "https://registry.npmjs.org/proxy-memoize/-/proxy-memoize-3.0.1.tgz",
+-      "integrity": "sha512-VDdG/VYtOgdGkWJx7y0o7p+zArSf2383Isci8C+BP3YXgMYDoPd3cCBjw0JdWb6YBb9sFiOPbAADDVTPJnh+9g==",
+-      "dependencies": {
+-        "proxy-compare": "^3.0.0"
+-      }
+-    },
+     "node_modules/psl": {
+       "version": "1.9.0",
+       "resolved": "https://registry.npmjs.org/psl/-/psl-1.9.0.tgz",
+@@ -16802,11 +15892,6 @@
+       "resolved": "https://registry.npmjs.org/symbol-tree/-/symbol-tree-3.2.4.tgz",
+       "integrity": "sha512-9QNk5KwDF+Bvz+PyObkmSYjI5ksVUYtjW7AU22r2NKcfLJcXp96hkDWU3+XndOsUb+AQ9QhfzfCT2O+CNWT5Tw=="
+     },
+-    "node_modules/tabbable": {
+-      "version": "6.2.0",
+-      "resolved": "https://registry.npmjs.org/tabbable/-/tabbable-6.2.0.tgz",
+-      "integrity": "sha512-Cat63mxsVJlzYvN51JmVXIgNoUokrIaT2zLclCXjRd8boZ0004U4KCs/sToJ75C6sdlByWxpYnb5Boif1VSFew=="
+-    },
+     "node_modules/tailwindcss": {
+       "version": "3.4.14",
+       "resolved": "https://registry.npmjs.org/tailwindcss/-/tailwindcss-3.4.14.tgz",
+@@ -17501,11 +16586,6 @@
+         "browserslist": ">= 4.21.0"
+       }
+     },
+-    "node_modules/uqr": {
+-      "version": "0.1.2",
+-      "resolved": "https://registry.npmjs.org/uqr/-/uqr-0.1.2.tgz",
+-      "integrity": "sha512-MJu7ypHq6QasgF5YRTjqscSzQp/W11zoUk6kvmlH+fmWEs63Y0Eib13hYFwAzagRJcVY8WVnlV+eBDUGMJ5IbA=="
+-    },
+     "node_modules/uri-js": {
+       "version": "4.4.1",
+       "resolved": "https://registry.npmjs.org/uri-js/-/uri-js-4.4.1.tgz",

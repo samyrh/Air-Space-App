@@ -1,16 +1,42 @@
 /* Card Container Wrapper */
+/* Card Container Wrapper */
 .card-container-wrapper {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3 columns per row for larger cards */
-    gap: 30px; /* Adjusted space between cards */
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
     padding: 20px;
     margin: 0 auto;
+    max-width: 1300px;
+}
 
-    max-width: 1300px; /* Maximum width to keep it centered */
+/* Load More Button */
+
+
+.load-more-button {background-image: linear-gradient(to right, #16222A 0%, #3A6073  51%, #16222A  100%)}
+.load-more-button {
+    display: block;
+    width: 130px;
+    height: 55px;
+    margin: 20px auto; /* Center the button horizontally under the cards */
+    text-align: center;
+    text-transform: uppercase;
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: white;
+    box-shadow: 0 0 20px #eee;
+    border-radius: 10px;
+}
+
+.load-more-button:hover {
+    background-position: right center; /* change the direction of the change here */
+    color: #fff;
+    text-decoration: none;
 }
 
 /* Card */
 .card {
+    width: 300px;
+    height: 300px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -52,7 +78,7 @@
 
 /* Card Content */
 .card-content {
-    padding: 1.5rem;
+    padding: 0 1.5rem;
     background-color: #fff;
     border-radius: 0 0 15px 15px; /* Rounded bottom corners */
     height: 50%; /* Adjusted content height for a taller card */
@@ -62,45 +88,44 @@
 }
 
 /* Card Title */
-.card-title {
-    font-size: 1.8rem;
+.card-name {
+    font-family: "Inter", sans-serif;
+    font-size: 1.2rem;
     font-weight: 700;
-    color: #333;
+    color: #232323;
     margin-bottom: 0.5rem;
     text-transform: capitalize;
 }
 
-/* Card Description */
-.card-description {
-    font-size: 1.1rem;
-    color: #555;
-    margin-bottom: 1rem;
-    line-height: 1.6;
-}
 
 /* Price, Rating, and Location Row */
 .card-details {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 1rem;
+    margin: 1rem 0;
 }
 
 /* Price */
 .card-price {
     font-weight: 700;
-    font-size: 1.3rem;
-    background: linear-gradient(135deg, #7b2cbf, #ff7eb3);
-    -webkit-background-clip: text;
-    color: transparent;
+    font-size: 1.2rem;
+    color: #232323;
 }
 
 /* Rating */
 .card-rating {
     display: flex;
-    align-items: center;
-    font-size: 1.2rem;
+   /* justify-content: flex-end;*/
+    font-size: 1.0rem;
+
     color: #f39c12;
+}
+.card-rl{
+    display: flex;
+    align-items: center;
+    justify-content: space-between
+
 }
 
 .stars {
@@ -114,11 +139,12 @@
 
 /* Location Section */
 .card-location {
-    margin-top: 1rem;
-    font-size: 1.1rem;
+    margin-top: 0.2rem;
+    font-size: 1.0rem;
     font-weight: 600;
     color: #333;
 }
+
 
 /* More Details Button */
 .more-details-btn {

@@ -23,38 +23,28 @@ const AirbnbCard = () => {
 
                 {/* Card Content */}
                 <div className="card-content">
-                    <h2 className="card-title">Luxury Beach House</h2>
-                    <p className="card-description">
-                        Enjoy a beautiful getaway at this stunning beach house. Located right on the beach with amazing views and modern amenities.
-                    </p>
-
+                    <h2 className="card-name">Luxury Beach House</h2>
+                    <div className="card-rl">
+                    {/* Location */}
+                    <div className="card-location">
+                        <p>Malibu, California</p>
+                    </div>
+                    <div className="card-rating">
+                        <span className="stars">★</span> {/* Star rating */}
+                        <span className="rating-text">4.8/5</span>
+                    </div>
+                </div>
                     {/* Price, Rating, and Location Row */}
                     <div className="card-details">
                         <div className="card-price">
                             <span>$350 / night</span>
                         </div>
-                        <div className="card-rating">
-                            <span className="stars">★★★★☆</span> {/* Star rating */}
-                            <span className="rating-text">4.8/5</span>
-                        </div>
+
                     </div>
 
-                    {/* Location */}
-                    <div className="card-location">
-                        <p><strong>Location:</strong> Malibu, California</p>
-                    </div>
 
                     {/* More Details Button */}
-                    <button className="more-details-btn" onClick={toggleDetails}>
-                        {showDetails ? 'Less Details' : 'More Details'}
-                    </button>
 
-                    {/* Show additional details if `showDetails` is true */}
-                    {showDetails && (
-                        <div className="additional-details">
-                            <p>Located at the heart of the beach, this property offers stunning ocean views and all the amenities you need for a perfect vacation.</p>
-                        </div>
-                    )}
                 </div>
             </div>
         </div>

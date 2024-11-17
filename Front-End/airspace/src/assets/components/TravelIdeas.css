@@ -16,11 +16,13 @@
     background: linear-gradient(135deg, var(--primary-gradient-start), var(--primary-gradient-end)); /* Gradient Background */
     border-radius: var(--border-radius);
     box-shadow: 0px 10px 30px var(--card-shadow);
-    max-width: 1200px;
+    width: 98%; /* Set width to 98% to allow for more space */
+    max-width: 1800px; /* Increased max-width to make it wider */
     margin: 30px auto;
     overflow: hidden;
     transition: box-shadow var(--transition-speed);
 }
+
 
 /* Responsive Layout: Left Sidebar for Filters, Right for Results */
 .ios-style-layout {

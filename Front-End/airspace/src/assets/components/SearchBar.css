@@ -1,4 +1,3 @@
-/* Container for the entire search bar */
 .search-container {
     display: flex;
     justify-content: center;
@@ -6,496 +5,237 @@
     padding: 20px;
     width: 100%;
     box-sizing: border-box;
-
+    position: relative;
 }
 
-/* Search Bar styling
 .search-bar {
     display: flex;
     align-items: center;
-    background: linear-gradient(135deg, #f2c6e8, #c6e0fb, #d7c7fb);
-    padding: 16px 32px;
-    width: 100%;
-    max-width: 1000px;
+    background: #ffffff;
     border-radius: 40px;
+    padding: 16px;
+    width: 100%;
+    max-width: 1200px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    transition: all 0.5s ease;
-    min-height: 70px;
     gap: 15px;
     box-sizing: border-box;
-    flex-wrap: nowrap;
-}*/
-
-/* Styling for the input fields */
+    border: 1.5px solid #555;
+}
 .search-input {
     background-color: #ffffff;
-    border: 2px solid #dcdcdc;
-    border-radius: 30px;
-    font-size: 16px;
-    font-weight: bold;
-    transition: all 0.3s ease-in-out;
-    outline: none;
-    min-width: 150px;
+    border: 1px solid #d1d1d6; /* Light border */
+    font-size: 17px; /* Larger font size */
+    color: #b0b0b0; /* Very light gray text */
     flex-grow: 1;
-    box-sizing: border-box;
-    height: 100%;
-    color: #757575;
-}
-.search-inputG {
-    background-color: #ffffff;
-    border: 2px solid #dcdcdc;
-    border-radius: 30px;
-    font-size: 16px;
-    font-weight: bold;
-    transition: all 0.3s ease-in-out;
+    padding: 15px 20px; /* Spacious padding */
+    min-width: 180px; /* Slightly wider input field */
     outline: none;
-    min-width: 50px;
-    flex-grow: 1;
-    box-sizing: border-box;
-    height: 100%;
-    color: #757575;
+    border-radius: 15px; /* Rounded corners */
+    transition: all 0.3s ease; /* Smooth transitions */
 }
 
-/* Hover and focus effect for inputs */
-.search-input:hover,
+/* Modern Hover Effect with Gray Light */
+.search-input:hover {
+    background-color: #f2f2f7; /* Soft light gray background */
+    border-color: #a0a0a5; /* Slightly darker gray border */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1), 0 0 10px rgba(255, 255, 255, 0.6); /* Soft gray light effect */
+}
+
+/* Focus Effect with Dark Gray */
 .search-input:focus {
-    border-color: #a8a8a8;
-    background-color: #e6e6e6;
+    background-color: #ffffff; /* White background on focus */
+    border-color: #333333; /* Dark gray border */
+    box-shadow: 0 4px 12px rgba(51, 51, 51, 0.2), 0 0 10px rgba(51, 51, 51, 0.3); /* Dark gray glow on focus */
+    transform: scale(1.02); /* Slight zoom effect on focus */
 }
 
-/* Main search container */
-.search-container {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-}
 
-/* Search bar styling
-.search-bar {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background-color: #ffffff;
-    border-radius: 8px;
-    padding: 10px;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-    max-width: 800px;
-    width: 100%;
-}*/
 
-/* Input field styling
-.search-input {
-    padding: 10px 12px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
+
+
+/* Modern hover effect with gray tone and light glow for date picker */
+input[type="date"] {
+    background-color: #f0f0f0;
+    color: #333;
+    border: 1px solid #999;
+    padding: 8px 16px;
+    border-radius: 10px;
     font-size: 16px;
-    flex: 1;
-    transition: border-color 0.3s ease;
-}*/
-
-/* Focus state for input
-.search-input:focus {
-    border-color: #007bff;
     outline: none;
-}*/
-
-/* Main search container */
-.search-container {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
+    transition: all 0.3s ease; /* Smooth transition */
 }
 
-/* Search bar styling
-.search-bar {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background-color: #ffffff;
-    border-radius: 8px;
-    padding: 10px;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-    max-width: 800px;
-    width: 100%;
-}*/
-
-/* Input field styling
-.search-input {
-    padding: 10px 12px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    font-size: 16px;
-    flex: 1;
-    transition: border-color 0.3s ease;
-}*/
-
-/* Focus state for input
-.search-input:focus {
-    border-color: #007bff;
-    outline: none;
-} */
-
-/* Guest selector */
-.guest-selector {
-    position: relative;
-    cursor: pointer;
+/* Smooth Hover Effect for Date Picker with Gray Tone */
+input[type="date"]:hover {
+    border-color: #888; /* Darker gray border on hover */
+    background-color: #e8e8e8; /* Light gray background */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* Soft light gray glow */
+    transform: scale(1.02); /* Slight zoom effect */
 }
 
-/* Search bar styling
-.search-bar {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background-color: #ffffff;
-    border-radius: 8px;
-    padding: 10px;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-    max-width: 800px;
-    width: 100%;
+/* Focus Effect for Date Picker */
+input[type="date"]:focus {
+    border-color: #555; /* Darker gray border when focused */
+    background-color: #e8e8e8; /* Keep light gray background */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* Slightly stronger gray glow */
+    transform: scale(1.05); /* Zoom in effect on focus */
+}
 
+/* Destination Field Hover Effect */
+.search-input.destination {
     transition: all 0.3s ease;
-}*/
-
-/* Input field styling
-.search-input {
-    padding: 10px 12px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    font-size: 16px;
-    flex: 1;
-    transition: border-color 0.3s ease, transform 0.3s ease;
-}*/
-
-/* Input focus and hover states
-.search-input:focus,
-.search-input:hover {
-    border-color: #007bff;
-    outline: none;
-    transform: scale(1.02);
-}*/
-
-/* Guest selector */
-.guest-selector {
-    position: relative;
-    cursor: pointer;
+    padding: 12px 20px;
+    border-radius: 25px; /* Rounded corners for destination field */
 }
 
-/* Search bar styling
-.search-bar {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background-color: #ffffff;
-    border-radius: 8px;
-    padding: 10px;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-    max-width: 800px;
-    width: 100%;
-
-    transition: all 0.3s ease;
-}*/
-
-/* Input field styling
-.search-input {
-    padding: 10px 12px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    font-size: 16px;
-    flex: 1;
-    transition: border-color 0.3s ease, transform 0.3s ease;
-}*/
-
-/* Input focus and hover states
-.search-input:focus,
-.search-input:hover {
-    border-color: #007bff;
-    outline: none;
-    transform: scale(1.02);
-}*/
-
-/* Guest selector */
-.guest-selector {
-    position: relative;
-    cursor: pointer;
+/* Hover Effect for Destination Input */
+.search-input.destination:hover {
+    background-color: #f1f1f1; /* Light gray background on hover */
+    border: 1.5px solid #aaa; /* Slightly darker border */
+    transform: scale(1.02); /* Subtle zoom effect */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow effect */
 }
 
-
-
-/* Input field styling
-.search-input {
-    padding: 10px 12px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    font-size: 16px;
-    flex: 1;
-    transition: border-color 0.3s ease, transform 0.3s ease;
-}*/
-
-/* Input focus and hover states
-.search-input:focus,
-.search-input:hover {
-    border-color: #007bff;
-    outline: none;
-    transform: scale(1.02);
-}*/
-
-/* Guest selector */
-.guest-selector {
-    position: relative;
-    cursor: pointer;
+/* Focus Effect for Destination Input */
+.search-input.destination:focus {
+    background-color: #e8e8e8; /* Slightly darker gray on focus */
+    border-color: #777; /* Darker border when focused */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15); /* Focused glow */
+    transform: scale(1.05); /* Zoom effect on focus */
 }
 
-/* Search bar styling
-.search-bar {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background-color: #ffffff;
-    border-radius: 8px;
-    padding: 10px;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-    max-width: 800px;
-    width: 100%;
-    transition: all 0.3s ease;
-}*/
-
-/* Input field styling
-.search-input {
-    padding: 10px 12px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    font-size: 16px;
-    flex: 1;
-    transition: border-color 0.3s ease, transform 0.3s ease;
-}*/
-
-/* Input focus and hover states
-.search-input:focus,
-.search-input:hover {
-    border-color: #007bff;
-    outline: none;
-    transform: scale(1.02);
-}*/
-
-/* Guest selector */
-.guest-selector {
-    position: relative;
-    cursor: pointer;
+.vertical-divider {
+    height: 40px;
+    width: 1px;
+    background-color: #555;
+    margin: 0 10px;
 }
-
-/* Search bar styling */
-.search-bar {
-    display: flex;
-    align-items: center;
-    background-color: #ffffff;
-    border-radius: 32px;  /* More rounded corners */
-    height: 66px;
-    padding: 0 0;  /* Increased padding for a larger feel */
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);  /* Larger shadow for more depth */
-    max-width: 900px;  /* Increased max-width for even more width */
-    width: 100%;
-    flex-wrap: wrap;  /* Responsive wrap */
-    transition: all 0.3s ease;
-}
-
-
-
-/* Input field styling */
-.search-input {
-    height: 100%;
-    padding: 0 25px;
-    border: none; /* Remove all borders */
-    border-right: 1px solid #ddd; /* Add a left border with the same color and thickness */
-    border-radius: 32px; /* Remove border radius */
-    font-size: 16px;
-    flex: 1;
-    min-width: 150px; /* Min width for responsive view */
-    transition: border-color 0.3s ease, transform 0.3s ease;
-}
-
-
-/* Input focus and hover states */
-.search-input:focus,
-.search-input:hover {
+.search-button {
+    background: linear-gradient(135deg, #d1d1d1, #b0b0b0); /* Gradient grey */
+    height: 60px;
+    width: 60px;
     border: none;
-    border-radius: 32px;
-    outline: none;
-    transform: scale(1.02);
-}
-
-/* Guest selector */
-.guest-selector {
-    position: relative;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
-
+    transition: all 0.3s ease;
+    margin-left: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for a slight glow */
 }
 
-/* Increase the width of the dropdown */
+.search-button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2), 0 0 20px rgba(176, 176, 176, 0.4); /* Glow effect on hover */
+}
+
+.search-icon {
+    color: #ffffff;
+    width: 22px;
+    height: 22px;
+}
+
+/* iOS Style Guest Dropdown */
 .guest-dropdown {
     position: absolute;
-    top: 120%;
-    left: -40px;
-    background: linear-gradient(135deg, #b3e0ff, #ffd1dc);
-    border: 1px solid #ddd;
+    background: white;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     border-radius: 12px;
-    padding: 10px 20px 15px;
-    width: 380px; /* Increase width from 320px to 380px */
-    max-height: 500px;
+    padding: 16px 0;
+    width: 100%; /* Full width for better responsiveness */
+    max-width: 300px; /* Wider dropdown */
+    top: 0;
+    left: 0;
+    margin-top: 8px;
+    max-height: 300px;
     overflow-y: auto;
-    box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.2);
-    z-index: 10;
-    opacity: 0;
-    transform: translateY(-20px);
-    visibility: hidden;
-    transition: transform 0.3s ease, opacity 0.3s ease;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Helvetica Neue", sans-serif;
+    border: 1px solid #ddd; /* Light grey border */
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    box-sizing: border-box;
+    overflow-x: hidden; /* Prevent horizontal scrolling */
 }
 
-
-/* Show dropdown on hover or focus */
-.guest-selector:hover .guest-dropdown,
-.guest-selector:focus-within .guest-dropdown {
-    opacity: 1;
-    transform: translateY(0);
-    visibility: visible;
+/* Prevent Horizontal Scrolling */
+.guest-dropdown::-webkit-scrollbar {
+    width: 8px;
 }
 
-/* Dropdown item styling */
-.guest-type {
+.guest-dropdown::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 4px;
+}
+
+/* Individual Guest Item */
+.guest-item {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 12px;
-    padding: 6px 0;
-    border-bottom: 1px solid #eee;
-}
-
-.guest-type h4 {
-    margin: 0;
-    font-size: 16px;
-    font-weight: 500;
-    color: #333;
-}
-
-/* Counter styling */
-.counter {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-/* Counter button styling */
-.counter button {
-    width: 40px;
-    height: 40px;
-    border: none;
-    border-radius: 50%;
-    background-color: #f0f0f0;
-    color: #333;
-    font-size: 20px;
+    padding: 12px 20px;
+    border-bottom: 1px solid #e0e0e0;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    transition: background 0.3s ease, transform 0.2s ease; /* Smooth hover and subtle transformation */
+    border-radius: 8px; /* Rounded corners for each item */
+    box-sizing: border-box;
+    white-space: nowrap; /* Prevent horizontal overflow */
 }
 
-.counter button:hover {
-    background-color: #e0e0e0;
-    transform: scale(1.05);
+/* Remove border on the last item */
+.guest-item:last-child {
+    border-bottom: none;
 }
 
-/* Counter input styling */
-.counter input {
-    width: 70px;
-    text-align: center;
+/* Chic and Modern Hover Effect */
+.guest-item:hover {
+    background-color: #f0f0f0; /* Light grey hover */
+    transform: translateX(5px); /* Slight shift to the right for chic hover */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+}
+
+/* Button Style */
+.guest-item button {
+    background: none;
     border: none;
-    background: #f5f5f5;
+    cursor: pointer;
     font-size: 18px;
-    padding: 6px;
-    border-radius: 5px;
+    color: #007aff; /* iOS blue color */
+    width: 25px;
+    transition: color 0.2s ease, transform 0.2s ease;
 }
 
-/* Add hover effect on the counter buttons */
-.counter button:hover {
-    background-color: #007bff;
-    color: white;
-    transform: scale(1.1);
+.guest-item button:hover {
+    color: #0051e2; /* Darker blue on hover */
+    transform: scale(1.1); /* Slight zoom effect */
 }
 
-/* Responsive adjustments for mobile view */
-@media (max-width: 600px) {
-    .search-bar {
-        flex-direction: column;
-        align-items: stretch;
-    }
+/* Disabled/Blocked Button (Red color when limited) */
+.guest-item button:disabled {
+    color: #ff4d4f; /* Red color for disabled state */
+    cursor: not-allowed;
+}
 
-    .search-input {
-        width: 100%;
-        margin-bottom: 8px;
-    }
+/* Disabled Button Hover */
+.guest-item button:disabled:hover {
+    color: #ff7875; /* Lighter red when hovering over disabled button */
+}
 
+/* Number Display Between Buttons */
+.guest-item span {
+    font-size: 16px;
+    color: #333; /* Darker text color for number */
+    font-weight: 500; /* Slightly bold text */
+    margin: 0 10px;
+}
+
+/* Responsive Dropdown */
+@media (max-width: 768px) {
     .guest-dropdown {
         width: 100%;
-        left: 0; /* Center align dropdown on smaller screens */
+        max-width: 100%; /* Full width on small screens */
+        top: 70px; /* Adjust position on mobile */
     }
-
-    /* Adjusted margins for each section to make them closer together */
-    .guest-type {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 8px; /* Reduced margin for a more compact appearance */
-        padding: 4px 0; /* Reduced padding for a tighter look */
-        border-bottom: 1px solid #eee; /* Subtle divider between items */
-    }
-}
-
-
-
-/* Updated search button with purple and pink gradient */
-.simple-search-button {
-    background: linear-gradient(135deg, #9a9aff, #80e0f4); /* Purple to Pink gradient */
-    height: 80%;
-
-    border: none;
-    border-radius: 50%;
-    padding: 18px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
-}
-
-/* Hover effect for the search button */
-.simple-search-button:hover {
-    transform: scale(1.1); /* Slightly enlarges on hover */
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Slightly larger shadow */
-}
-
-/* Styling for the search icon inside the button */
-.search-icon {
-    width: 22px;
-    height: 22px;
-    fill: white; /* White color for the icon */
-}
-/* Disable hover effect for disabled buttons */
-.disabled-btn {
-    pointer-events: none;
-    opacity: 0.5; /* Optional: to visually show that the button is inactive */
-}
-
-/* Optional: You can also disable hover styles */
-button:hover:not(.disabled-btn) {
-    background-color: #ddd; /* Example of a hover effect */
-}
-.guest-type p {
-    font-size: 0.9em;
-    color: #777; /* Light gray color for description */
-    margin-top: 5px;
-}
-
-.guest-type h4 {
-    font-size: 1.1em;
-    color: #333; /* Darker color for category title */
 }

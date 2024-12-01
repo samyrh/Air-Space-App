@@ -1,0 +1,677 @@
+/* Page Container */
+.page-container {
+    width: 100%;
+    max-width: 1560px;
+    margin: 20px auto;
+    padding: 12px; /* Reduced padding */
+    border-radius: 12px; /* Slightly smaller border radius */
+    background: linear-gradient(to bottom, #ffffff, #f9f9f9);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* Slightly smaller shadow */
+    font-family: 'SF Pro Display', sans-serif;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    overflow: hidden;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    max-width: 60%;
+    padding: 12px; /* Reduced padding */
+}
+
+
+
+
+
+
+
+
+.main-content h1 {
+    font-size: 2.4rem;
+    color: #222;
+    font-weight: 700;
+    margin-bottom: 10px; /* Space between title and separator */
+    line-height: 1.4;
+    letter-spacing: -0.5px;
+    padding-bottom: 10px; /* Space for the separator line */
+    border-bottom: 1px solid #ccc; /* Single separator line */
+}
+
+.separator-line {
+    width: 100%;
+    height: 1px;
+    background-color: #ccc;
+    margin: 30px 0;
+}
+.property-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+
+    font-size: 1.2rem;
+    color: #555;
+    max-width: 900px;
+    margin: 0 auto;
+}
+.property-info {
+    margin-top: 30px !important;
+}
+
+
+.info-item {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 15px;
+    padding: 12px 18px;
+    background-color: #f5f5f5;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+    font-size: 1.2rem;
+}
+
+.info-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.info-item i {
+    font-size: 1.5rem;
+    color: #007bff;
+}
+
+.info-item p {
+    margin: 0;
+    font-weight: 600;
+    color: #333;
+    line-height: 1.4;
+}
+
+/* Rating Section */
+.rating {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 30px; /* Space below property info */
+}
+
+.rating {
+    display: flex;
+    align-items: center; /* Align items vertically */
+    gap: 10px;
+    margin-top: -10px; /* Bring the rating closer to the line */
+}
+
+.stars {
+    display: flex;
+    gap: 5px;
+}
+
+.stars i {
+    font-size: 1.5rem;
+    color: #f5a623; /* Star color */
+    transition: transform 0.3s ease, color 0.3s ease; /* Smooth transition for transform and color */
+}
+
+.stars i.filled {
+    color: #f1c40f; /* Filled star color */
+}
+/* Hover effect */
+.stars i:hover {
+    transform: scale(1.2); /* Slightly enlarge the star on hover */
+    color: #f1c40f; /* Change color on hover */
+}
+.review-count {
+    font-size: 1rem;
+    color: #555;
+    font-weight: 600;
+}
+/* Responsive Design */
+@media (max-width: 768px) {
+    .property-info {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+}
+
+@media (max-width: 480px) {
+    .main-content h1 {
+        font-size: 1.8rem;
+    }
+
+    .property-info {
+        grid-template-columns: 1fr;
+    }
+
+    .stars {
+        font-size: 1.2rem;
+    }
+}
+/* Host Section Styling (Compact iOS Style with Avatar) */
+.host-info {
+    margin-top: 20px;
+    padding: 16px;
+    background: linear-gradient(145deg, #e2e2e2, #f9f9f9); /* Soft gradient for iOS-like feel */
+    border-radius: 12px; /* Rounded corners */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Soft shadow */
+    max-width: 400px; /* Smaller max-width */
+    width: 100%;
+    margin: 0 auto;
+    transition: all 0.3s ease-in-out;
+    min-height: 3cm; /* Reduced height */
+    font-family: 'Arial', sans-serif; /* Clean modern font */
+}
+
+/* Hover effect for the Host section */
+.host-info:hover {
+    transform: translateY(-4px); /* Slight lift on hover */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* Stronger shadow */
+}
+
+/* Host Avatar Styling */
+.host-avatar {
+    text-align: center;
+    margin-bottom: 12px;
+}
+
+.host-avatar img {
+    border-radius: 50%; /* Circular avatar */
+    height: 80px; /* Adjusted size */
+    width: 80px; /* Adjusted size */
+    object-fit: cover; /* Ensure image covers the circle */
+    border: 3px solid #fff; /* White border for contrast */
+}
+
+/* Host Title Styling */
+.host-info h2 {
+    font-size: 1.5rem; /* Adjusted font size for better readability */
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 8px; /* Increased space between title and text */
+    text-align: center;
+    letter-spacing: 0.5px; /* Subtle letter spacing */
+}
+
+/* Host Information Styling */
+.host-info p {
+    font-size: 1rem; /* Adjusted font size for better readability */
+    color: #555;
+    font-weight: 400;
+    margin-top: 6px; /* Reduced space */
+    text-align: center;
+    line-height: 1.5; /* Slightly more line height for better legibility */
+    letter-spacing: 0.5px; /* Added letter spacing for a modern look */
+}
+
+/* Strong Text for Key Info */
+.host-info strong {
+    font-weight: 600;
+    color: #333;
+    font-size: 1.1rem; /* Slightly larger for emphasis */
+}
+.equipments-info {
+    margin-top: 30px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.equipments-info h3 {
+    font-size: 1.6rem;
+    color: #222;
+    font-weight: 700;
+    margin-bottom: 20px; /* Space between title and list */
+    line-height: 1.4;
+    letter-spacing: -0.5px;
+}
+
+/* Grid Layout */
+.equipments-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* 5 squares per row */
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+/* Info Item Styling (Squares) */
+.equipments-grid .info-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 20px;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+    font-size: 1rem;
+    height: 150px; /* Fixed height for square shape */
+    text-align: center;
+}
+
+.equipments-grid .info-item i {
+    font-size: 2.5rem;
+    color: #007bff;
+    margin-bottom: 10px;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+/* Hover effect for icons */
+.equipments-grid .info-item:hover i {
+    color: #0056b3; /* Change to a darker blue when hovered */
+    transform: scale(1.1); /* Slightly scale up the icon */
+}
+
+.equipments-grid .info-item p {
+    margin: 0;
+    font-weight: 600;
+    color: #333;
+}
+
+/* Hide the items beyond the first 10 */
+.equipments-grid .info-item.hidden {
+    display: none;
+}
+
+/* Show More Button */
+.show-more-btn {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin: 0 auto;
+    display: block;
+}
+
+.show-more-btn:hover {
+    background-color: #0056b3;
+}
+/* Description Section */
+.description-section {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+    max-width: 900px;
+    margin: 0 auto;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.description-section:hover {
+    transform: scale(1.02);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Section Title */
+.section-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #222;
+    margin-bottom: 10px;
+    letter-spacing: -0.5px;
+}
+
+/* Standalone Description Section - iOS Mobile Style */
+.description-section {
+    padding: 15px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    margin: 10px 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Hover Effect on Description Section */
+.description-section:hover {
+    transform: scale(1.02);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+}
+
+/* Section Title (Header) */
+.section-title {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+    letter-spacing: -0.5px;
+}
+
+/* Description Text */
+.description-text {
+    font-size: 1rem;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 15px;
+    transition: opacity 0.3s ease;
+}
+
+/* Read More Button */
+.read-more-btn {
+    display: inline-block;
+    background-color: #007aff;  /* iOS blue button color */
+    color: #fff;
+    border: none;
+    padding: 12px 18px;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    text-align: center;
+    margin-top: 12px;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+}
+
+.read-more-btn:hover {
+    background-color: #0051a1;
+    transform: translateY(-2px);
+}
+
+/* Extra Description Text (shown on "Read More") */
+.extra-description {
+    font-size: 1rem;
+    color: #444;
+    line-height: 1.7;
+    margin-top: 15px;
+    transition: opacity 0.3s ease;
+    max-height: 300px;
+    overflow: hidden;
+}
+
+/* Extra description fade-in effect */
+.extra-description p {
+    margin-bottom: 12px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Widget Container */
+.widget-container {
+    flex: 0 0 600px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+}
+
+/* Widget Styling */
+.ios-widget {
+    background-image: linear-gradient(to right top, #fafafa, #f7f7f7, #f3f3f3, #f0f0f0, #e9e9e9);
+    border-radius: 12px; /* Smaller border radius */
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12); /* Slightly smaller shadow */
+    padding: 16px 18px; /* Reduced padding */
+    width: 100%;
+    max-width: 450px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Reduced gap */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Header */
+.ios-header h3 {
+    font-size: 1.8rem; /* Smaller font size */
+    color: #222;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Reduced gap */
+}
+
+.ios-header h3 span {
+    font-weight: 700;
+    color: #222; /* Super black text for prices */
+}
+
+.ios-header h3 small {
+    font-size: 0.9rem; /* Smaller font size */
+    color: #777;
+    font-weight: 300;
+}
+
+/* Body */
+.ios-body {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Reduced gap */
+}
+
+.ios-dates {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px; /* Reduced gap */
+    flex-wrap: wrap;
+}
+
+.ios-input-group {
+    flex: 1;
+    min-width: 160px; /* Smaller min-width */
+    padding-right: 15px; /* Reduced padding */
+}
+
+.ios-input-group label {
+    font-size: 0.9rem; /* Smaller font size */
+    color: #444;
+    font-weight: 500;
+    margin-bottom: 6px; /* Reduced margin */
+    display: block;
+    transition: color 0.3s ease;
+}
+
+/* Input Group */
+.ios-input-group input {
+    width: 100%;
+    padding: 12px; /* Reduced padding */
+    border: 1px solid #ccc; /* Border for date inputs */
+    background: #f9f9f9; /* Light background */
+    border-radius: 12px; /* Smaller border radius */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    font-size: 0.9rem; /* Smaller font size */
+    color: #333;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+/* Focus on Input */
+.ios-input-group input:focus {
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.2); /* Blue focus shadow */
+    background: #fff; /* White background when focused */
+    border-color: #007bff; /* Blue border when focused */
+}
+
+/* Select Group */
+.ios-select-group {
+    text-align: left;
+}
+
+.ios-select-group label {
+    font-size: 0.9rem; /* Smaller font size */
+    color: #444;
+    font-weight: 500;
+    margin-bottom: 6px; /* Reduced margin */
+    display: block;
+}
+
+/* Select Group for Adults, Children, Babies */
+.ios-select-group select {
+    width: 100%;
+    padding: 12px; /* Reduced padding */
+    border: 1px solid #ccc; /* Border for select input */
+    background: #fff; /* White background for select */
+    border-radius: 12px; /* Smaller border radius */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    font-size: 0.9rem; /* Smaller font size */
+    color: #333;
+    outline: none;
+    transition: all 0.3s ease;
+}
+/* Focus on Select Input */
+.ios-select-group select:focus {
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.2); /* Blue focus shadow */
+    background: #fff;
+    border-color: #007bff; /* Blue border when focused */
+}
+
+/* Footer */
+.ios-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Reduced gap */
+}
+
+.ios-pricing {
+    font-size: 0.9rem; /* Smaller font size */
+    color: #444;
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Reduced gap */
+}
+
+.ios-pricing p {
+    display: flex;
+    justify-content: space-between;
+    margin: 0;
+    font-size: 0.9rem; /* Smaller font size */
+    font-weight: 700; /* Bold price text */
+}
+
+.ios-pricing p span {
+    font-weight: 900; /* Super bold for the price */
+    color: #222; /* Super black for price */
+}
+
+.ios-pricing p span:hover {
+    color: #0056b3;
+}
+
+.ios-pricing hr {
+    border: none;
+    border-top: 1px solid #222; /* Darker separator line */
+    margin: 15px 0; /* Reduced margin */
+}
+
+.ios-total {
+    font-size: 1.1rem; /* Smaller font size */
+    font-weight: 700;
+    color: #222;
+}
+
+/* Button */
+.ios-button {
+    padding: 12px; /* Reduced padding */
+    background: linear-gradient(45deg, #007bff, #32d3e7);
+    border: none;
+    border-radius: 12px; /* Smaller border radius */
+    color: #fff;
+    font-size: 0.9rem; /* Smaller font size */
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Smaller shadow */
+    transition: all 0.3s ease;
+    margin-top: 15px; /* Reduced margin */
+}
+
+/* Hover Effect */
+.ios-button:hover {
+    background: linear-gradient(45deg, #0056b3, #1bb6c4);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Disabled button */
+.ios-button.disabled {
+    background: linear-gradient(45deg, #d3d3d3, #f0f0f0); /* Light gray gradient */
+    color: #a0a0a0; /* Slightly darker gray for text */
+    cursor: not-allowed; /* Not allowed cursor */
+    box-shadow: none; /* Remove shadow for disabled state */
+}
+
+/* Disabled button hover */
+.ios-button.disabled:hover {
+    background: linear-gradient(45deg, #d3d3d3, #f0f0f0); /* Keep background same */
+    transform: none; /* No movement */
+    box-shadow: none; /* No shadow */
+}
+
+
+/* Media Queries for Responsiveness */
+@media (max-width: 1200px) {
+    .page-container {
+        flex-direction: column;
+        padding: 8px; /* Reduced padding */
+    }
+
+    .main-content {
+        max-width: 100%;
+    }
+
+    .widget-container {
+        margin-top: 20px; /* Reduced margin */
+        justify-content: center;
+    }
+
+    .ios-widget {
+        max-width: 100%;
+    }
+
+    .ios-input-group, .ios-select-group {
+        min-width: 140px; /* Smaller min-width */
+    }
+}
+
+@media (max-width: 768px) {
+    .page-container {
+        padding: 6px; /* Reduced padding */
+    }
+
+    .ios-widget {
+        padding: 12px; /* Reduced padding */
+    }
+
+    .main-content h1 {
+        font-size: 1.8rem; /* Smaller font size */
+    }
+
+    .ios-pricing p, .ios-total {
+        font-size: 0.9rem; /* Smaller font size */
+    }
+
+    .ios-button {
+        padding: 10px; /* Reduced padding */
+    }
+}
+
+

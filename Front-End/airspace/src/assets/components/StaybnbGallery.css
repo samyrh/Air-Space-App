@@ -1,0 +1,304 @@
+/* General Container */
+.pro-gallery-container {
+    width: 100%;
+    max-width: 1560px;
+    margin: 20px auto;
+    padding: 16px;
+    border-radius: 18px;
+    background-image: linear-gradient(to right top, #fafafa, #f7f7f7, #f3f3f3, #f0f0f0, #e9e9e9);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    font-family: 'Roboto', sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Header Section */
+.gallery-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 12px;
+}
+
+.gallery-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #333;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Like Button */
+.like-button {
+    background: none;
+    border: none;
+    font-size: 28px;
+    color: #ff5a5f;
+    cursor: pointer;
+    transition: transform 0.3s ease, opacity 0.3s ease, color 0.2s ease;
+}
+
+.like-button.liked {
+    color: #ff5a5f; /* Filled heart */
+    transform: scale(1.2); /* Smooth transition */
+}
+
+.like-button:hover {
+    transform: scale(1.2);
+    opacity: 0.85;
+}
+
+/* Gallery Content */
+.gallery-content {
+    display: flex;
+    gap: 16px;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+/* Main Image */
+.main-image-container {
+    flex: 2;
+    position: relative;
+    width: 65%;
+    height: 100%;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.main-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 18px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.main-image:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* Thumbnail Images Container */
+.thumbnail-images-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    justify-content: space-between;
+    width: 30%;
+    height: 100%;
+}
+
+/* Thumbnail Images */
+.thumbnail-image {
+    width: 100%;  /* Ensure it fills the container without stretching */
+    height: 120px; /* Fixed height */
+    object-fit: cover; /* Ensure the image covers the container without distortion */
+    border-radius: 12px;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Slightly slower transition */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Hover Effect for Thumbnails */
+.thumbnail-image:hover {
+    transform: scale(1.05); /* Subtle scaling */
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12); /* Slightly softer shadow */
+}
+
+/* View More Button (Pro and Logical Design) */
+.view-more-button {
+    display: inline-block;
+    margin: 16px auto;
+    padding: 14px 28px;
+    background: #f0f0f0; /* Subtle light grey background */
+    color: #333; /* Dark text for contrast */
+    border: 1px solid #d1d1d1; /* Light border */
+    border-radius: 18px; /* Rounded corners for modern feel */
+    font-size: 16px;
+    font-weight: 600;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease; /* Smooth transition */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+    outline: none;
+}
+
+/* Hover effect */
+.view-more-button:hover {
+    background: #e0e0e0; /* Subtle darker grey for hover */
+    color: #2d2d2d; /* Slightly darker text on hover for contrast */
+    border-color: #c0c0c0; /* Slightly darker border */
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15); /* Slightly deeper shadow for hover */
+    transform: translateY(-2px); /* Lift effect for hover */
+}
+
+/* Focus effect for accessibility (keyboard navigation and click focus) */
+.view-more-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(100, 100, 100, 0.3); /* Subtle focus ring */
+    border-color: #b0b0b0; /* Border color on focus */
+}
+
+/* Active (pressed) state */
+.view-more-button:active {
+    background: #d0d0d0; /* Darker grey for pressed state */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); /* Less intense shadow when pressed */
+    transform: translateY(2px); /* Button "sinks" slightly when pressed */
+    border-color: #c0c0c0; /* Consistent border color when clicked */
+}
+
+/* Disabled state */
+.view-more-button:disabled {
+    background: #f5f5f5; /* Light grey */
+    color: #b0b0b0; /* Disabled text color */
+    border-color: #e0e0e0; /* Disabled border color */
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+/* Modal Overlay */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8); /* Darker background for focus with opacity */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+    animation: fadeIn 0.4s ease-in-out;
+    backdrop-filter: blur(12px); /* Softer blur for a polished look */
+}
+
+/* Modal Content */
+.modal-content {
+    background: #1f1f1f; /* Dark background for sophistication */
+    padding: 50px;
+    border-radius: 25px; /* Ultra rounded corners */
+    width: 80%;
+    max-width: 1100px;
+    max-height: 80vh;
+    overflow: hidden;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2); /* Deep shadow for a luxury feel */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    animation: slideUp 0.7s ease-out;
+    border: 2px solid #fff; /* Add a subtle white border for elegance */
+}
+
+/* Modal Title */
+.modal-title {
+    font-size: 42px; /* Large, luxurious font size */
+    font-weight: 600;
+    color: #fff; /* White text for contrast */
+    margin-bottom: 30px;
+    text-align: center;
+    letter-spacing: 2px; /* Wide letter spacing for a premium feel */
+    text-transform: uppercase; /* Capitalized for a strong impact */
+}
+/* Modal Gallery */
+.modal-gallery {
+    display: flex;
+    gap: 15px; /* Space between images */
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin-bottom: 30px;
+    padding: 20px 0; /* Vertical padding for spacing between items */
+    padding-left: 20px; /* Left padding to align items */
+    padding-right: 20px; /* Right padding to align items */
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    justify-content: flex-start; /* Align images to start */
+    width: calc(100% - 40px); /* Adjust the width to account for left and right padding */
+    scroll-snap-align: center; /* Center images in the gallery */
+}
+
+/* Modal Image Item */
+.modal-image-item {
+    flex: 0 0 auto;
+    width: 320px; /* Adjusted width of image items */
+    text-align: center;
+    border-radius: 18px;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease; /* Smooth transition */
+    scroll-snap-align: center;
+    overflow: hidden; /* Hide overflow to keep images inside the container */
+}
+
+/* Modal Image */
+.modal-image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 18px;
+    transition: transform 0.3s ease-in-out; /* Smooth transition */
+    will-change: transform; /* Optimizes the animation performance */
+}
+
+/* Modal Description */
+.modal-description {
+    font-size: 18px;
+    color: #ccc; /* Softer text color for description */
+    margin-top: 20px;
+    text-align: center;
+    line-height: 1.8;
+    letter-spacing: 0.5px;
+    text-transform: capitalize; /* For a refined feel */
+}
+
+/* Close Modal Button */
+.close-modal {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: transparent;
+    color: #fff; /* White color for contrast */
+    border: none;
+    font-size: 50px; /* Ultra large close icon */
+    cursor: pointer;
+    transition: transform 0.3s ease, color 0.3s ease;
+    z-index: 1000; /* Ensure the close button stays above other content */
+}
+
+.close-modal:hover {
+    transform: rotate(180deg); /* Rotate the close button on hover for dynamic effect */
+    color: #f0b500; /* Gold color on hover for luxury effect */
+}
+
+/* Modal Animations */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    0% {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+

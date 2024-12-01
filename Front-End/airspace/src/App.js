@@ -7,25 +7,26 @@ import CategoryBar from './components/CategoryBar..jsx';  // Corrected import fo
 import CardContainer from './components/CardContainer.jsx'; // Import CardContainer component
 import Footer from './components/Footer.jsx';  // Import Footer component
 import TravelIdeas from './components/TravelIdeas.jsx';
-import ScrollToTopButton from './components/ScrollToTopButton.jsx'; // Import ScrollToTopButton component
+import ScrollToTopButton from './components/ScrollToTopButton.jsx';
+import StaybnbGallery from './components/Pics.jsx'
+import BookingCard from "./components/BookingCard.jsx";
 
 function App() {
     return (
         <div className="App">
             <Navbar />
-            <div>
-                {/* Any additional content can go here */}
+
+            <div className="container">
+                <StaybnbGallery/>
+
             </div>
             <div className="container">
-                <SearchComponent />
-                <CategoryBar />
-                <CardContainer />
-                <TravelIdeas/>
+                <BookingCard/>
             </div>
+
 
             {/* Add the ScrollToTopButton here */}
             <ScrollToTopButton />
-
             <Footer />
         </div>
     );

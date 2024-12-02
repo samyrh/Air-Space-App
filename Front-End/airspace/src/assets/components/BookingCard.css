@@ -294,103 +294,70 @@
 .show-more-btn:hover {
     background-color: #0056b3;
 }
-/* Description Section */
 .description-section {
+    background: linear-gradient(135deg, #ffffff, #f8f9fa); /* Light gradient */
+    padding: 20px 30px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* Modern shadow */
     margin-top: 30px;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 12px;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
-    max-width: 900px;
-    margin: 0 auto;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-align: left;
 }
 
-.description-section:hover {
-    transform: scale(1.02);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-}
-
-/* Section Title */
 .section-title {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: #222;
-    margin-bottom: 10px;
-    letter-spacing: -0.5px;
-}
-
-/* Standalone Description Section - iOS Mobile Style */
-.description-section {
-    padding: 15px;
-    background-color: #fff;
-    border-radius: 12px;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-    margin: 10px 20px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-/* Hover Effect on Description Section */
-.description-section:hover {
-    transform: scale(1.02);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
-}
-
-/* Section Title (Header) */
-.section-title {
-    font-size: 1.4rem;
-    font-weight: bold;
+    font-size: 1.8rem;
     color: #333;
-    margin-bottom: 10px;
-    letter-spacing: -0.5px;
+    margin-bottom: 15px;
+    font-weight: 600;
+    border-bottom: 2px solid #007bff; /* Accent underline */
+    display: inline-block;
+    padding-bottom: 5px;
 }
 
-/* Description Text */
 .description-text {
     font-size: 1rem;
-    color: #555;
     line-height: 1.6;
-    margin-bottom: 15px;
-    transition: opacity 0.3s ease;
+    color: #555;
+    margin-bottom: 10px;
+    position: relative;
 }
 
-/* Read More Button */
-.read-more-btn {
-    display: inline-block;
-    background-color: #007aff;  /* iOS blue button color */
-    color: #fff;
-    border: none;
-    padding: 12px 18px;
-    font-size: 1rem;
-    font-weight: bold;
-    border-radius: 25px;
+.read-more-ellipsis {
+    color: #007bff;
+    font-weight: 600;
     cursor: pointer;
-    transition: all 0.3s ease;
-    width: 100%;
-    text-align: center;
-    margin-top: 12px;
-    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+    text-decoration: none;
+    margin-left: 5px;
+    transition: color 0.3s ease;
 }
 
-.read-more-btn:hover {
-    background-color: #0051a1;
-    transform: translateY(-2px);
+.read-more-ellipsis:hover {
+    color: #0056b3; /* Darker blue on hover */
 }
 
-/* Extra Description Text (shown on "Read More") */
 .extra-description {
-    font-size: 1rem;
-    color: #444;
-    line-height: 1.7;
     margin-top: 15px;
-    transition: opacity 0.3s ease;
-    max-height: 300px;
-    overflow: hidden;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #444;
+    background-color: #f9f9f9; /* Subtle background for extra description */
+    padding: 15px;
+    border-left: 4px solid #007bff; /* Accent border */
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); /* Subtle shadow */
 }
 
-/* Extra description fade-in effect */
-.extra-description p {
-    margin-bottom: 12px;
+.read-less {
+    color: #007bff;
+    font-weight: 600;
+    cursor: pointer;
+    display: block;
+    margin-top: 10px;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.read-less:hover {
+    color: #0056b3; /* Darker blue on hover */
 }
 
 

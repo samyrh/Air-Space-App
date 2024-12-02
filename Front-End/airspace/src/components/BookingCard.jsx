@@ -193,18 +193,28 @@ const IosWidget = () => {
                     <h3 className="section-title">Description</h3>
                     <p className="description-text">
                         This charming property in the heart of Minneapolis is perfect for a comfortable and stylish stay. Whether you're visiting for business or leisure, enjoy the ideal location, beautiful design, and modern amenities.
+                        {!showDescription && (
+                            <span
+                                className="read-more-ellipsis"
+                                onClick={() => setShowDescription(true)}
+                            >
+                ... Read More
+            </span>
+                        )}
                     </p>
-                    <button
-                        className="read-more-btn"
-                        onClick={() => setShowDescription(!showDescription)}>
-                        {showDescription ? "Show Less" : "Read More"}
-                    </button>
                     {showDescription && (
                         <p className="extra-description">
                             The apartment offers a spacious living area with a fully equipped kitchen, making it perfect for both short and extended stays. Located close to local attractions, restaurants, and public transport, you’ll be able to explore everything the city has to offer.
+                            <span
+                                className="read-less"
+                                onClick={() => setShowDescription(false)}
+                            >
+                Show Less
+            </span>
                         </p>
                     )}
                 </div>
+
                 {/* Separator Line */}
                 <div className="separator-line"></div>
             </div>

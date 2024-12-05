@@ -1,11 +1,6 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import "../assets/components/BookingCard.css";
 import '@fortawesome/fontawesome-free/css/all.min.css';
-import App from "../App.js";
-
-
-
-
 
 const IosWidget = () => {
     const pricePerNight = 42;
@@ -18,6 +13,9 @@ const IosWidget = () => {
     const [babies, setBabies] = useState(0);
     const [showAll, setShowAll] = useState(false);
     const [showDescription, setShowDescription] = useState(false);
+
+
+
     const toggleShowMore = () => {
         setShowAll(!showAll);
     };
@@ -107,6 +105,48 @@ const IosWidget = () => {
     // Disable the button if there are no nights
     const isButtonDisabled = nights === 0;
 
+    const [newComment, setNewComment] = useState("");
+    const [comments, setComments] = useState([
+        {
+            id: 1,
+            username: "John Doe",
+            date: "2 hours ago",
+            text: "This property looks amazing! Can’t wait to visit.",
+            avatar: "https://randomuser.me/api/portraits/men/1.jpg",
+        },
+        {
+            id: 2,
+            username: "Jane Smith",
+            date: "5 hours ago",
+            text: "Booked my stay already, so excited!",
+            avatar: "https://randomuser.me/api/portraits/women/2.jpg",
+        },
+        {
+            id: 3,
+            username: "Lucas Green",
+            date: "1 day ago",
+            text: "I love the location. Definitely adding this to my wishlist.",
+            avatar: "https://randomuser.me/api/portraits/men/3.jpg",
+        },
+    ]);
+
+    const handleCommentChange = (e) => setNewComment(e.target.value);
+
+    const handleSubmitComment = () => {
+        if (newComment.trim()) {
+            const newCommentObj = {
+                id: comments.length + 1,
+                username: "You",
+                date: "Just now",
+                text: newComment.trim(),
+                avatar: "https://randomuser.me/api/portraits/men/4.jpg",
+            };
+
+            setComments([newCommentObj, ...comments]);
+            setNewComment("");
+        }
+    };
+
     return (
         <div className="page-container">
             <div className="main-content">
@@ -159,7 +199,7 @@ const IosWidget = () => {
                             alt="Host Avatar"
                         />
                     </div>
-                    <h2>Host: Hicham</h2>
+                    <h2>Host: Hamid Laylay</h2>
                     <p><strong>New Host</strong></p>
                     <p><strong>Languages:</strong> English, French</p>
                     <p><strong>Joined:</strong> January 2024</p>
@@ -192,31 +232,94 @@ const IosWidget = () => {
                 <div className="description-section">
                     <h3 className="section-title">Description</h3>
                     <p className="description-text">
-                        This charming property in the heart of Minneapolis is perfect for a comfortable and stylish stay. Whether you're visiting for business or leisure, enjoy the ideal location, beautiful design, and modern amenities.
+                        This charming property in the heart of Minneapolis is perfect for a comfortable and stylish
+                        stay. Whether you're visiting for business or leisure, enjoy the ideal location, beautiful
+                        design, and modern amenities.
                         {!showDescription && (
                             <span
                                 className="read-more-ellipsis"
                                 onClick={() => setShowDescription(true)}
                             >
-                ... Read More
-            </span>
+                        ... Read More
+                    </span>
                         )}
                     </p>
                     {showDescription && (
                         <p className="extra-description">
-                            The apartment offers a spacious living area with a fully equipped kitchen, making it perfect for both short and extended stays. Located close to local attractions, restaurants, and public transport, you’ll be able to explore everything the city has to offer.
+                            The apartment offers a spacious living area with a fully equipped kitchen, making it perfect
+                            for both short and extended stays. Located close to local attractions, restaurants, and
+                            public transport, you’ll be able to explore everything the city has to offer.
                             <span
                                 className="read-less"
                                 onClick={() => setShowDescription(false)}
                             >
-                Show Less
-            </span>
+                        Show Less
+                    </span>
                         </p>
                     )}
                 </div>
-
                 {/* Separator Line */}
                 <div className="separator-line"></div>
+                <div className="comment-section">
+                    <div className="comments-list">
+                        {comments.map((comment) => (
+                            <div className="comment-item" key={comment.id}>
+                                <div className="avatar">
+                                    <img src={comment.avatar} alt={comment.username}/>
+                                </div>
+                                <div className="comment-content">
+                                    <div className="comment-header">
+                                        <span className="username">{comment.username}</span>
+                                        <span className="date">{comment.date}</span>
+                                    </div>
+                                    <p className="comment-text">{comment.text}</p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
+                    <div className="comment-input-section">
+                        <input
+                            type="text"
+                            className="comment-input"
+                            placeholder="Add a comment..."
+                            value={newComment}
+                            onChange={handleCommentChange}
+                        />
+                        <button
+                            className="submit-comment-btn"
+                            onClick={handleSubmitComment}
+                            disabled={!newComment.trim()}
+                        >
+                            Post
+                        </button>
+                    </div>
+                </div>
+                {/* Separator Line */}
+                <div className="separator-line"></div>
+
+                <div className="contact-host-container">
+                    <div className="host-info">
+                        <h2>Contact Your Host</h2>
+                        <ul>
+                            <li><strong>Host:</strong> Sarah Connor</li>
+                            <li><strong>Phone:</strong> +1 555 987 654</li>
+                            <li><strong>Email:</strong> host@vacay.com</li>
+                            <li><strong>Location:</strong> New York, NY</li>
+                        </ul>
+                    </div>
+
+                    <div className="message-input">
+                        <p className="info-text">
+                            Have any questions or special requests? Feel free to contact Sarah, and she’ll ensure you
+                            have the best stay.
+                        </p>
+                        <textarea placeholder="Type your message for the host here..."></textarea>
+                        <button type="button">Send Message</button>
+                    </div>
+                </div>
+
+
             </div>
             {/* Widget */}
             <div className="widget-container">

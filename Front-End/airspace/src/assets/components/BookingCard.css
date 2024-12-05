@@ -153,11 +153,7 @@
 }
 /* Host Section Styling (Compact iOS Style with Avatar) */
 .host-info {
-    margin-top: 20px;
     padding: 16px;
-    background: linear-gradient(145deg, #e2e2e2, #f9f9f9); /* Soft gradient for iOS-like feel */
-    border-radius: 12px; /* Rounded corners */
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Soft shadow */
     max-width: 400px; /* Smaller max-width */
     width: 100%;
     margin: 0 auto;
@@ -166,11 +162,7 @@
     font-family: 'Arial', sans-serif; /* Clean modern font */
 }
 
-/* Hover effect for the Host section */
-.host-info:hover {
-    transform: translateY(-4px); /* Slight lift on hover */
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* Stronger shadow */
-}
+
 
 /* Host Avatar Styling */
 .host-avatar {
@@ -295,76 +287,360 @@
     background-color: #0056b3;
 }
 .description-section {
-    background: linear-gradient(135deg, #ffffff, #f8f9fa); /* Light gradient */
-    padding: 20px 30px;
-    border-radius: 15px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* Modern shadow */
-    margin-top: 30px;
+    background: linear-gradient(145deg, #e2e2e2, #f9f9f9);  /* Softer gradient */
+    padding: 25px 35px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12); /* Enhanced shadow for depth */
+    margin-top: 40px;
     text-align: left;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.description-section:hover {
+    transform: translateY(-3px); /* Slight hover lift effect */
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
 }
 
 .section-title {
-    font-size: 1.8rem;
-    color: #333;
-    margin-bottom: 15px;
-    font-weight: 600;
-    border-bottom: 2px solid #007bff; /* Accent underline */
+    font-size: 2rem;
+    color: #2c3e50; /* Deep blue-gray */
+    margin-bottom: 20px;
+    font-weight: 700;
+    border-bottom: 3px solid #3498db; /* Bold underline with vibrant color */
     display: inline-block;
-    padding-bottom: 5px;
+    padding-bottom: 7px;
 }
 
 .description-text {
-    font-size: 1rem;
-    line-height: 1.6;
-    color: #555;
-    margin-bottom: 10px;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #34495e; /* Modern muted dark blue */
+    margin-bottom: 12px;
     position: relative;
+    text-align: justify;
 }
 
 .read-more-ellipsis {
-    color: #007bff;
-    font-weight: 600;
+    color: #3498db;
+    font-weight: 700;
     cursor: pointer;
     text-decoration: none;
-    margin-left: 5px;
-    transition: color 0.3s ease;
+    margin-left: 8px;
+    transition: color 0.3s ease, transform 0.2s ease;
+    font-style: italic;
 }
 
 .read-more-ellipsis:hover {
-    color: #0056b3; /* Darker blue on hover */
+    color: #2980b9; /* Vibrant hover effect */
+    transform: scale(1.1); /* Slight zoom-in effect */
 }
 
 .extra-description {
-    margin-top: 15px;
-    font-size: 1rem;
-    line-height: 1.6;
-    color: #444;
-    background-color: #f9f9f9; /* Subtle background for extra description */
-    padding: 15px;
-    border-left: 4px solid #007bff; /* Accent border */
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+    margin-top: 20px;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #2c3e50;
+    background: linear-gradient(145deg, #eae7e7, #f9f9f9);  /* Soft blended gradient */
+    padding: 20px;
+    border-left: 5px solid #3498db; /* Accent border with vibrant blue */
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    animation: fadeIn 0.3s ease; /* Smooth fade-in animation */
 }
 
 .read-less {
-    color: #007bff;
-    font-weight: 600;
+    color: #3498db;
+    font-weight: 700;
     cursor: pointer;
-    display: block;
-    margin-top: 10px;
+    display: inline-block;
+    margin-top: 12px;
     text-decoration: none;
-    transition: color 0.3s ease;
+    transition: color 0.3s ease, transform 0.2s ease;
+    font-style: italic;
 }
 
 .read-less:hover {
-    color: #0056b3; /* Darker blue on hover */
+    color: #2980b9;
+    transform: scale(1.1); /* Slight zoom-in effect */
+}
+
+/* Keyframes for fade-in animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive Design Enhancements */
+@media (max-width: 768px) {
+    .description-section {
+        padding: 20px 25px;
+    }
+
+    .section-title {
+        font-size: 1.8rem;
+    }
+
+    .description-text {
+        font-size: 1rem;
+    }
+
+    .extra-description {
+        font-size: 1rem;
+        padding: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .description-section {
+        padding: 15px 20px;
+    }
+
+    .section-title {
+        font-size: 1.5rem;
+    }
+
+    .description-text {
+        font-size: 0.9rem;
+    }
+
+    .extra-description {
+        font-size: 0.9rem;
+        padding: 10px;
+    }
+}
+/* General Comment Section */
+.comment-section {
+    width: 100%;
+    max-width: 870px; /* Decreased max-width for a slightly smaller width */
+    margin: 20px auto;
+    padding: 25px 35px; /* Adjust padding similar to description-section */
+    background: linear-gradient(145deg, #e2e2e2, #f9f9f9); /* Softer gradient */
+    border-radius: 20px; /* Rounded corners */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12); /* Enhanced shadow for depth */
+    font-family: 'Arial', sans-serif;
+    text-align: left;
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
 }
 
 
+/* Comment List */
+.comments-list {
+    max-height: 350px;
+    overflow-y: auto;
+    margin-bottom: 20px;
+}
 
+/* Comment Item */
+.comment-item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 16px;
+    gap: 12px;
+    padding: 10px;
+}
 
+.comment-item .avatar {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
 
+.comment-item .avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
 
+.comment-content {
+    flex: 1;
+    background: #f4f4f4;
+    padding: 12px 16px;
+    border-radius: 12px;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.comment-header .username {
+    font-weight: bold;
+    color: #333;
+}
+
+.comment-header .date {
+    font-size: 0.85rem;
+    color: #999;
+}
+
+.comment-text {
+    font-size: 1rem;
+    color: #555;
+}
+
+/* Comment Input Section */
+.comment-input-section {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 0;
+    border-top: 1px solid #ddd;
+}
+
+.comment-input {
+    flex-grow: 1;
+    padding: 14px 20px;
+    border: none;
+    border-radius: 25px;
+    background: linear-gradient(145deg, #e0e0e0, #f4f4f4);
+    box-shadow: inset 2px 2px 6px rgba(0, 0, 0, 0.1), inset -2px -2px 6px rgba(255, 255, 255, 0.7);
+    font-size: 1rem;
+    color: #333;
+    transition: background 0.3s ease;
+}
+
+.comment-input:focus {
+    outline: none;
+    background: linear-gradient(145deg, #ffffff, #f5f5f5);
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+}
+
+.submit-comment-btn {
+    padding: 12px 24px;
+    border: none;
+    background: #0095f6;
+    color: #fff;
+    font-size: 1rem;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.submit-comment-btn:disabled {
+    background: #b2dffc;
+    cursor: not-allowed;
+}
+
+.submit-comment-btn:hover:not(:disabled) {
+    background: #007ab8;
+}
+/* Container Styling */
+.contact-host-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    background: transparent;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    max-width: 900px;
+    margin: 40px auto;
+    gap: 20px;
+}
+
+/* Host Info Section */
+.host-info {
+    flex: 1;
+    min-width: 300px;
+}
+
+.host-info h2 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.host-info ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 1rem;
+    color: #555;
+}
+
+.host-info ul li {
+    margin-bottom: 10px;
+}
+
+/* Message Input Section */
+.message-input {
+    flex: 1;
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.info-text {
+    font-size: 1rem;
+
+    color: #777;
+    margin-bottom: 7px;
+    line-height: 1.5;
+    max-width: 100%;
+}
+
+.message-input textarea {
+    width: 95%;
+    height: 120px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    font-size: 1rem;
+    color: #333;
+    background: #f9f9f9;
+    box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.1);
+    resize: none;
+    transition: border 0.3s, box-shadow 0.3s;
+}
+
+.message-input textarea:focus {
+    outline: none;
+    border-color: #ff7f50;
+    box-shadow: 0 0 10px rgba(255, 127, 80, 0.3);
+}
+
+.message-input button {
+    align-self: flex-start;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 25px;
+    background: linear-gradient(135deg, #ff7f50, #ff4500);
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.message-input button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 15px rgba(255, 69, 0, 0.3);
+}
+
+.message-input button:active {
+    transform: translateY(0);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .contact-host-container {
+        flex-direction: column;
+    }
+}
 
 
 

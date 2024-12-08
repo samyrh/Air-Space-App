@@ -2,7 +2,6 @@ package ma.spacebnb.userservice.dao.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +24,5 @@ public class Guest extends User {
     @Lob
     @Column(columnDefinition = "LONGBLOB")
     private byte[] idImageBack;
-
 
 }

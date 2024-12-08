@@ -2,6 +2,7 @@ package ma.spacebnb.userservice.dao.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import ma.spacebnb.userservice.dao.enums.Role;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,8 +11,8 @@ import java.util.List;
 @Setter
 @Getter
 @ToString
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 public class Host extends User {
 
 
@@ -28,4 +29,7 @@ public class Host extends User {
     @Column(columnDefinition = "LONGBLOB")
     private byte[] idImageBack;
 
+    public void setPropertyLimit(int propertyLimit) {
+        this.propertyLimit = propertyLimit;
+    }
 }

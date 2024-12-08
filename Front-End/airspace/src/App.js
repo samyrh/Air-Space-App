@@ -10,11 +10,14 @@ import TravelIdeas from './components/TravelIdeas.jsx';
 import ScrollToTopButton from './components/ScrollToTopButton.jsx';
 import StaybnbGallery from './components/Pics.jsx'
 import BookingCard from "./components/BookingCard.jsx";
+import GuestLogin from "./components/authentification/GuestLogin.jsx";
 
 function App() {
     return (
         <div className="App">
-            <Navbar />
+            {
+                /*
+                <Navbar />
 
             <div className="container">
                 <StaybnbGallery/>
@@ -23,11 +26,14 @@ function App() {
             <div className="container">
                 <BookingCard/>
             </div>
-
-
-            {/* Add the ScrollToTopButton here */}
             <ScrollToTopButton />
             <Footer />
+                 */
+            }
+
+            <GuestLogin/>
+
+
         </div>
     );
 }

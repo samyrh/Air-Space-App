@@ -1,6 +1,7 @@
 package ma.spacebnb.userservice.dao.enums;
 
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 public enum Role {

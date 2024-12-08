@@ -1,9 +1,6 @@
 package ma.spacebnb.userservice.dao.entities;
 
-import jakarta.persistence.DiscriminatorValue;
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Lob;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -22,9 +19,11 @@ public class Guest extends User {
     private List<Long> idsWishlist = new ArrayList<>();
 
     @Lob
+    @Column(columnDefinition = "LONGBLOB")
     private byte[] idImageFront;
 
     @Lob
+    @Column(columnDefinition = "LONGBLOB")
     private byte[] idImageBack;
 
 

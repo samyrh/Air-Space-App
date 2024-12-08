@@ -11,6 +11,7 @@ import ScrollToTopButton from './components/ScrollToTopButton.jsx';
 import StaybnbGallery from './components/Pics.jsx'
 import BookingCard from "./components/BookingCard.jsx";
 import GuestLogin from "./components/authentification/GuestLogin.jsx";
+import GuestRegister from "./components/authentification/GuestRegister.jsx";
 
 function App() {
     return (

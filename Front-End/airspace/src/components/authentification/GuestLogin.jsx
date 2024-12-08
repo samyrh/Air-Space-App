@@ -4,7 +4,7 @@ import React, { useState } from "react";
 
 const Login = () => {
     const [formData, setFormData] = useState({
-        username: "",
+        email: "",
         password: "",
     });
 
@@ -15,19 +15,19 @@ const Login = () => {
             ...formData,
             [e.target.name]: e.target.value,
         });
-        if (formData.username && formData.password) setError("");
+        if (formData.email && formData.password) setError("");
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (formData.username === "" || formData.password === "") {
+        if (formData.email === "" || formData.password === "") {
             setError("Both fields are required to log in!");
         } else {
-            alert(`Welcome to Spacebnb, ${formData.username}!`);
+            alert(`Welcome to Spacebnb, ${formData.email}!`);
         }
     };
 
-    const isFormValid = formData.username.trim() && formData.password.trim();
+    const isFormValid = formData.email.trim() && formData.password.trim();
 
     return (
         <div className="login-container">
@@ -41,14 +41,14 @@ const Login = () => {
                 <form onSubmit={handleSubmit} className="login-form">
                     {error && <div className="login-error">{error}</div>}
                     <div className="login-field">
-                        <label htmlFor="username">Username</label>
+                        <label htmlFor="email">Email</label>
                         <input
                             type="text"
-                            id="username"
-                            name="username"
-                            value={formData.username}
+                            id="email"
+                            name="email"
+                            value={formData.email}
                             onChange={handleChange}
-                            placeholder="Enter your username"
+                            placeholder="Enter your email"
                         />
                     </div>
                     <div className="login-field">

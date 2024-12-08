@@ -1,0 +1,219 @@
+/* Reset and Base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Inter", sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: linear-gradient(to bottom, #dce0d9, #e2e4dd, #e8e8e1, #edece5, #f3f0e9, #f4efe7, #f5efe6, #f6eee4, #f3e8dc, #f0e3d3, #edddcb,#ead7c3);
+    background-size: cover;
+}
+
+/* Container */
+.register-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    padding: 30px;
+}
+
+.register-glass {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 30px;
+    box-shadow: 0 10px 50px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    padding: 50px;
+    max-width: 600px;
+    width: 100%;
+    text-align: center;
+    color: #ffffff;
+}
+.register-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+.register-field {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+.register-field label {
+    margin-bottom: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+}
+.register-field input {
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Adjusting Form Grid */
+.register-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+/* Dropdown and Phone Input Adjustments */
+.react-tel-input .flag-dropdown {
+    background: #ffffff !important;
+    border: none !important;
+}
+
+.react-tel-input .country-list {
+    background: #f9f9f9 !important;
+    color: #333 !important;
+    border: 1px solid #ccc;
+}
+
+.react-tel-input .country-list .country {
+    padding: 8px !important;
+    font-size: 1rem !important;
+}
+
+.react-tel-input input {
+    height: 50px !important;
+    padding-left: 60px !important;
+    font-size: 1.1rem !important;
+}
+
+
+.phone-input {
+    width: 100% !important;
+    border-radius: 15px;
+    border: none;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    padding: 18px !important;
+    font-size: 1.1rem;
+}
+
+
+/* Branding */
+.branding h1 {
+    font-size: 4rem;
+    color: black;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.branding p {
+    font-size: 1.5rem;
+    color: #333333;
+    margin-bottom: 30px;
+    font-weight: 300;
+}
+
+/* Title and Subtitle */
+.register-title {
+    font-size: 3rem;
+    color: black;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.register-subtitle {
+    font-size: 1.2rem;
+    color:#333333;
+    margin-bottom: 40px;
+    font-weight: 300;
+}
+
+/* Form Fields */
+.register-field {
+    margin-bottom: 30px;
+    text-align: left;
+}
+
+.register-field label {
+    display: block;
+    font-size: 1.1rem;
+    color: #333333;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.register-field input {
+    width: 100%;
+    padding: 18px;
+    border: none;
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.2);
+    color: #333333;
+    font-size: 1.1rem;
+    outline: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.register-field input:focus {
+    background: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 6px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* Button */
+.register-button {
+    width: 100%;
+    padding: 18px;
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #333333;
+    background-color: #ead7c3;
+    border: 1px solid #292929;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 30px rgba(0, 0, 0, 0.3);
+}
+
+.register-button:disabled {
+    background: linear-gradient(135deg, #9c9c9c, #c4c4c4);
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+.register-button:hover:not(:disabled) {
+    background-color: #b19b88;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4);
+}
+
+/* Error Message */
+.register-error {
+    background: rgba(255, 0, 0, 0.2);
+    color: #ff6b6b;
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    padding: 12px;
+    border-radius: 12px;
+    border-left: 5px solid #ff6b6b;
+    text-align: left;
+    font-weight: 500;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Footer Link */
+.register-footer {
+    margin-top: 30px;
+    color: #333333;
+}
+
+.register-link {
+    color: #202020;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.register-link:hover {
+    text-decoration: underline;
+}

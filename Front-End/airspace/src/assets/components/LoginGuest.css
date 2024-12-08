@@ -11,7 +11,6 @@ body {
     align-items: center;
     justify-content: center;
     min-height: 100vh;
-    background-image: linear-gradient(to right top, #84ffc9, #56f6e1, #38eaf4, #46dcff, #6accff, #7fc4ff, #9bbaff, #b9afff, #c5acff, #d1a9ff, #dea5ff, #eca0ff);
     background-size: cover;
 }
 
@@ -56,14 +55,14 @@ body {
 /* Title and Subtitle */
 .login-title {
     font-size: 3rem;
-    color: #ffffff;
+    color: black;
     font-weight: 600;
     margin-bottom: 20px;
 }
 
 .login-subtitle {
     font-size: 1.2rem;
-    color: #f2f2f2;
+    color: #333333;
     margin-bottom: 40px;
     font-weight: 300;
 }
@@ -77,7 +76,7 @@ body {
 .login-field label {
     display: block;
     font-size: 1.1rem;
-    color: #e3e3e3;
+    color: #333333;
     margin-bottom: 8px;
     font-weight: 500;
 }
@@ -88,7 +87,7 @@ body {
     border: none;
     border-radius: 15px;
     background: rgba(255, 255, 255, 0.2);
-    color: #ffffff;
+    color: #333333;
     font-size: 1.1rem;
     outline: none;
     transition: all 0.3s ease;
@@ -106,9 +105,9 @@ body {
     padding: 18px;
     font-size: 1.3rem;
     font-weight: bold;
-    color: #fff;
-    background: linear-gradient(135deg, #dea5ff, #eca0ff);
-    border: none;
+    color: #333333;
+    background-color: #ead7c3;
+    border: 1px solid #292929;
     border-radius: 15px;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -122,7 +121,7 @@ body {
 }
 
 .login-button:hover:not(:disabled) {
-    background: linear-gradient(135deg, #c1a2ff, #eca0ff);
+    background-color: #b19b88;
     box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4);
 }
 
@@ -143,11 +142,11 @@ body {
 /* Footer Link */
 .login-footer {
     margin-top: 30px;
-    color: #e3e3e3;
+    color: #333333;
 }
 
 .login-link {
-    color: #ffffff;
+    color: #202020;
     font-weight: 600;
     text-decoration: none;
 }

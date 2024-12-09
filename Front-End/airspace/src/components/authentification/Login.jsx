@@ -1,37 +1,76 @@
 import "../../assets/components/LoginGuest.css";
 import React, { useState } from "react";
-
+import axios from "axios";
+import "react-phone-input-2/lib/style.css";
+import {jwtDecode} from "jwt-decode";
 
 const Login = () => {
     const [formData, setFormData] = useState({
-        email: "",
+        username: "",
         password: "",
     });
-
     const [error, setError] = useState("");
+    const [shake, setShake] = useState(false); // State for shake animation
 
     const handleChange = (e) => {
         setFormData({
             ...formData,
             [e.target.name]: e.target.value,
         });
-        if (formData.email && formData.password) setError("");
+        setError(""); // Clear error on input change
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        if (formData.email === "" || formData.password === "") {
+
+        if (!formData.username.trim() || !formData.password.trim()) {
             setError("Both fields are required to log in!");
-        } else {
-            alert(`Welcome to Spacebnb, ${formData.email}!`);
+            triggerShake(); // Trigger shake animation
+            return;
+        }
+
+        try {
+            const response = await axios.post(
+                "http://localhost:7090/api/auth/authenticate",
+                formData,
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+
+            const { jwt, role } = response.data;
+            localStorage.setItem("jwt", jwt);
+            localStorage.setItem("role", role);
+
+            const decodedToken = jwtDecode(jwt);
+            const username = decodedToken.username;
+            const userId = decodedToken.userId;
+            const userRole = decodedToken.role;
+            console.log("Decoded Token:", decodedToken);
+
+            setError(""); // Clear any previous error
+        } catch (error) {
+            if (error.response) {
+                setError(error.response.data);
+            } else {
+                setError("An unexpected error occurred. Please try again.");
+            }
+            triggerShake(); // Trigger shake animation
         }
     };
 
-    const isFormValid = formData.email.trim() && formData.password.trim();
+    const triggerShake = () => {
+        setShake(true);
+        setTimeout(() => setShake(false), 500); // Reset shake after animation duration
+    };
+
+    const isFormValid = formData.username.trim() && formData.password.trim();
 
     return (
         <div className="login-container">
-            <div className="login-glass">
+            <div className={`login-glass ${shake ? "shake" : ""}`}>
                 <div className="branding">
                     <h1>Spacebnb</h1>
                     <p>Explore your space from anywhere</p>
@@ -41,14 +80,14 @@ const Login = () => {
                 <form onSubmit={handleSubmit} className="login-form">
                     {error && <div className="login-error">{error}</div>}
                     <div className="login-field">
-                        <label htmlFor="email">Email</label>
+                        <label htmlFor="username">Username</label>
                         <input
                             type="text"
-                            id="email"
-                            name="email"
-                            value={formData.email}
+                            id="username"
+                            name="username"
+                            value={formData.username}
                             onChange={handleChange}
-                            placeholder="Enter your email"
+                            placeholder="Enter your username"
                         />
                     </div>
                     <div className="login-field">

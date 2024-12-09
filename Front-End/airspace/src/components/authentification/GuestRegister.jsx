@@ -1,9 +1,8 @@
-import "../../assets/components/RegisterForm.css";
 import React, { useState } from "react";
+import axios from "axios";  // Import axios
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
-
-
+import "../../assets/components/RegisterForm.css";
 
 const Register = () => {
     const [formData, setFormData] = useState({
@@ -38,8 +37,10 @@ const Register = () => {
         setFormData((prev) => ({ ...prev, phone: value }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+
+        // Check for empty fields or password mismatch
         if (
             !formData.FirstName ||
             !formData.LastName ||
@@ -52,9 +53,26 @@ const Register = () => {
         } else if (formData.password !== formData.confirmPassword) {
             setError("Passwords do not match!");
         } else {
-            alert(`Registration successful, welcome ${formData.FirstName} ${formData.LastName}!`);
+            try {
+                // Send POST request to backend
+                const response = await axios.post("http://localhost:7090/api/auth/register/guest", formData);
+
+                if (response.status === 201) {
+                    alert(`Registration successful, welcome ${formData.FirstName} ${formData.LastName}!`);
+                } else {
+                    setError("Registration failed. Please try again.");
+                }
+            } catch (error) {
+                console.error("Error during registration:", error);
+                if (error.response && error.response.data) {
+                    setError(error.response.data); // Show backend error message
+                } else {
+                    setError("Registration failed. Please try again.");
+                }
+            }
         }
     };
+
 
     const isFormValid =
         formData.FirstName.trim() &&
@@ -176,4 +194,3 @@ const Register = () => {
 };
 
 export default Register;
-

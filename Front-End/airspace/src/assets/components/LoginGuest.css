@@ -154,3 +154,35 @@ body {
 .login-link:hover {
     text-decoration: underline;
 }
+/* Ultra-Smooth Shake Animation */
+@keyframes shake {
+    0% {
+        transform: translateX(0);
+        border-color: red;
+    }
+    20% {
+        transform: translateX(-8px);
+    }
+    40% {
+        transform: translateX(8px);
+    }
+    60% {
+        transform: translateX(-6px);
+    }
+    80% {
+        transform: translateX(6px);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+.shake {
+    animation: shake 0.6s cubic-bezier(0.25, 1, 0.5, 1); /* Smooth easing */
+    border: 2px solid red; /* Persistent red border */
+    border-radius: 20px; /* Sleek and modern rounded edges */
+    overflow: hidden; /* Ensure content inside respects the rounded edges */
+    transition: border-color 0.3s ease; /* Subtle border-color transition */
+}
+
+

@@ -10,7 +10,7 @@ import TravelIdeas from './components/TravelIdeas.jsx';
 import ScrollToTopButton from './components/ScrollToTopButton.jsx';
 import StaybnbGallery from './components/Pics.jsx'
 import BookingCard from "./components/BookingCard.jsx";
-import GuestLogin from "./components/authentification/GuestLogin.jsx";
+import GuestLogin from "./components/authentification/Login.jsx";
 import GuestRegister from "./components/authentification/GuestRegister.jsx";
 
 function App() {
@@ -32,7 +32,7 @@ function App() {
                  */
             }
 
-            <GuestLogin/>
+            <GuestRegister/>
 
 
         </div>

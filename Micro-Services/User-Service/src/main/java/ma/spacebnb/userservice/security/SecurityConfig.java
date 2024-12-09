@@ -25,26 +25,25 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/api/auth/authenticate", "/api/auth/register").permitAll() // Allow auth and register
-                        .requestMatchers("/api/host/**").hasAuthority("HOST") // Only accessible by users with HOST authority
-                        .requestMatchers("/api/guest/**").hasAuthority("GUEST") // Only accessible by users with GUEST authority
-                        .anyRequest().authenticated() // Other requests require authentication
+                        .requestMatchers("/api/auth/authenticate/**", "/api/auth/register/**").permitAll()
+                        .requestMatchers("/api/host/**").hasAuthority("HOST")
+                        .requestMatchers("/api/guest/**").hasAuthority("GUEST")
+                        .anyRequest().authenticated()
                 )
-                .formLogin(formLogin -> formLogin // Use the non-deprecated formLogin() configuration
+                .formLogin(formLogin -> formLogin
 
                         .permitAll() // Allow unauthenticated access to the login page
                         .successHandler((request, response, authentication) -> {
                             // Handle success redirection based on role
                             String role = authentication.getAuthorities().toString();
                             if (role.contains("HOST")) {
-                                response.sendRedirect("https://www.google.com"); // Redirect to Google for HOST users
+                                response.sendRedirect("https://www.google.com");
                             } else if (role.contains("GUEST")) {
-                                response.sendRedirect("https://www.youtube.com"); // Redirect to YouTube for GUEST users
+                                response.sendRedirect("https://www.youtube.com");
                             }
                         })
                 )
-                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class); // Add JWT filter before UsernamePasswordAuthenticationFilter
-
+                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
@@ -55,6 +54,6 @@ public class SecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(); // Use BCrypt for password encoding
+        return new BCryptPasswordEncoder();
     }
 }

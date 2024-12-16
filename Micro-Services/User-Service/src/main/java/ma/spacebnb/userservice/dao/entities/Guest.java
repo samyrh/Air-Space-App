@@ -9,11 +9,14 @@ import java.util.List;
 @Setter
 @Getter
 @ToString
-@NoArgsConstructor
 @AllArgsConstructor
 public class Guest extends User {
 
+    private String role ="GUEST";
 
+    public Guest(){
+        super.setRole("GUEST");
+    }
     @ElementCollection
     private List<Long> idsWishlist = new ArrayList<>();
 

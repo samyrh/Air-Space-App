@@ -11,8 +11,4 @@ public class KeyUtil {
         byte[] decodedKey = Base64.getDecoder().decode(keyString);
         return new SecretKeySpec(decodedKey, 0, decodedKey.length, "HmacSHA256");
     }
-
-
-
-
 }

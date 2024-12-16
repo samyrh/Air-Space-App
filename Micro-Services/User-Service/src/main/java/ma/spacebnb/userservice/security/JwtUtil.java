@@ -1,11 +1,10 @@
 package ma.spacebnb.userservice.security;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.Map;
 
@@ -18,8 +17,8 @@ public class JwtUtil {
     @Value("${jwt.expiration}")
     private long JWT_TOKEN_VALIDITY;
 
-    // Extract username from token
-    public String extractUsername(String token) {
+    // Extract email from token
+    public String extractEmail(String token) {
         return extractAllClaims(token).getSubject();
     }
 
@@ -28,42 +27,33 @@ public class JwtUtil {
         return extractAllClaims(token).getExpiration();
     }
 
-    // Extract all claims from the token
+    // Extract all claims
     private Claims extractAllClaims(String token) {
+        SecretKey key = KeyUtil.getKeyFromString(SECRET_KEY);
         return Jwts.parserBuilder()
-                .setSigningKey(SECRET_KEY.getBytes())
+                .setSigningKey(key)
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
     }
 
-    // Generate token with custom claims, including username and userId
-    public String generateToken(String username, Long userId, Map<String, Object> additionalClaims) {
-        // Merge standard claims with additional custom claims
-        Map<String, Object> claims = additionalClaims != null ? additionalClaims : Map.of();
-        claims.put("username", username);
-        claims.put("userId", userId);
-
+    // Generate token
+    public String generateToken(String email, Map<String, Object> additionalClaims) {
         return Jwts.builder()
-                .setClaims(claims) // Set claims
-                .setSubject(username) // Set subject (typically username)
-                .setIssuedAt(new Date(System.currentTimeMillis())) // Set issued date
-                .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY)) // Set expiration
-                .signWith(SignatureAlgorithm.HS256, SECRET_KEY.getBytes()) // Sign with secret key
+                .setClaims(additionalClaims)
+                .setSubject(email)
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY))
+                .signWith(KeyUtil.getKeyFromString(SECRET_KEY))
                 .compact();
     }
 
-    // Overloaded method to generate token with only username
-    public String generateToken(String username) {
-        return generateToken(username, null, Map.of());
+    // Validate token
+    public boolean validateToken(String token, String email) {
+        return extractEmail(token).equals(email) && !isTokenExpired(token);
     }
 
-    // Validate token against username and expiration
-    public boolean validateToken(String token, String username) {
-        return extractUsername(token).equals(username) && !isTokenExpired(token);
-    }
-
-    // Check if the token has expired
+    // Check token expiration
     private boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
     }

@@ -53,7 +53,23 @@ public class PropertyController {
                     property.setCity(node.path("city").asText("Unknown City"));
                     property.setLatitude(node.path("lat").asDouble(0.0));
                     property.setLongitude(node.path("lng").asDouble(0.0));
-                    property.setPricePerNight(node.path("price").path("price").asDouble(0.0));
+                    property.setPricePerNight(node.path("price").path("rate").asDouble(0.0));
+                    property.setRating(node.path("rating").asDouble(0.0));
+                    property.setAddress(node.path("address").asText("Unknown Address"));
+                    property.setType(node.path("type").asText("Unknown Type"));
+                    property.setBeds(node.path("beds").asInt());
+                    property.setBedrooms(node.path("bedrooms").asInt());
+                    property.setBathrooms(node.path("bathrooms").asInt());
+                    property.setPersons(node.path("persons").asInt());
+                    // Map images
+                    List<String> images = new ArrayList<>();
+                    for (JsonNode imageNode : node.path("images")) {
+                        images.add(imageNode.asText());
+                    }
+                    property.setImages(images);
+
+                    // Map description (if available)
+                    property.setDescription(node.path("description").asText("No Description Available"));
 
                     properties.add(property);
                 }
@@ -68,6 +84,7 @@ public class PropertyController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(List.of());
         }
     }
+
 
 
     // Additional endpoints can go here

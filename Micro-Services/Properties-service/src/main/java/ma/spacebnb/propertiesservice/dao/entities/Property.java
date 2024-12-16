@@ -19,6 +19,12 @@ public class Property {
 
     private String name;
 
+    private int bathrooms;
+    private int bedrooms;
+    private int beds;
+
+
+
     @Lob
     private String description;
 
@@ -26,6 +32,8 @@ public class Property {
 
     private double latitude;
     private double longitude;
+    private int persons;
+    private Double rating;
 
     private String city;
 
@@ -176,4 +184,45 @@ public class Property {
         this.hostId = hostId;
     }
 
+
+
+    public int getPersons() {
+        return persons;
+    }
+
+    public void setPersons(int persons) {
+        this.persons = persons;
+    }
+
+    public Double getRating() {
+        return rating;
+    }
+
+    public void setRating(Double rating) {
+        this.rating = rating;
+    }
+
+    public int getBathrooms() {
+        return bathrooms;
+    }
+
+    public void setBathrooms(int bathrooms) {
+        this.bathrooms = bathrooms;
+    }
+
+    public int getBedrooms() {
+        return bedrooms;
+    }
+
+    public void setBedrooms(int bedrooms) {
+        this.bedrooms = bedrooms;
+    }
+
+    public int getBeds() {
+        return beds;
+    }
+
+    public void setBeds(int beds) {
+        this.beds = beds;
+    }
 }

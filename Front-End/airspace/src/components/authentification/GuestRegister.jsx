@@ -1,13 +1,14 @@
 import React, { useState } from "react";
-import axios from "axios";  // Import axios
+import axios from "axios";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import "../../assets/components/RegisterForm.css";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
     const [formData, setFormData] = useState({
-        FirstName: "",
-        LastName: "",
+        name: "",
+        username: "",
         email: "",
         password: "",
         phone: "",
@@ -15,6 +16,11 @@ const Register = () => {
     });
 
     const [error, setError] = useState("");
+    const [passwordMatch, setPasswordMatch] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [transitioning, setTransitioning] = useState(false);
+    const [loaderProgress, setLoaderProgress] = useState(0); // Track loader progress
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
         const { name, value } = e.target || {};
@@ -23,14 +29,18 @@ const Register = () => {
             [name]: value,
         }));
         if (
-            formData.FirstName &&
-            formData.LastName &&
+            formData.name &&
+            formData.username &&
             formData.phone &&
             formData.email &&
             formData.password &&
             formData.confirmPassword
         )
             setError("");
+
+        if (formData.password && formData.confirmPassword) {
+            setPasswordMatch(formData.password === formData.confirmPassword);
+        }
     };
 
     const handlePhoneChange = (value) => {
@@ -39,44 +49,63 @@ const Register = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);
+        setTransitioning(true); // Start transition
+        setLoaderProgress(0); // Reset loader progress
 
-        // Check for empty fields or password mismatch
         if (
-            !formData.FirstName ||
-            !formData.LastName ||
+            !formData.name ||
+            !formData.username ||
             !formData.phone ||
             !formData.email ||
             !formData.password ||
             !formData.confirmPassword
         ) {
             setError("All fields are required to register!");
+            setLoading(false);
+            setTransitioning(false);
         } else if (formData.password !== formData.confirmPassword) {
             setError("Passwords do not match!");
+            setLoading(false);
+            setTransitioning(false);
         } else {
             try {
-                // Send POST request to backend
-                const response = await axios.post("http://localhost:7090/api/auth/register/guest", formData);
+                const response = await axios.post("http://localhost:5566/api/auth/register", formData);
 
                 if (response.status === 201) {
-                    alert(`Registration successful, welcome ${formData.FirstName} ${formData.LastName}!`);
+                    // Simulate loader progress and then redirect
+                    let progress = 0;
+                    const interval = setInterval(() => {
+                        progress += 10;
+                        setLoaderProgress(progress);
+                        if (progress >= 100) {
+                            clearInterval(interval);
+                            setTimeout(() => {
+                                navigate("/login"); // Redirect to login after loading animation completes
+                            }, 500); // Delay navigation by 500ms for smooth transition
+                        }
+                    }, 200); // Simulate loader progress every 200ms
                 } else {
                     setError("Registration failed. Please try again.");
+                    setLoading(false);
+                    setTransitioning(false);
                 }
             } catch (error) {
                 console.error("Error during registration:", error);
                 if (error.response && error.response.data) {
-                    setError(error.response.data); // Show backend error message
+                    setError(error.response.data);
                 } else {
                     setError("Registration failed. Please try again.");
                 }
+                setLoading(false);
+                setTransitioning(false);
             }
         }
     };
 
-
     const isFormValid =
-        formData.FirstName.trim() &&
-        formData.LastName.trim() &&
+        formData.name.trim() &&
+        formData.username.trim() &&
         formData.phone.trim() &&
         formData.email.trim() &&
         formData.password.trim() &&
@@ -84,7 +113,7 @@ const Register = () => {
         formData.password === formData.confirmPassword;
 
     return (
-        <div className="register-container">
+        <div className={`register-container ${transitioning ? "transitioning" : ""}`}>
             <div className="register-glass">
                 <div className="branding">
                     <h1>Spacebnb</h1>
@@ -95,25 +124,25 @@ const Register = () => {
                     {error && <div className="register-error">{error}</div>}
                     <div className="register-row">
                         <div className="register-field">
-                            <label htmlFor="FirstName">First Name</label>
+                            <label htmlFor="name">Full Name</label>
                             <input
                                 type="text"
-                                id="FirstName"
-                                name="FirstName"
-                                value={formData.FirstName}
+                                id="name"
+                                name="name"
+                                value={formData.name}
                                 onChange={handleChange}
-                                placeholder="Enter your First Name"
+                                placeholder="Enter your full name"
                             />
                         </div>
                         <div className="register-field">
-                            <label htmlFor="LastName">Last Name</label>
+                            <label htmlFor="username">Username</label>
                             <input
                                 type="text"
-                                id="LastName"
-                                name="LastName"
-                                value={formData.LastName}
+                                id="username"
+                                name="username"
+                                value={formData.username}
                                 onChange={handleChange}
-                                placeholder="Enter your Last Name"
+                                placeholder="Enter your username"
                             />
                         </div>
                     </div>
@@ -177,17 +206,35 @@ const Register = () => {
                                 value={formData.confirmPassword}
                                 onChange={handleChange}
                                 placeholder="Confirm your Password"
+                                style={{
+                                    borderColor: passwordMatch ? "green" : "red",
+                                }}
                             />
                         </div>
                     </div>
                     <button
                         type="submit"
                         className="register-button"
-                        disabled={!isFormValid}
+                        disabled={!isFormValid || loading}
                     >
-                        Register
+                        {loading ? "Registering..." : "Register"}
                     </button>
                 </form>
+
+                {loading && (
+                    <div className="loading-bar">
+                        <div
+                            className="loading-progress"
+                            style={{ width: `${loaderProgress}%` }}
+                        ></div>
+                    </div>
+                )}
+
+                <div className="register-footer">
+                    <p>
+                        Already have an account? <a href="/login">Login here</a>
+                    </p>
+                </div>
             </div>
         </div>
     );

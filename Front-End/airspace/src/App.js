@@ -10,8 +10,9 @@ import TravelIdeas from './components/TravelIdeas.jsx';
 import ScrollToTopButton from './components/ScrollToTopButton.jsx';
 import StaybnbGallery from './components/Pics.jsx'
 import BookingCard from "./components/BookingCard.jsx";
-import GuestLogin from "./components/authentification/Login.jsx";
-import GuestRegister from "./components/authentification/GuestRegister.jsx";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Login from "./components/authentification/Login.jsx"; // Adjust the path as needed
+import Register from "./components/authentification/GuestRegister.jsx"; // Adjust the path as needed
 
 function App() {
     return (
@@ -32,8 +33,18 @@ function App() {
                  */
             }
 
-            <GuestRegister/>
+            <Router>
+                <Routes>
+                    {/* Route to render Login component */}
+                    <Route path="/login" element={<Login />} />
 
+                    {/* Route to render Register component */}
+                    <Route path="/register" element={<Register />} />
+
+                    {/* Optionally, you can redirect to login or a home page */}
+                    <Route path="/" element={<Login />} />
+                </Routes>
+            </Router>
 
         </div>
     );

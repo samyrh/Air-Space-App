@@ -5,12 +5,15 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@NoArgsConstructor @AllArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 public class Property {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -22,8 +25,6 @@ public class Property {
     private int bathrooms;
     private int bedrooms;
     private int beds;
-
-
 
     @Lob
     private String description;
@@ -50,12 +51,16 @@ public class Property {
     @Column(name = "image")
     private List<String> images = new ArrayList<>();
 
-    private String availability;
+    @ElementCollection
+    @CollectionTable(name = "property_availability", joinColumns = @JoinColumn(name = "property_id"))
+    @Column(name = "available_date")
+    private List<LocalDate> availability = new ArrayList<>(); // Updated field for dates
 
     private String status;
 
     private Long hostId;
 
+    // Getters and Setters (Add them if not already present)
     public Long getId() {
         return id;
     }
@@ -78,6 +83,30 @@ public class Property {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getBathrooms() {
+        return bathrooms;
+    }
+
+    public void setBathrooms(int bathrooms) {
+        this.bathrooms = bathrooms;
+    }
+
+    public int getBedrooms() {
+        return bedrooms;
+    }
+
+    public void setBedrooms(int bedrooms) {
+        this.bedrooms = bedrooms;
+    }
+
+    public int getBeds() {
+        return beds;
+    }
+
+    public void setBeds(int beds) {
+        this.beds = beds;
     }
 
     public String getDescription() {
@@ -112,6 +141,22 @@ public class Property {
         this.longitude = longitude;
     }
 
+    public int getPersons() {
+        return persons;
+    }
+
+    public void setPersons(int persons) {
+        this.persons = persons;
+    }
+
+    public Double getRating() {
+        return rating;
+    }
+
+    public void setRating(Double rating) {
+        this.rating = rating;
+    }
+
     public String getCity() {
         return city;
     }
@@ -136,20 +181,20 @@ public class Property {
         this.capacity = capacity;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
     public Double getArea() {
         return area;
     }
 
     public void setArea(Double area) {
         this.area = area;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public List<String> getImages() {
@@ -160,11 +205,11 @@ public class Property {
         this.images = images;
     }
 
-    public String getAvailability() {
+    public List<LocalDate> getAvailability() {
         return availability;
     }
 
-    public void setAvailability(String availability) {
+    public void setAvailability(List<LocalDate> availability) {
         this.availability = availability;
     }
 
@@ -182,47 +227,5 @@ public class Property {
 
     public void setHostId(Long hostId) {
         this.hostId = hostId;
-    }
-
-
-
-    public int getPersons() {
-        return persons;
-    }
-
-    public void setPersons(int persons) {
-        this.persons = persons;
-    }
-
-    public Double getRating() {
-        return rating;
-    }
-
-    public void setRating(Double rating) {
-        this.rating = rating;
-    }
-
-    public int getBathrooms() {
-        return bathrooms;
-    }
-
-    public void setBathrooms(int bathrooms) {
-        this.bathrooms = bathrooms;
-    }
-
-    public int getBedrooms() {
-        return bedrooms;
-    }
-
-    public void setBedrooms(int bedrooms) {
-        this.bedrooms = bedrooms;
-    }
-
-    public int getBeds() {
-        return beds;
-    }
-
-    public void setBeds(int beds) {
-        this.beds = beds;
     }
 }

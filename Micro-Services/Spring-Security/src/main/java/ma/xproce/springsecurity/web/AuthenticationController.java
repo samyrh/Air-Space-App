@@ -17,7 +17,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin(origins = "http://localhost:3000") // Allow CORS for React frontend
+@CrossOrigin(origins = "http://localhost:3001") // Allow CORS for React frontend
 public class AuthenticationController {
 
     @Autowired

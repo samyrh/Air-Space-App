@@ -2,6 +2,7 @@ import "../../assets/components/LoginGuest.css";
 import React, { useState } from "react";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode"; // Import jwt-decode for decoding the JWT token
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
     const [formData, setFormData] = useState({
@@ -12,6 +13,7 @@ const Login = () => {
     const [shake, setShake] = useState(false); // State for shake animation
     const [userRole, setUserRole] = useState(null); // State for managing user role
     const [userData, setUserData] = useState(null); // State for managing decoded user data
+    const navigate = useNavigate();
 
     // Handle input change
     const handleChange = (e) => {
@@ -66,6 +68,10 @@ const Login = () => {
 
             // Clear any error
             setError("");
+
+            // Redirect to the home page after successful login
+            navigate("/");
+
         } catch (error) {
             // Handle error response from server
             if (error.response) {

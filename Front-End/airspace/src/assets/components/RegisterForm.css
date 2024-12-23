@@ -1,4 +1,5 @@
 /* Reset and Base */
+/*
 * {
     margin: 0;
     padding: 0;
@@ -13,7 +14,7 @@ body {
     background-image: linear-gradient(to bottom, #dce0d9, #e2e4dd, #e8e8e1, #edece5, #f3f0e9, #f4efe7, #f5efe6, #f6eee4, #f3e8dc, #f0e3d3, #edddcb,#ead7c3);
     background-size: cover;
 }
-
+*/
 /* Container */
 .register-container {
     display: flex;

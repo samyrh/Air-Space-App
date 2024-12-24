@@ -15,8 +15,8 @@ import java.util.List;
 public class Property {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(length = 36) // Optional: Specify length for UUID, typically 36 chars
+    private String id;
 
     private String title;
 
@@ -30,7 +30,6 @@ public class Property {
     @Lob
     private String description;
 
-    private String address;
 
     private double latitude;
     private double longitude;
@@ -42,7 +41,6 @@ public class Property {
     private Double pricePerNight;
     private Double cleaningFee;
 
-    private Double area;
 
     private String type;
 
@@ -69,14 +67,14 @@ public class Property {
 
     private String status;
 
-    private Long hostId;
+    @Column(length = 60, unique = true)  // Ensure the id is unique, and length of UUID is 36
+    private String hostId;
 
-    // Getters and Setters (Add them if not already present)
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -128,14 +126,6 @@ public class Property {
         this.description = description;
     }
 
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
     public double getLatitude() {
         return latitude;
     }
@@ -185,14 +175,6 @@ public class Property {
     }
 
 
-    public Double getArea() {
-        return area;
-    }
-
-    public void setArea(Double area) {
-        this.area = area;
-    }
-
     public String getType() {
         return type;
     }
@@ -225,11 +207,11 @@ public class Property {
         this.status = status;
     }
 
-    public Long getHostId() {
+    public String getHostId() {
         return hostId;
     }
 
-    public void setHostId(Long hostId) {
+    public void setHostId(String hostId) {
         this.hostId = hostId;
     }
 

@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import '../assets/components/Card.css';
 
 const Card = ({ property }) => {
+    console.log(property);
     return (
         <div className="card">
             {/* Image */}
+
             <div className="card-image">
                 <img
                     className="card-img"
@@ -36,8 +38,9 @@ const Card = ({ property }) => {
 
                 {/* Price */}
                 <div className="card-price">
-                    <span>${property.price} / night</span>
+                    <span>${property.pricePerNight} / night</span>
                 </div>
+
 
                 {/* More Details Button */}
                 <button className="more-details-btn">More Details</button>
@@ -46,7 +49,7 @@ const Card = ({ property }) => {
     );
 };
 
-const CardContainer = ({ properties, onLoadMore, onShowLess }) => {
+const CardContainer = ({properties, onLoadMore, onShowLess }) => {
     const [showAll, setShowAll] = useState(false);
 
     const handleShowMore = () => {

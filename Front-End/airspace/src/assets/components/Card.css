@@ -171,3 +171,45 @@
         grid-template-columns: 1fr; /* 1 card per row for small screens */
     }
 }
+/* Container for the buttons to be displayed horizontally */
+.button-container {
+    display: flex;
+    justify-content: center; /* Center buttons horizontally */
+    gap: 20px; /* Space between the buttons */
+    margin-top: 20px;
+    width: 100%;
+}
+
+/* Show More and Show Less Button Styling (iOS Grey Style) */
+.load-more-button,
+.load-less-button {
+    padding: 12px 18px; /* Slightly larger padding */
+    background: #f0f0f5; /* iOS-style grey button */
+    color: #333; /* Darker text for contrast */
+    border: 1px solid #dcdce0;
+    border-radius: 10px;
+    font-size: 1rem; /* Slightly larger font size */
+    font-weight: 600;
+    text-transform: capitalize;
+    cursor: pointer;
+    text-align: center;
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.load-more-button:hover,
+.load-less-button:hover {
+    background: #e6e6eb; /* Slightly darker grey on hover */
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.load-more-button:focus,
+.load-less-button:focus {
+    outline: none;
+}
+
+.load-more-button:active,
+.load-less-button:active {
+    background: #d6d6db; /* Darker grey on click */
+    transform: translateY(1px);
+}

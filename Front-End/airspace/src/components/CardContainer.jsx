@@ -12,22 +12,11 @@ const CardContainer = () => {
     useEffect(() => {
         const fetchProperties = async () => {
             try {
-                // Fetch properties from both APIs
-                const [api1Response, api2Response] = await Promise.all([
-                    axios.get("http://localhost:8989/api/properties/fetch"),
-                    axios.get("http://localhost:8989/api/properties/fetchApifyProperties"),
-                ]);
+                // Fetch properties from the second API
+                const api2Response = await axios.get("http://localhost:8989/api/properties/fetchApifyProperties");
 
-                // Combine results from both APIs
-                const combinedProperties = [
-                    ...api1Response.data,
-                    ...api2Response.data,
-                ];
-
-                // Shuffle the properties
-                const shuffledProperties = combinedProperties.sort(() => Math.random() - 0.5);
-
-                setProperties(shuffledProperties);
+                // Set the fetched properties
+                setProperties(api2Response.data);
             } catch (error) {
                 console.error("Error fetching properties:", error);
             }
@@ -37,18 +26,11 @@ const CardContainer = () => {
     }, []);
 
     const loadMoreCards = () => {
-        setVisibleCards((prevVisibleCards) => Math.min(prevVisibleCards + 10, totalCards));
+        setVisibleCards((prevVisibleCards) => Math.min(prevVisibleCards + 16, totalCards)); // Load 16 more cards
     };
 
     const loadLessCards = () => {
-        const newVisibleCards = Math.max(visibleCards - 10, 16);
-
-        const scrollToIndex = newVisibleCards - 10;
-        if (cardRefs.current[scrollToIndex]) {
-            cardRefs.current[scrollToIndex].scrollIntoView({ behavior: "smooth" });
-        }
-
-        setVisibleCards(newVisibleCards);
+        setVisibleCards((prevVisibleCards) => Math.max(prevVisibleCards - 16, 16)); // Load 16 less cards, but not below 16
     };
 
     return (

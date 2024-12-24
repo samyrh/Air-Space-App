@@ -7,6 +7,7 @@
     padding: 20px;
     margin: 0 auto;
     max-width: 1300px;
+
 }
 
 /* Load More Button */
@@ -37,7 +38,7 @@
 /* Card */
 .card {
     width: 300px;
-    height: 300px;
+    height: 350px; /* Increased the card height */
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -82,16 +83,17 @@
     padding: 0 1.5rem;
     background-color: #fff;
     border-radius: 0 0 15px 15px; /* Rounded bottom corners */
-    height: 50%; /* Adjusted content height for a taller card */
+    height: 45%; /* Reduced content height to make room for the image */
     display: flex;
     flex-direction: column;
     justify-content: space-between; /* Ensure space for all content */
 }
 
 /* Card Title */
+/* Card Title */
 .card-name {
     font-family: "Inter", sans-serif;
-    font-size: 1.2rem;
+    font-size: 1.3rem; /* Slightly larger font size */
     font-weight: 700;
     color: #232323;
     margin-bottom: 0.5rem;

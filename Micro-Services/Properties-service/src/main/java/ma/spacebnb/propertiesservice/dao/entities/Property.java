@@ -26,6 +26,7 @@ public class Property {
     private int bedrooms;
     private int beds;
 
+    private String metaDescription;
     @Lob
     private String description;
 
@@ -39,8 +40,7 @@ public class Property {
     private String city;
 
     private Double pricePerNight;
-
-    private Integer capacity;
+    private Double cleaningFee;
 
     private Double area;
 
@@ -55,6 +55,17 @@ public class Property {
     @CollectionTable(name = "property_availability", joinColumns = @JoinColumn(name = "property_id"))
     @Column(name = "available_date")
     private List<LocalDate> availability = new ArrayList<>(); // Updated field for dates
+
+    @ElementCollection
+    @CollectionTable(name = "property_rules", joinColumns = @JoinColumn(name = "property_id"))
+    @Column(name = "rules")
+    private List<String> rules = new ArrayList<>();
+
+    @ElementCollection
+    @CollectionTable(name = "property_amenities", joinColumns = @JoinColumn(name = "property_id"))
+    @Column(name = "amenities")
+    private List<String> amenities = new ArrayList<>();
+
 
     private String status;
 
@@ -173,13 +184,6 @@ public class Property {
         this.pricePerNight = pricePerNight;
     }
 
-    public Integer getCapacity() {
-        return capacity;
-    }
-
-    public void setCapacity(Integer capacity) {
-        this.capacity = capacity;
-    }
 
     public Double getArea() {
         return area;
@@ -227,5 +231,37 @@ public class Property {
 
     public void setHostId(Long hostId) {
         this.hostId = hostId;
+    }
+
+    public String getMetaDescription() {
+        return metaDescription;
+    }
+
+    public void setMetaDescription(String metaDescription) {
+        this.metaDescription = metaDescription;
+    }
+
+    public Double getCleaningFee() {
+        return cleaningFee;
+    }
+
+    public void setCleaningFee(Double cleaningFee) {
+        this.cleaningFee = cleaningFee;
+    }
+
+    public List<String> getRules() {
+        return rules;
+    }
+
+    public void setRules(List<String> rules) {
+        this.rules = rules;
+    }
+
+    public List<String> getAmenities() {
+        return amenities;
+    }
+
+    public void setAmenities(List<String> amenities) {
+        this.amenities = amenities;
     }
 }

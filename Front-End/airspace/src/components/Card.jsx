@@ -1,54 +1,75 @@
 import React, { useState } from 'react';
-import houseImage from '../assets/images/house.jpg'; // Importing local image
 import '../assets/components/Card.css';
 
-const AirbnbCard = () => {
-    const [showDetails, setShowDetails] = useState(false);
-
-    const toggleDetails = () => {
-        setShowDetails(!showDetails);
-    };
-
+const Card = ({ property }) => {
     return (
-        <div className="card-container">
-            <div className="card">
-                {/* Image */}
-                <div className="card-image">
-                    <img
-                        className="card-img"
-                        src={houseImage} // Using the imported local image
-                        alt="Luxury Beach House"
-                    />
-                </div>
+        <div className="card">
+            {/* Image */}
+            <div className="card-image">
+                <img
+                    className="card-img"
+                    src={property.images[0]} // Assuming the first image in the list is to be displayed
+                    alt={property.title}
+                />
+            </div>
 
-                {/* Card Content */}
-                <div className="card-content">
-                    <h2 className="card-name">Luxury Beach House</h2>
-                    <div className="card-rl">
+            {/* Card Content */}
+            <div className="card-content">
+                <h2 className="card-name">{property.title}</h2>
+                <div className="card-rl">
                     {/* Location */}
                     <div className="card-location">
-                        <p>Malibu, California</p>
+                        <p>{property.city}</p>
                     </div>
                     <div className="card-rating">
-                        <span className="stars">★</span> {/* Star rating */}
-                        <span className="rating-text">4.8/5</span>
+                        <span className="stars">★</span>
+                        <span className="rating-text">{property.rating}/5</span>
                     </div>
                 </div>
-                    {/* Price, Rating, and Location Row */}
-                    <div className="card-details">
-                        <div className="card-price">
-                            <span>$350 / night</span>
-                        </div>
-
-                    </div>
-
-
-                    {/* More Details Button */}
-
+                {/* Type */}
+                <div className="card-type">
+                    <span>{property.type}</span>
                 </div>
+                {/* Price */}
+                <div className="card-details">
+                    <div className="card-price">
+                        <span>${property.price} / night</span>
+                    </div>
+                </div>
+
+                {/* More Details Button */}
+                <button className="more-details-btn">More Details</button>
+
             </div>
         </div>
     );
 };
 
-export default AirbnbCard;
+const CardContainer = ({ properties, onLoadMore, onShowLess }) => {
+    const [showAll, setShowAll] = useState(false);
+
+    const handleShowMore = () => {
+        setShowAll(true);
+        onLoadMore();
+    };
+
+    const handleShowLess = () => {
+        setShowAll(false);
+        onShowLess();
+    };
+
+    return (
+        <div className="card-container-wrapper">
+            {properties.map((property, index) => (
+                <Card key={index} property={property} />
+            ))}
+            {!showAll ? (
+                <button className="load-more-button" onClick={handleShowMore}>Show More</button>
+            ) : (
+                <button className="load-less-button" onClick={handleShowLess}>Show Less</button>
+            )}
+        </div>
+    );
+};
+
+export { Card, CardContainer };

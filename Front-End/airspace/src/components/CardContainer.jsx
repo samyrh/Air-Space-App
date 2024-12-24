@@ -1,43 +1,64 @@
-import React, { useState, useRef } from 'react';
-import Card from './Card.jsx'; // Import the Card component
+import React, { useState, useEffect, useRef } from "react";
+import axios from "axios"; // Import Axios
+import { Card } from "./Card.jsx"; // Import the Card component
 
 const CardContainer = () => {
-    const [visibleCards, setVisibleCards] = useState(10); // Initially show 10 cards
-    const totalCards = 24; // Total number of cards
-    const cardRefs = useRef([]); // Array of refs for each card
+    const [properties, setProperties] = useState([]);
+    const [visibleCards, setVisibleCards] = useState(16); // Show 16 items by default
+    const cardRefs = useRef([]);
 
-    // Function to handle loading more cards
+    const totalCards = properties.length;
+
+    useEffect(() => {
+        const fetchProperties = async () => {
+            try {
+                // Fetch properties from both APIs
+                const [api1Response, api2Response] = await Promise.all([
+                    axios.get("http://localhost:8989/api/properties/fetch"),
+                    axios.get("http://localhost:8989/api/properties/fetchApifyProperties"),
+                ]);
+
+                // Combine results from both APIs
+                const combinedProperties = [
+                    ...api1Response.data,
+                    ...api2Response.data,
+                ];
+
+                // Shuffle the properties
+                const shuffledProperties = combinedProperties.sort(() => Math.random() - 0.5);
+
+                setProperties(shuffledProperties);
+            } catch (error) {
+                console.error("Error fetching properties:", error);
+            }
+        };
+
+        fetchProperties();
+    }, []);
+
     const loadMoreCards = () => {
         setVisibleCards((prevVisibleCards) => Math.min(prevVisibleCards + 10, totalCards));
     };
 
-    // Function to handle loading less cards and scrolling to the correct position
     const loadLessCards = () => {
-        const newVisibleCards = Math.max(visibleCards - 10, 10);
+        const newVisibleCards = Math.max(visibleCards - 10, 16);
 
-        // Scroll to the first card of the new set (i.e., the first card of the current set minus 10)
-        const scrollToIndex = newVisibleCards - 10; // Index of the card to scroll to
+        const scrollToIndex = newVisibleCards - 10;
         if (cardRefs.current[scrollToIndex]) {
-            cardRefs.current[scrollToIndex].scrollIntoView({ behavior: 'smooth' });
+            cardRefs.current[scrollToIndex].scrollIntoView({ behavior: "smooth" });
         }
 
         setVisibleCards(newVisibleCards);
     };
 
-    // Create an array of Card components with refs
-    const allCards = Array.from({ length: totalCards }, (_, index) => (
-        <div
-            key={index}
-            ref={(el) => (cardRefs.current[index] = el)} // Assign refs to each card
-        >
-            <Card />
-        </div>
-    ));
-
     return (
         <div>
             <div className="card-container-wrapper">
-                {allCards.slice(0, visibleCards)} {/* Show only the visible cards */}
+                {properties.slice(0, visibleCards).map((property, index) => (
+                    <div key={index} ref={(el) => (cardRefs.current[index] = el)}>
+                        <Card property={property} />
+                    </div>
+                ))}
             </div>
             <div className="button-container">
                 {visibleCards < totalCards && (
@@ -45,7 +66,7 @@ const CardContainer = () => {
                         View More
                     </button>
                 )}
-                {visibleCards > 10 && (
+                {visibleCards > 16 && (
                     <button className="load-more-button" onClick={loadLessCards}>
                         View Less
                     </button>
@@ -56,4 +77,3 @@ const CardContainer = () => {
 };
 
 export default CardContainer;
-/* fake it */

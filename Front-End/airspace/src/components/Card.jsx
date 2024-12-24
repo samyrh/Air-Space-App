@@ -16,30 +16,31 @@ const Card = ({ property }) => {
             {/* Card Content */}
             <div className="card-content">
                 <h2 className="card-name">{property.title}</h2>
-                <div className="card-rl">
-                    {/* Location */}
-                    <div className="card-location">
-                        <p>{property.city}</p>
+                {/* Location */}
+                <div className="card-location">
+                    <p>{property.city}</p>
+                </div>
+
+                {/* Type, Rating */}
+                <div className="card-details-row">
+                    {/* Type */}
+                    <div className="card-type">
+                        <span>{property.type}</span>
                     </div>
+                    {/* Rating */}
                     <div className="card-rating">
                         <span className="stars">★</span>
                         <span className="rating-text">{property.rating}/5</span>
                     </div>
                 </div>
-                {/* Type */}
-                <div className="card-type">
-                    <span>{property.type}</span>
-                </div>
+
                 {/* Price */}
-                <div className="card-details">
-                    <div className="card-price">
-                        <span>${property.price} / night</span>
-                    </div>
+                <div className="card-price">
+                    <span>${property.price} / night</span>
                 </div>
 
                 {/* More Details Button */}
                 <button className="more-details-btn">More Details</button>
-
             </div>
         </div>
     );

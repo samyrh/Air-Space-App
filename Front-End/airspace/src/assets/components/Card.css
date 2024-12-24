@@ -1,44 +1,19 @@
 /* Card Container Wrapper */
-/* Card Container Wrapper */
 .card-container-wrapper {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(4, 1fr); /* 4 cards per row */
     gap: 30px;
     padding: 20px;
     margin: 0 auto;
-    max-width: 1300px;
-
-}
-
-/* Load More Button */
-
-
-.load-more-button { background-image: linear-gradient( 58.2deg,  rgba(40,91,212,0.73) -3%, rgba(171,53,163,0.45) 49.3%, rgba(255,204,112,0.37) 97.7% );}
-.load-more-button {
-    display: block;
-    width: 130px;
-    height: 55px;
-    margin: 20px auto; /* Center the button horizontally under the cards */
-    text-align: center;
-    text-transform: uppercase;
-    transition: 0.5s;
-    background-size: 200% auto;
-    color: white;
-    box-shadow: 0 0 20px #eee;
-    border-radius: 10px;
-    /* fake it s2*/
-}
-
-.load-more-button:hover {
-    background-position: right center; /* change the direction of the change here */
-    color: #fff;
-    text-decoration: none;
+    max-width: 1400px; /* Maximum width */
+    justify-items: center; /* Center items horizontally */
+    align-items: stretch; /* Stretch items vertically */
 }
 
 /* Card */
 .card {
-    width: 300px;
-    height: 350px; /* Increased the card height */
+    width: 320px; /* Increased width for wider card */
+    height: 480px; /* Fixed height for consistent dimensions */
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -47,128 +22,117 @@
     background: #fff;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     cursor: pointer;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* Soft shadow */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     position: relative;
-    transform: scale(0.98); /* Scaled up to 98% of the original size (3% larger) */
 }
 
-/* Hover Effect on Card */
+/* Hover Effect */
 .card:hover {
-    transform: scale(0.98) translateY(-5px);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2); /* Stronger shadow on hover */
+    transform: scale(1.05); /* Slightly larger on hover */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
 /* Card Image */
 .card-image {
-    position: relative;
     width: 100%;
-    height: 50%; /* Reduced image height to make room for content */
+    height: 180px; /* Fixed image height */
     overflow: hidden;
-    border-radius: 15px 15px 0 0; /* Rounded top corners */
+    border-radius: 15px 15px 0 0;
 }
 
 .card-img {
-    object-fit: cover; /* Ensures image covers the container without distortion */
+    object-fit: cover;
     width: 100%;
     height: 100%;
     transition: transform 0.5s ease;
 }
 
 .card:hover .card-img {
-    transform: scale(1.1); /* Slight zoom-in effect on hover */
+    transform: scale(1.1);
 }
 
 /* Card Content */
 .card-content {
-    padding: 0 1.5rem;
-    background-color: #fff;
-    border-radius: 0 0 15px 15px; /* Rounded bottom corners */
-    height: 45%; /* Reduced content height to make room for the image */
+    padding: 15px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* Ensure space for all content */
+    justify-content: space-between;
+    flex-grow: 1; /* Ensure that the content fills the available space */
 }
 
-/* Card Title */
 /* Card Title */
 .card-name {
     font-family: "Inter", sans-serif;
     font-size: 1.3rem; /* Slightly larger font size */
     font-weight: 700;
     color: #232323;
-    margin-bottom: 0.5rem;
+    margin-bottom: 8px;
     text-transform: capitalize;
 }
 
+/* Card Location */
+.card-location {
+    margin-bottom: 8px;
+    font-size: 1.1rem; /* Slightly larger font size */
+    color: #555;
+}
 
-/* Price, Rating, and Location Row */
-.card-details {
+/* Card Type and Rating (Aligned horizontally) */
+.card-details-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 1rem 0;
 }
 
-/* Price */
-.card-price {
-    font-weight: 700;
-    font-size: 1.2rem;
-    color: #232323;
+/* Type */
+.card-type {
+    font-size: 1rem; /* Slightly larger font size */
+    color: #6c757d; /* Grey color */
+    font-weight: bold;
 }
 
 /* Rating */
 .card-rating {
     display: flex;
-   /* justify-content: flex-end;*/
-    font-size: 1.0rem;
-
+    font-size: 1.1rem; /* Slightly larger font size */
     color: #f39c12;
-}
-.card-rl{
-    display: flex;
-    align-items: center;
-    justify-content: space-between
-
 }
 
 .stars {
     margin-right: 0.5rem;
-    color: #f39c12;
 }
 
 .rating-text {
     font-weight: bold;
 }
 
-/* Location Section */
-.card-location {
-    margin-top: 0.2rem;
-    font-size: 1.0rem;
-    font-weight: 600;
-    color: #333;
+/* Price */
+.card-price {
+    font-weight: 700;
+    font-size: 1.4rem; /* Slightly larger font size */
+    color: #232323;
 }
-
 
 /* More Details Button */
 .more-details-btn {
-    display: block;
-    margin: 1.5rem auto 0;
-    padding: 14px 28px;
-    background: linear-gradient(135deg, #12c2e9, #c471ed, #f64f59); /* Gradient */
-    color: #fff;
-    border: none;
-    border-radius: 30px;
-    font-size: 1.2rem;
+    margin-top: 15px;
+    padding: 12px 18px; /* Slightly larger padding */
+    background: #f0f0f5; /* iOS-style grey button */
+    color: #333; /* Darker text for contrast */
+    border: 1px solid #dcdce0;
+    border-radius: 10px;
+    font-size: 1rem; /* Slightly larger font size */
     font-weight: 600;
-    text-transform: uppercase;
+    text-transform: capitalize;
     cursor: pointer;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* Light shadow for button */
+    text-align: center;
+    transition: background 0.3s ease, transform 0.3s ease;
 }
 
 .more-details-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Slightly stronger shadow on hover */
+    background: #e6e6eb; /* Slightly darker grey on hover */
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .more-details-btn:focus {
@@ -176,84 +140,34 @@
 }
 
 .more-details-btn:active {
+    background: #d6d6db; /* Darker grey on click */
     transform: translateY(1px);
 }
 
 /* Responsive Layout for Cards */
-
-/* Medium screens (Tablets) */
 @media (max-width: 1024px) {
     .card-container-wrapper {
-        grid-template-columns: repeat(2, 1fr); /* 2 columns per row for tablets */
+        grid-template-columns: repeat(3, 1fr); /* 3 cards per row for tablets */
+    }
+
+    .card {
+        width: 90%;
     }
 }
 
-/* Small screens (Mobile) */
 @media (max-width: 768px) {
     .card-container-wrapper {
-        grid-template-columns: 1fr; /* 1 column per row for small screens */
+        grid-template-columns: repeat(2, 1fr); /* 2 cards per row for smaller screens */
+    }
+
+    .card {
+        width: 100%;
+        min-height: auto;
     }
 }
-/* Pagination buttons */
-.pagination {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 30px;
-    gap: 10px;
-}
 
-/* Common button styles */
-.page-button {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.3s;
-}
-
-/* Button hover effects */
-.page-button:hover {
-    background-color: #0056b3;
-    transform: translateY(-2px);
-}
-
-/* Active page button */
-.page-button.active {
-    background-color: #28a745;
-    font-weight: bold;
-    transform: scale(1.1);
-}
-
-/* Prev and Next buttons */
-.prev-button,
-.next-button {
-    background-color: #6c757d;
-    padding: 10px 20px;
-}
-
-/* Prev/Next button hover */
-.prev-button:hover,
-.next-button:hover {
-    background-color: #5a6268;
-}
-
-/* Focus effect */
-.page-button:focus {
-    outline: none;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .pagination {
-        gap: 8px;
-    }
-    .page-button {
-        font-size: 14px;
-        padding: 8px 12px;
+@media (max-width: 576px) {
+    .card-container-wrapper {
+        grid-template-columns: 1fr; /* 1 card per row for small screens */
     }
 }

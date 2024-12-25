@@ -40,7 +40,7 @@ public class Property {
 
     private Double pricePerNight;
     private Double cleaningFee;
-
+    private Double serviceFee;
 
     private String type;
 
@@ -245,5 +245,13 @@ public class Property {
 
     public void setAmenities(List<String> amenities) {
         this.amenities = amenities;
+    }
+
+    public Double getServiceFee() {
+        return serviceFee;
+    }
+
+    public void setServiceFee(Double serviceFee) {
+        this.serviceFee = serviceFee;
     }
 }

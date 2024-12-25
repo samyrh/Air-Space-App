@@ -76,6 +76,22 @@ public class PropertyService {
                         String hostId = hostNode.path("id").asText("");
                         property.setHostId(hostId);
                     }
+
+                    // Navigate to the "serviceFee" -> "price" in the JSON structure
+                    JsonNode serviceFeeNode = node.path("price").path("breakDown").path("serviceFee").path("price");
+                    if (serviceFeeNode != null && !serviceFeeNode.asText().isEmpty()) {
+                        String serviceFeeText = serviceFeeNode.asText();
+
+                        // If the price starts with "$", parse it as a double after removing the "$"
+                        if (serviceFeeText.startsWith("$")) {
+                            double serviceFee = Double.parseDouble(serviceFeeText.substring(1));
+                            // Set the serviceFee to the Property object
+                            property.setServiceFee(serviceFee);
+                        }
+                    }
+
+
+
                     JsonNode locationDescriptionsNode = node.path("locationDescriptions");
 
                     // Check if 'locationDescriptions' is an array and has at least 3 elements

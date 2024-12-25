@@ -28,7 +28,7 @@ public class PropertyController {
     @GetMapping("/fetchApifyProperties")
     public ResponseEntity<List<Property>> fetchApifyProperties() {
         try {
-            List<Property> properties = propertyService.fetchAllPropertiesFromDb();
+            List<Property> properties = propertyService.fetchApifyProperties();
             return ResponseEntity.ok(properties);
         } catch (Exception e) {
             e.printStackTrace(); // Replace with logging

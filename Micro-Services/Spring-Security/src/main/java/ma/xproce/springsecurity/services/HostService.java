@@ -72,6 +72,7 @@ public class HostService {
 
                     // Extract host information
                     host.setName(node.path("host").path("name").asText("Unknown Name"));
+                    host.setUsername(node.path("host").path("name").asText("Unknown Username"));
                     host.setProfileImage(node.path("host").path("profileImage").asText(""));
 
                     // Handle Super Host and Verified status

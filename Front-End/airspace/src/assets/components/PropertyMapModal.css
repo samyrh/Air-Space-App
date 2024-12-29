@@ -1,0 +1,85 @@
+/* Overlay: Dimmed background */
+.styled-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+/* Modal Container: Modern design */
+.styled-modal {
+    background-color: #f2f2f7; /* Light grey (iOS-style) */
+    border-radius: 20px; /* Rounded corners */
+    padding: 20px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+    animation: fadeIn 0.3s ease-in-out;
+    position: relative;
+    overflow: hidden;
+    color: #1c1c1e; /* Dark text for contrast */
+}
+
+/* Modal Header */
+.styled-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Subtle divider */
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.styled-modal-header h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0;
+    color: #1c1c1e; /* iOS dark text */
+}
+
+.styled-close-button {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: #ff3b30; /* iOS red */
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.styled-close-button:hover {
+    color: #ff5e57; /* Slightly lighter red on hover */
+}
+
+/* Map Container */
+.styled-map-container iframe {
+    border-radius: 15px; /* Smooth, rounded edges */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); /* Add depth to the map */
+    width: 100%;
+    height: 300px;
+    border: none;
+}
+
+.styled-map-container p {
+    text-align: center;
+    color: #8e8e93; /* Muted iOS-style text */
+    font-size: 1rem;
+    margin: 20px 0;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

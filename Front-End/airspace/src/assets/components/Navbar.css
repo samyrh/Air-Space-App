@@ -3,53 +3,48 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: linear-gradient(135deg, #b3e0ff, #ffd1dc); /* Original Gradient */
+    background: linear-gradient(135deg, #d1d1d7, #b8bac3); /* Darker iOS gray */
     padding: 20px 40px;
     position: sticky;
     top: 0;
     z-index: 10;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* Softer shadow */
     width: 100%;
     box-sizing: border-box;
     border-radius: 0px;
     transition: all 0.6s ease-in-out;
+    pointer-events: auto; /* Default pointer events */
+}
+
+/* Disable hover during transition */
+.navbar.transitioning {
+    pointer-events: none; /* Disable hover while transitioning */
 }
 
 /* Shrink effect with smooth transition and smaller size */
 .navbar-shrink {
     padding: 8px 20px; /* Smaller padding when scrolled */
-    background: linear-gradient(135deg, rgba(179, 224, 255, 0.85), rgba(255, 209, 220, 0.85)); /* Semi-transparent gradient */
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15); /* Softer shadow for a more refined look */
-    transform: scale(0.95); /* Shrink effect for smaller navbar */
-    border-radius: 25px; /* Rounded corners */
+    background: linear-gradient(135deg, rgba(209, 209, 215, 0.85), rgba(184, 186, 195, 0.85)); /* Semi-transparent darker gradient */
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1); /* Softer shadow */
+    transform: scale(0.95); /* Shrink effect */
+    border-radius: 25px;
     transition: background 0.6s ease-in-out, padding 0.4s ease-out, transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
-
-
 /* Navbar active state */
 .navbar-shrink:active {
-    background: linear-gradient(135deg, rgba(179, 224, 255, 0.75), rgba(255, 209, 220, 0.75)); /* Subtle darker gradient */
-    transform: scale(0.93); /* Slightly reduce scale for an active feel */
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15); /* Lighter shadow when active */
+    background: linear-gradient(135deg, rgba(209, 209, 215, 0.75), rgba(184, 186, 195, 0.75)); /* Slightly darker */
+    transform: scale(0.93);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
 }
 
 /* Navbar when fully scrolled (triggered on scroll) */
 .navbar-shrink.scrolled {
-    padding: 5px 15px; /* Even smaller padding when fully scrolled */
-    background: linear-gradient(135deg, rgba(179, 224, 255, 0.9), rgba(255, 209, 220, 0.9)); /* Lighter gradient on scroll */
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2); /* Stronger shadow when scrolled */
-    transform: scale(0.9); /* Shrink navbar to make it smaller */
+    padding: 5px 15px;
+    background: linear-gradient(135deg, rgba(209, 209, 215, 0.9), rgba(184, 186, 195, 0.9)); /* Lighter */
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+    transform: scale(0.9);
 }
-
-/* Optional: Adjust navbar text size on scroll */
-.navbar-shrink.scrolled .navbar-text {
-    font-size: 0.9rem; /* Smaller text when scrolled */
-    transition: font-size 0.3s ease-out;
-}
-
-
-
 
 /* Left Section: Logo and Name */
 .navbar-left {
@@ -69,37 +64,55 @@
 .navbar-name {
     font-size: 28px;
     font-weight: bold;
-    color: #fff;
+    color: #333; /* Darker color */
     letter-spacing: 1px;
     transition: all 0.3s ease-out;
 }
 
-/* Center Section: Menu Links */
 .navbar-center {
     display: flex;
-    gap: 30px;
+    justify-content: center; /* Align items horizontally in the center */
+    align-items: center; /* Ensures vertical centering */
+    gap: 30px; /* Space between links */
+    width: 100%; /* Ensure the container takes the full width */
 }
 
 .navbar-center a {
     text-decoration: none;
-    color: #fff;
+    color: #333; /* Dark text for links */
     font-size: 18px;
-    font-weight: 500;
-    padding: 12px 25px;
-    border-radius: 50px;
-    background: linear-gradient(135deg, #8a7eff, #6de2f2);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease-in-out;
+    font-weight: bold;
+    padding: 0; /* Remove extra padding */
+    position: relative;
+    transition: all 0.3s ease-out; /* Smooth transition for hover effects */
 }
 
-.navbar-center a:hover {
-    background: linear-gradient(135deg, #f0a7e0, #3db4e3);
-    transform: scale(1.1);
+.navbar-center a:after {
+    content: '';
+    position: absolute;
+    bottom: -5px; /* Position underline slightly below text */
+    left: 0;
+    width: 100%; /* Full width underline */
+    height: 2px;
+    background-color: black; /* Black underline color */
+    transform: scaleX(0); /* Start with no underline visible */
+    transform-origin: bottom right; /* Animation starts from the right */
+    transition: transform 0.3s ease-out; /* Smooth scaling animation */
 }
 
-.navbar-center a:active {
-    transform: scale(0.98);
+.navbar-center a:hover:after,
+.navbar-center a.selected:after {
+    transform: scaleX(1); /* Show full underline on hover or when selected */
+    transform-origin: bottom left; /* Animation ends from the left */
 }
+
+/* Active (Selected) Link Styling */
+.navbar-center a.selected {
+    font-weight: bold; /* Highlight selected link with bold text */
+    color: #000; /* Black text for selected link */
+    cursor: default; /* Change cursor to default for the selected link */
+}
+
 
 /* Right Section: User Avatar and Profile Button */
 .navbar-right {
@@ -108,9 +121,9 @@
     gap: 20px;
 }
 
-/* Profile Button */
+/* Profile Button (light grey background) */
 .navbar-profile-button {
-    background: linear-gradient(135deg, #d6c7ff, #b5ecf9);
+    background-color: #d3d3d3; /* Light grey background */
     color: black;
     font-weight: bold;
     padding: 12px 20px;
@@ -125,7 +138,7 @@
 }
 
 .navbar-profile-button:hover {
-    background: linear-gradient(135deg, #b9a6ff, #99e2f7);
+    background-color: #b0b0b0; /* Slightly darker grey on hover */
     transform: translateY(-5px);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
@@ -139,7 +152,7 @@
     position: absolute;
     top: 100%;
     right: 20px;
-    background: linear-gradient(135deg, #ff6a88, #f7b2b7);
+    background: linear-gradient(135deg, #b0b2b9, #999ca3); /* Darker iOS gray gradient */
     color: #fff;
     border-radius: 15px;
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
@@ -165,6 +178,7 @@
     cursor: pointer;
     transition: all 0.3s ease-in-out;
     border-radius: 10px;
+    font-weight: bold; /* Make the text bold */
 }
 
 /* Hover effect for dropdown items */
@@ -186,15 +200,16 @@
 .navbar-user-avatar:hover {
     transform: scale(1.1);
 }
+
 /* Search Input Style */
 .navbar-search {
     display: flex;
     align-items: center;
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, 0.5); /* Lighter background */
     border-radius: 50px;
     padding: 5px 15px;
     border: none;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease-in-out;
     width: 220px;
     position: relative;
@@ -205,7 +220,7 @@
     border: none;
     outline: none;
     color: black;
-    font-weight: bold;
+    font-weight: bold; /* Bold black text */
     font-size: 16px;
     padding: 8px;
     width: 100%;
@@ -214,11 +229,11 @@
 }
 
 .navbar-search input::placeholder {
-    color: #fff;
+    color: #666; /* Lighter placeholder text */
 }
 
 .navbar-search:hover {
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
 }
 
 .navbar-search:focus-within {
@@ -231,24 +246,21 @@
     border: none;
     cursor: pointer;
     position: absolute;
-    right: 10px; /* Position the icon inside the input */
+    right: 10px;
     padding: 0;
     transition: transform 0.3s ease, color 0.3s ease;
 }
 
 .search-icon-button:hover {
     transform: scale(1.2);
-    color: #3db4e3;
+    color: black; /* Black search icon */
 }
 
 .navbar-search i {
-    color: white;
+    color: black; /* Black icon color */
     font-size: 18px;
 }
 
 .navbar-search i:hover {
     color: #3db4e3;
 }
-
-
-

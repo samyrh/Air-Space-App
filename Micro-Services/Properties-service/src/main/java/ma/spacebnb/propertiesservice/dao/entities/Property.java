@@ -1,18 +1,17 @@
 package ma.spacebnb.propertiesservice.dao.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+@Setter
+@Getter
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
 public class Property {
 
     @Id
@@ -70,6 +69,5 @@ public class Property {
 
     @Column(length = 60, unique = true)  // Ensure the id is unique, and length of UUID is 36
     private String hostId;
-
 
 }

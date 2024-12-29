@@ -1,11 +1,12 @@
 /* General Container */
+/* General Container */
 .pro-gallery-container {
     width: 100%;
     max-width: 1560px;
     margin: 20px auto;
-    padding: 16px;
+    padding: 4px 16px;  /* Decreased vertical padding further */
     border-radius: 18px;
-    background-image: linear-gradient(to right top, #fafafa, #f7f7f7, #f3f3f3, #f0f0f0, #e9e9e9);
+    background-image: linear-gradient(to right top, #f2f2f2, #e8e8e8, #dfdfdf, #d6d6d6, #cccccc); /* Even lighter gradient */
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     font-family: 'Roboto', sans-serif;
     display: flex;
@@ -15,6 +16,7 @@
     overflow: hidden;
     transition: all 0.3s ease-in-out;
 }
+
 
 /* Header Section */
 .gallery-header {
@@ -69,8 +71,8 @@
 .main-image-container {
     flex: 2;
     position: relative;
-    width: 65%;
-    height: 100%;
+    width: 80%; /* Adjusted to make the main image fit the container */
+    height: 700px; /* Increased height */
     border-radius: 18px;
     overflow: hidden;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
@@ -79,7 +81,7 @@
 .main-image {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: cover; /* Ensure it fills the container without distortion */
     border-radius: 18px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -96,18 +98,18 @@
     flex-direction: column;
     gap: 8px;
     justify-content: space-between;
-    width: 30%;
+    width: 20%;
     height: 100%;
 }
 
 /* Thumbnail Images */
 .thumbnail-image {
-    width: 100%;  /* Ensure it fills the container without stretching */
+    width: 100%; /* Ensure it fills the container */
     height: 120px; /* Fixed height */
     object-fit: cover; /* Ensure the image covers the container without distortion */
     border-radius: 12px;
     cursor: pointer;
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Slightly slower transition */
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
 }
 
@@ -122,54 +124,48 @@
     display: inline-block;
     margin: 16px auto;
     padding: 14px 28px;
-    background: #f0f0f0; /* Subtle light grey background */
-    color: #333; /* Dark text for contrast */
-    border: 1px solid #d1d1d1; /* Light border */
-    border-radius: 18px; /* Rounded corners for modern feel */
+    background: #f0f0f0;
+    color: #333;
+    border: 1px solid #d1d1d1;
+    border-radius: 18px;
     font-size: 16px;
     font-weight: 600;
     text-align: center;
     text-transform: uppercase;
     letter-spacing: 1px;
     cursor: pointer;
-    transition: all 0.3s ease; /* Smooth transition */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
-    outline: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Hover effect */
 .view-more-button:hover {
-    background: #e0e0e0; /* Subtle darker grey for hover */
-    color: #2d2d2d; /* Slightly darker text on hover for contrast */
-    border-color: #c0c0c0; /* Slightly darker border */
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15); /* Slightly deeper shadow for hover */
-    transform: translateY(-2px); /* Lift effect for hover */
+    background: #e0e0e0;
+    color: #2d2d2d;
+    border-color: #c0c0c0;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
 }
 
-/* Focus effect for accessibility (keyboard navigation and click focus) */
 .view-more-button:focus {
     outline: none;
-    box-shadow: 0 0 0 4px rgba(100, 100, 100, 0.3); /* Subtle focus ring */
-    border-color: #b0b0b0; /* Border color on focus */
+    box-shadow: 0 0 0 4px rgba(100, 100, 100, 0.3);
+    border-color: #b0b0b0;
 }
 
-/* Active (pressed) state */
 .view-more-button:active {
-    background: #d0d0d0; /* Darker grey for pressed state */
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); /* Less intense shadow when pressed */
-    transform: translateY(2px); /* Button "sinks" slightly when pressed */
-    border-color: #c0c0c0; /* Consistent border color when clicked */
+    background: #d0d0d0;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    transform: translateY(2px);
+    border-color: #c0c0c0;
 }
 
-/* Disabled state */
 .view-more-button:disabled {
-    background: #f5f5f5; /* Light grey */
-    color: #b0b0b0; /* Disabled text color */
-    border-color: #e0e0e0; /* Disabled border color */
+    background: #f5f5f5;
+    color: #b0b0b0;
+    border-color: #e0e0e0;
     cursor: not-allowed;
     box-shadow: none;
 }
-
 /* Modal Overlay */
 .modal-overlay {
     position: fixed;
@@ -177,89 +173,122 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.8); /* Darker background for focus with opacity */
+    background: rgba(0, 0, 0, 0.8);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 999;
-    animation: fadeIn 0.4s ease-in-out;
-    backdrop-filter: blur(12px); /* Softer blur for a polished look */
+    animation: fadeIn 0.5s ease-out;
+    backdrop-filter: blur(12px);
 }
 
 /* Modal Content */
 .modal-content {
-    background: #1f1f1f; /* Dark background for sophistication */
-    padding: 50px;
-    border-radius: 25px; /* Ultra rounded corners */
-    width: 80%;
-    max-width: 1100px;
-    max-height: 80vh;
+    background: #1f1f1f;
+    padding: 60px;
+    border-radius: 30px;
+    width: 85%;
+    max-width: 1300px;
+    max-height: 85vh;
     overflow: hidden;
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2); /* Deep shadow for a luxury feel */
+    box-shadow: 0 12px 50px rgba(0, 0, 0, 0.3);
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    animation: slideUp 0.7s ease-out;
-    border: 2px solid #fff; /* Add a subtle white border for elegance */
+    animation: slideInUp 0.5s ease-out;
+    border: 2px solid #fff;
 }
 
 /* Modal Title */
 .modal-title {
-    font-size: 42px; /* Large, luxurious font size */
-    font-weight: 600;
-    color: #fff; /* White text for contrast */
-    margin-bottom: 30px;
+    font-size: 48px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 25px;
+    margin-top: -10px;
     text-align: center;
-    letter-spacing: 2px; /* Wide letter spacing for a premium feel */
-    text-transform: uppercase; /* Capitalized for a strong impact */
+    letter-spacing: 2px;
+    text-transform: uppercase;
 }
+
 /* Modal Gallery */
 .modal-gallery {
     display: flex;
-    gap: 15px; /* Space between images */
+    gap: 20px;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
-    margin-bottom: 30px;
-    padding: 20px 0; /* Vertical padding for spacing between items */
-    padding-left: 20px; /* Left padding to align items */
-    padding-right: 20px; /* Right padding to align items */
+    margin-bottom: 35px;
+    padding: 25px 0;
+    padding-left: 25px;
+    padding-right: 25px;
     overflow-y: hidden;
     scroll-snap-type: x mandatory;
-    justify-content: flex-start; /* Align images to start */
-    width: calc(100% - 40px); /* Adjust the width to account for left and right padding */
-    scroll-snap-align: center; /* Center images in the gallery */
+    justify-content: flex-start;
+    width: calc(100% - 50px);
+    scroll-snap-align: start;
+    margin-top: 15px;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.2) rgba(0, 0, 0, 0.4);
+}
+
+/* Smooth and Clean macOS-style Dark Scrollbar */
+.modal-gallery::-webkit-scrollbar {
+    width: 8px;
+}
+
+.modal-gallery::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.modal-gallery::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(255, 255, 255, 0.4);
+    transform: scale(1.05);
+}
+
+.modal-gallery::-webkit-scrollbar-track {
+    background-color: rgba(0, 0, 0, 0.4);
+    border-radius: 10px;
 }
 
 /* Modal Image Item */
 .modal-image-item {
     flex: 0 0 auto;
-    width: 320px; /* Adjusted width of image items */
+    width: 380px;
+    height: 380px;
     text-align: center;
     border-radius: 18px;
-    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease; /* Smooth transition */
-    scroll-snap-align: center;
-    overflow: hidden; /* Hide overflow to keep images inside the container */
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease;
+    scroll-snap-align: start;
+    overflow: hidden;
 }
 
 /* Modal Image */
 .modal-image {
     width: 100%;
-    height: auto;
+    height: 100%;
     object-fit: cover;
     border-radius: 18px;
-    transition: transform 0.3s ease-in-out; /* Smooth transition */
-    will-change: transform; /* Optimizes the animation performance */
+    transition: transform 0.3s ease-in-out;
+    will-change: transform;
+}
+
+/* Soft and Light Hover Effect */
+.modal-image-item:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
 }
 
 /* Modal Description */
 .modal-description {
-    font-size: 18px;
-    color: #ccc; /* Softer text color for description */
-    margin-top: 20px;
+    font-size: 20px;
+    color: #ccc;
+    margin-top: 25px;
     text-align: center;
     line-height: 1.8;
     letter-spacing: 0.5px;
-    text-transform: capitalize; /* For a refined feel */
+    text-transform: capitalize;
 }
 
 /* Close Modal Button */
@@ -268,20 +297,20 @@
     top: 20px;
     right: 20px;
     background: transparent;
-    color: #fff; /* White color for contrast */
+    color: #fff;
     border: none;
-    font-size: 50px; /* Ultra large close icon */
+    font-size: 60px;
     cursor: pointer;
     transition: transform 0.3s ease, color 0.3s ease;
-    z-index: 1000; /* Ensure the close button stays above other content */
+    z-index: 1000;
 }
 
 .close-modal:hover {
-    transform: rotate(180deg); /* Rotate the close button on hover for dynamic effect */
-    color: #f0b500; /* Gold color on hover for luxury effect */
+    transform: rotate(180deg);
+    color: #ff5a5f;
 }
 
-/* Modal Animations */
+/* Opening and Closing Animations */
 @keyframes fadeIn {
     0% {
         opacity: 0;
@@ -291,14 +320,43 @@
     }
 }
 
-@keyframes slideUp {
+@keyframes slideInUp {
     0% {
-        transform: translateY(20px);
+        transform: translateY(100px);
         opacity: 0;
     }
     100% {
         transform: translateY(0);
         opacity: 1;
+    }
+}
+
+@keyframes slideOutDown {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100px);
+        opacity: 0;
+    }
+}
+
+/* For closing animation */
+.modal-overlay.hide {
+    animation: fadeOut 0.5s ease-out forwards;
+}
+
+.modal-content.hide {
+    animation: slideOutDown 0.5s ease-out forwards;
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
     }
 }
 

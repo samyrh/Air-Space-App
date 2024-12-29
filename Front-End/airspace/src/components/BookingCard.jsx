@@ -1,10 +1,13 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import "../assets/components/BookingCard.css";
 import '@fortawesome/fontawesome-free/css/all.min.css';
+import {useParams} from "react-router-dom";
+import 'leaflet/dist/leaflet.css';
+import 'leaflet/dist/leaflet.css';
 
 const IosWidget = () => {
-    const pricePerNight = 42;
 
+    const { id } = useParams(); // Get the `id` from the route
     // State for managing dates and guest count
     const [arrivalDate, setArrivalDate] = useState("");
     const [departureDate, setDepartureDate] = useState("");
@@ -13,7 +16,54 @@ const IosWidget = () => {
     const [babies, setBabies] = useState(0);
     const [showAll, setShowAll] = useState(false);
     const [showDescription, setShowDescription] = useState(false);
+    const [property, setProperty] = useState(null);
+    const [host,setHost] = useState(null);
+    const [error, setError] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const isPropertyValid = property && property.latitude && property.longitude;
+    const openModal = () => setIsModalOpen(true);
+    const closeModal = () => setIsModalOpen(false);
+    // Ensure that property and latitude/longitude are available
 
+    useEffect(() => {
+        const fetchProperty = async () => {
+            try {
+                const response = await fetch(`http://localhost:8989/api/properties/${id}`);
+                if (response.ok) {
+                    const data = await response.json();
+                    setProperty(data);
+                } else {
+                    setError("Property not found");
+                }
+            } catch (err) {
+                setError("An error occurred while fetching property details");
+            }
+        };
+        fetchProperty();
+    }, [id]);
+
+    useEffect(() => {
+        const fetchHost = async () => {
+            if (!property?.hostId) {
+                setError("Host ID is missing");
+                return;
+            }
+
+            try {
+                const response = await fetch(`http://localhost:5566/api/hosts/fetch/${property.hostId}`);
+                if (response.ok) {
+                    const data = await response.json();
+                    setHost(data);
+                } else {
+                    setError("Host not found");
+                }
+            } catch (err) {
+                setError("An error occurred while fetching host details");
+            }
+        };
+
+        fetchHost();
+    }, [property?.hostId]);
 
 
     const toggleShowMore = () => {
@@ -23,28 +73,7 @@ const IosWidget = () => {
     const toggleDescription = () => {
         setShowDescription(!showDescription);
     };
-    const equipmentItems = [
-        { name: "Smart TV", icon: "fa-tv" },
-        { name: "Free Wi-Fi", icon: "fa-wifi" },
-        { name: "Air Conditioning", icon: "fa-snowflake" },
-        { name: "Kitchen", icon: "fa-utensils" },
-        { name: "Washing Machine", icon: "fa-sync" }, // Use a different icon for washing machine
-        { name: "Dishwasher", icon: "fa-glass-cheers" },
-        { name: "Heater", icon: "fa-fire" },
-        { name: "Iron", icon: "fa-tshirt" }, // Correct icon for Iron
-        { name: "Shampoo", icon: "fa-shower" },
-        { name: "Hair Dryer", icon: "fa-hand-sparkles" }, // Use appropriate Hair Dryer icon
-        { name: "Fridge", icon: "fa-cogs" }, // Fridge icon can use "fa-snowman" (represents cool)
-        { name: "Free Parking", icon: "fa-car" },
-        { name: "Elevator", icon: "fa-arrow-up" }, // Use "fa-arrow-up" for Elevator (or alternative)
-        { name: "Pets Allowed", icon: "fa-paw" },
-        { name: "Smoke Detector", icon: "fa-bell" }, // Use "fa-smoke" for Smoke Detector
-        { name: "First Aid Kit", icon: "fa-kit-medical" }, // Correct icon for First Aid Kit
-        { name: "Fire Extinguisher", icon: "fa-fire-extinguisher" },
-        { name: "Hot Tub", icon: "fa-hot-tub" },
-        { name: "Balcony", icon: "fa-couch" }, // "fa-tree" is a good option for Balcony (represents open space)
-        { name: "Workspace", icon: "fa-laptop" }
-    ];
+
 
     // Get today's date
     const today = new Date().toISOString().split('T')[0];
@@ -85,7 +114,7 @@ const IosWidget = () => {
 
     // Calculate base price
     const nights = calculateNights();
-    const basePrice = pricePerNight * nights;
+    const basePrice = property?.pricePerNight ? property.pricePerNight * nights : 0;
 
     // Dynamic service fee (e.g., 10% of the base price)
     const serviceFeePercentage = 0.1;  // 10%
@@ -150,116 +179,244 @@ const IosWidget = () => {
     return (
         <div className="page-container">
             <div className="main-content">
-                {/* Title Row */}
                 <div className="title-row">
-                    <h1>Minneapolis, Minnesota, United States</h1>
+                    <h1 onClick={openModal} style={{cursor: 'pointer'}}>
+                        {property ? `${property.city}, ${property.location}` : "Loading property..."}
+                    </h1>
+
+                    {/* Rating Section */}
                     <div className="rating">
                         <div className="stars">
                             {[...Array(5)].map((_, index) => (
-                                <i
-                                    key={index}
-                                    className={`fas fa-star ${index < 4 ? "filled" : ""}`}
-                                ></i>
+                                <i key={index} className={`fas fa-star ${index < 4 ? 'filled' : ''}`}></i>
                             ))}
                         </div>
-
-
                         <p className="review-count">(45 reviews)</p>
                     </div>
                 </div>
-
                 {/* Property Info */}
                 <div className="property-info">
                     <div className="info-item">
                         <i className="fas fa-bed"></i>
-                        <p>Total of 3 Beds</p>
+                        <p>
+                            Total
+                            of {property?.beds !== undefined ? `${property.beds} ${property.beds === 1 ? "bed" : "beds"}` : "no beds available"}
+                        </p>
                     </div>
                     <div className="info-item">
                         <i className="fas fa-door-open"></i>
-                        <p>Total of 5 Rooms</p>
+                        <p>
+                            Total
+                            of {property?.bedrooms !== undefined ? property.bedrooms : "no"} {property?.bedrooms === 1 ? "Room" : "Rooms"}
+                        </p>
                     </div>
                     <div className="info-item">
                         <i className="fas fa-bath"></i>
-                        <p>1 Bathroom</p>
+                        <p>
+                            {property?.bathrooms !== undefined
+                                ? `${property.bathrooms} ${property.bathrooms === 1 ? "Bathroom" : "Bathrooms"}`
+                                : "No bathrooms available"}
+                        </p>
+
                     </div>
                     <div className="info-item">
                         <i className="fas fa-ruler-combined"></i>
-                        <p>Area: 120 m²</p>
+                        <p>
+                            Area: {property?.area !== undefined ? `${property.area} m²` : "N/A"}
+                        </p>
                     </div>
                 </div>
 
                 {/* Separator Line */}
                 <div className="separator-line"></div>
 
-                {/* Host Section */}
                 <div className="host-info">
-                    <div className="host-avatar">
+                    <div className="host-avatar-container">
                         <img
-                            src="https://randomuser.me/api/portraits/men/1.jpg"
-                            alt="Host Avatar"
+                            src={host?.profileImage || "https://randomuser.me/api/portraits/men/1.jpg"}
+                            alt={`${host?.name || "Unknown"}'s Avatar`}
+                            className="host-avatar"
                         />
+                        {host?.verified && <span className="verified-badge"></span>}
                     </div>
-                    <h2>Host: Hamid Laylay</h2>
-                    <p><strong>New Host</strong></p>
-                    <p><strong>Languages:</strong> English, French</p>
-                    <p><strong>Joined:</strong> January 2024</p>
-                    <p><strong>Response Time:</strong> 2 hours</p>
-                    <p><strong>Response Rate:</strong> 98%</p>
+                    {host ? (
+                        <div className="host-details">
+                            <h2 className="host-name">{host?.name || "Unknown Name"}</h2>
+                            <div className="info-group">
+                                <div className="info-item">
+                                    <p>
+                                        <strong>Rating Count:</strong> {host?.ratingCount || 0}
+                                    </p>
+                                </div>
+                                <div className="info-item">
+                                    <p>
+                                        <strong>Rating Average:</strong> {host?.ratingAverage?.toFixed(1) || "N/A"}
+                                    </p>
+                                </div>
+                                <div className="info-item">
+                                    <p>
+                                        <strong>Highlights:</strong>
+                                        <ul className="highlight-list">
+                                            {host?.highlights?.length ? (
+                                                host.highlights.map((highlight, index) => (
+                                                    <li key={index}>{highlight}</li>
+                                                ))
+                                            ) : (
+                                                <li>No highlights available</li>
+                                            )}
+                                        </ul>
+                                    </p>
+                                </div>
+                                <div className="info-item">
+                                    <p>
+                                        <strong>Host
+                                            Details:</strong> {host?.hostDetails?.join(", ") || "No details provided"}
+                                    </p>
+                                </div>
+                                <div className="info-item">
+                                    <p>
+                                        <strong>Time as
+                                            Host:</strong> {host?.timeAsHost ? `${host.timeAsHost.years} years, ${host.timeAsHost.months} months` : "N/A"}
+                                    </p>
+                                </div>
+                                <div className="info-item">
+                                    <p>
+                                        <strong>Super Host:</strong> {host?.superHost ? "Yes" : "No"}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    ) : error ? (
+                        <p>{error}</p>
+                    ) : (
+                        <p>Loading host information...</p>
+                    )}
                 </div>
 
                 {/* Separator Line */}
                 <div className="separator-line"></div>
 
-                {/* Equipments Section */}
                 <div className="equipments-info">
                     <h3>Equipments</h3>
                     <div className="equipments-grid">
-                        {equipmentItems.slice(0, showAll ? equipmentItems.length : 10).map((item, index) => (
-                            <div className="info-item" key={index}>
-                                <i className={`fas ${item.icon}`}></i>
-                                <p>{item.name}</p>
-                            </div>
-                        ))}
+                        {property?.amenities && property.amenities.length > 0 ? (
+                            property.amenities.slice(0, showAll ? property.amenities.length : 10).map((amenity, index) => {
+                                // Log the raw amenity and its normalized version for debugging
+                                console.log("Raw Amenity:", property.host);
+                                const normalizedAmenity = amenity.trim().replace(/\s+/g, ' ').toLowerCase(); // Normalize spaces and case
+                                console.log("Normalized Amenity:", normalizedAmenity);
+                                // L8 MUST DO INCONS
+                                // Define the direct mapping of amenities to icons
+                                const amenityIcons = {
+                                    "TV": "fa-television",
+                                    "free wi-fi": "fa-wifi",
+                                    "air conditioning": "fa-snowflake",
+                                    "kitchen": "fa-utensils",
+                                    "washing machine": "fa-sync",
+                                    "dishwasher": "fa-glass-cheers",
+                                    "heater": "fa-fire",
+                                    "iron": "fa-tshirt",
+                                    "shampoo": "fa-shower",
+                                    "hair dryer": "fa-hand-sparkles",
+                                    "fridge": "fa-cogs",
+                                    "free parking": "fa-car",
+                                    "elevator": "fa-arrow-up",
+                                    "pets allowed": "fa-paw",
+                                    "smoke detector": "fa-bell",
+                                    "first aid kit": "fa-kit-medical",
+                                    "fire extinguisher": "fa-fire-extinguisher",
+                                    "hot tub": "fa-hot-tub",
+                                    "balcony": "fa-couch",
+                                    "workspace": "fa-laptop",
+                                };
 
+                                // Lookup the icon for the current amenity with normalized case and spacing
+                                const iconClass = amenityIcons[normalizedAmenity] || "fa-check-circle"; // Default to "fa-check-circle" if not found
+
+                                return (
+                                    <div className="info-item" key={index}>
+                                        <i className={`fas ${iconClass}`}></i> {/* Icon based on the mapping */}
+                                        <p>{amenity}</p>
+                                    </div>
+                                );
+                            })
+                        ) : (
+                            <p>No amenities available</p>
+                        )}
                     </div>
-                    <button className="show-more-btn" onClick={toggleShowMore}>
-                        {showAll ? "Show Less" : "Show More"}
-                    </button>
+                    {property?.amenities && property.amenities.length > 10 && (
+                        <button className="show-more-btn" onClick={toggleShowMore}>
+                            {showAll ? "Show Less" : "Show More"}
+                        </button>
+                    )}
                 </div>
+
+
                 {/* Separator Line */}
                 <div className="separator-line"></div>
                 {/* Description Section */}
                 <div className="description-section">
                     <h3 className="section-title">Description</h3>
                     <p className="description-text">
-                        This charming property in the heart of Minneapolis is perfect for a comfortable and stylish
-                        stay. Whether you're visiting for business or leisure, enjoy the ideal location, beautiful
-                        design, and modern amenities.
-                        {!showDescription && (
+                        {property && property.description && property.description.length > 0
+                            ? (showDescription
+                                ? property.description
+                                : `${property.description.slice(0, 150)}...`)
+                            : "No description available."}
+                        {property && property.description && property.description.length > 150 && !showDescription && (
                             <span
                                 className="read-more-ellipsis"
                                 onClick={() => setShowDescription(true)}
                             >
-                        ... Read More
-                    </span>
+                ... Read More
+            </span>
                         )}
                     </p>
-                    {showDescription && (
+                    {showDescription && property && property.description && property.description.length > 150 && (
                         <p className="extra-description">
-                            The apartment offers a spacious living area with a fully equipped kitchen, making it perfect
-                            for both short and extended stays. Located close to local attractions, restaurants, and
-                            public transport, you’ll be able to explore everything the city has to offer.
+                            {property.description}
                             <span
                                 className="read-less"
                                 onClick={() => setShowDescription(false)}
                             >
-                        Show Less
-                    </span>
+                Show Less
+            </span>
                         </p>
                     )}
                 </div>
                 {/* Separator Line */}
                 <div className="separator-line"></div>
+                <div className="property-rules-section">
+                    <h3 className="section-title">Property Rules</h3>
+                    <div className="rules-container">
+                        <div className="valid-rules">
+                            {property?.rules
+                                ?.filter((rule) => !rule.toLowerCase().startsWith('no')) // Valid rules
+                                .map((rule, index) => (
+                                    <div key={index} className="rule-item">
+                                        <span className="rule-icon check-icon">✔️</span>
+                                        {rule}
+                                    </div>
+                                ))}
+                        </div>
+
+                        <div className="invalid-rules">
+                            {property?.rules
+                                ?.filter((rule) => rule.toLowerCase().startsWith('no')) // Negative rules
+                                .map((rule, index) => (
+                                    <div key={index} className="rule-item">
+                                        <span className="rule-icon x-icon">❌</span>
+                                        {rule}
+                                    </div>
+                                ))}
+                        </div>
+                    </div>
+                </div>
+
+
+                {/* Separator Line */}
+                <div className="separator-line"></div>
+
                 <div className="comment-section">
                     <div className="comments-list">
                         {comments.map((comment) => (
@@ -319,6 +476,21 @@ const IosWidget = () => {
                     </div>
                 </div>
 
+                <div className="separator-line"></div>
+                <div className="map-display">
+                    {isPropertyValid ? (
+                        <div className="ios-map-container-wider">
+                            <iframe
+                                title="Property Location"
+                                className="ios-map-frame"
+                                src={`https://www.openstreetmap.org/export/embed.html?bbox=${property.longitude - 0.01}%2C${property.latitude - 0.01}%2C${property.longitude + 0.01}%2C${property.latitude + 0.01}&layer=mapnik&marker=${property.latitude}%2C${property.longitude}`}
+                                allowFullScreen
+                            ></iframe>
+                        </div>
+                    ) : (
+                        <p className="map-unavailable">Map data is currently unavailable for this location.</p>
+                    )}
+                </div>
 
             </div>
             {/* Widget */}
@@ -326,7 +498,7 @@ const IosWidget = () => {
                 <div className="ios-widget">
                     <div className="ios-header">
                         <h3>
-                            <span>{pricePerNight} €</span> <small>per night</small>
+                            <span>{property?.pricePerNight} €</span> <small>per night</small>
                         </h3>
                     </div>
                     <div className="ios-body">
@@ -361,13 +533,20 @@ const IosWidget = () => {
                                 value={adults}
                                 onChange={handleSelectChange}
                             >
-                                {[...Array(7)].map((_, i) => (
-                                    <option key={i} value={i}>
-                                        {i} {i === 1 ? 'adult' : 'adults'}
-                                    </option>
-                                ))}
+                                {/* Check if property is not null or undefined and property.persons exists */}
+                                {property && property.persons > 0 ? (
+                                    [...Array(property.persons).keys()].map(i => (
+                                        <option key={i + 1} value={i + 1}>
+                                            {i + 1} {i + 1 === 1 ? 'adult' : 'adults'}
+                                        </option>
+                                    ))
+                                ) : (
+                                    <option disabled>No adults available</option> // Optional: Display a message when property.persons is not available
+                                )}
                             </select>
                         </div>
+
+
                         <div className="ios-select-group">
                             <label>Children</label>
                             <select
@@ -400,27 +579,33 @@ const IosWidget = () => {
                     <div className="ios-footer">
                         <div className="ios-pricing">
                             <p>
-                                {pricePerNight} € x {nights} nights <span>{basePrice} €</span>
+                                {property?.pricePerNight
+                                    ? `${property.pricePerNight} € x ${nights} nights`
+                                    : "Price not available"}
+                                <span>{basePrice} €</span>
                             </p>
                             <p>
-                                Service Fee <span>{serviceFee.toFixed(2)} €</span>
+                                Service
+                                Fee <span>{property?.serviceFee !== null && property?.serviceFee !== undefined ? property.serviceFee.toFixed(2) : 'N/A'} €</span>
                             </p>
                             <p>
-                                Cleaning Fee <span>{cleaningFee} €</span>
+                                Cleaning
+                                Fee <span>{property?.cleaningFee !== null && property?.cleaningFee !== undefined ? property.cleaningFee : 'N/A'} €</span>
                             </p>
                             <p>
-                                Security Deposit <span>{securityDeposit} €</span>
+                                Adults
+                                Tax <span>{adultsTax !== null && adultsTax !== undefined ? adultsTax.toFixed(2) : 'N/A'} €</span>
                             </p>
                             <p>
-                                Adults Tax <span>{adultsTax.toFixed(2)} €</span>
+                                Children
+                                Tax <span>{childrenTax !== null && childrenTax !== undefined ? childrenTax.toFixed(2) : 'N/A'} €</span>
                             </p>
-                            <p>
-                                Children Tax <span>{childrenTax.toFixed(2)} €</span>
-                            </p>
+
                             <hr/>
                             <p className="ios-total">
-                                Total <span>{totalBeforeTax.toFixed(2)} €</span>
+                                Total <span>{arrivalDate && departureDate ? `${totalBeforeTax?.toFixed(2)} €` : 'N/A'}</span>
                             </p>
+
                         </div>
                         <button
                             className={`ios-button ${isButtonDisabled ? 'disabled' : ''}`}
@@ -428,9 +613,9 @@ const IosWidget = () => {
                         >
                             Book Now
                         </button>
-
                     </div>
                 </div>
+
             </div>
         </div>
     );

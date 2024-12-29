@@ -114,13 +114,14 @@
 
 .stars i {
     font-size: 1.5rem;
-    color: #f5a623; /* Star color */
+    color: #f5a623; /* Default color for empty stars */
     transition: transform 0.3s ease, color 0.3s ease; /* Smooth transition for transform and color */
 }
 
 .stars i.filled {
-    color: #f1c40f; /* Filled star color */
+    color: #f1c40f; /* Color for filled stars */
 }
+
 /* Hover effect */
 .stars i:hover {
     transform: scale(1.2); /* Slightly enlarge the star on hover */
@@ -151,60 +152,154 @@
         font-size: 1.2rem;
     }
 }
-/* Host Section Styling (Compact iOS Style with Avatar) */
+/* General Styling */
+:root {
+    --primary-color: #007bff;
+    --secondary-color: #2c3e50;
+    --background-color: #f9fafb;
+    --border-color: #e0e0e0;
+    --font-family: 'Poppins', sans-serif;
+}
+
+/* Host Section Styling */
 .host-info {
-    padding: 16px;
-    max-width: 400px; /* Smaller max-width */
+    padding: 24px;
+    max-width: 550px;
     width: 100%;
-    margin: 0 auto;
-    transition: all 0.3s ease-in-out;
-    min-height: 3cm; /* Reduced height */
-    font-family: 'Arial', sans-serif; /* Clean modern font */
+    margin: 20px auto;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    font-family: var(--font-family);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
+.host-info:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
 
+/* Host Avatar Container */
+.host-avatar-container {
+    position: relative;
+    text-align: center;
+    margin-bottom: 20px;
+}
 
-/* Host Avatar Styling */
 .host-avatar {
-    text-align: center;
-    margin-bottom: 12px;
+    border-radius: 50%;
+    height: 150px;
+    width: 150px;
+    object-fit: cover;
+    border: 4px solid var(--border-color);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.host-avatar img {
-    border-radius: 50%; /* Circular avatar */
-    height: 80px; /* Adjusted size */
-    width: 80px; /* Adjusted size */
-    object-fit: cover; /* Ensure image covers the circle */
-    border: 3px solid #fff; /* White border for contrast */
+/* Verified Badge Styling */
+.verified-badge {
+    position: absolute;
+    bottom: 5px;
+    right: 10px;
+    height: 32px;
+    width: 32px;
+    background: var(--primary-color);
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-/* Host Title Styling */
-.host-info h2 {
-    font-size: 1.5rem; /* Adjusted font size for better readability */
+.verified-badge::after {
+    content: '✔'; /* Unicode for a checkmark */
+    font-size: 18px;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+/* Host Name Styling */
+.host-name {
+    font-size: 2rem;
     font-weight: 700;
-    color: #333;
-    margin-bottom: 8px; /* Increased space between title and text */
+    color: var(--secondary-color);
+    margin-bottom: 16px;
     text-align: center;
-    letter-spacing: 0.5px; /* Subtle letter spacing */
 }
 
-/* Host Information Styling */
-.host-info p {
-    font-size: 1rem; /* Adjusted font size for better readability */
+/* Host Details Styling */
+.host-details {
+    text-align: left;
+    width: 100%;
+}
+
+.info-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    font-size: 1rem;
     color: #555;
-    font-weight: 400;
-    margin-top: 6px; /* Reduced space */
-    text-align: center;
-    line-height: 1.5; /* Slightly more line height for better legibility */
-    letter-spacing: 0.5px; /* Added letter spacing for a modern look */
+    margin-top: 10px;
 }
 
-/* Strong Text for Key Info */
-.host-info strong {
-    font-weight: 600;
-    color: #333;
-    font-size: 1.1rem; /* Slightly larger for emphasis */
+.info-group p {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
+
+/* Key Info Styling */
+.info-group strong {
+    font-weight: 600;
+    color: var(--secondary-color);
+}
+
+/* Highlights List Styling */
+.highlight-list {
+    list-style-type: none;
+    margin: 10px 0 0 20px;
+    padding: 0;
+    font-size: 1rem;
+}
+
+.highlight-list li {
+    padding: 5px 0;
+    color: #333;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .host-info {
+        padding: 16px;
+    }
+
+    .host-avatar {
+        height: 120px;
+        width: 120px;
+    }
+
+    .verified-badge {
+        height: 24px;
+        width: 24px;
+    }
+
+    .host-name {
+        font-size: 1.5rem;
+    }
+
+    .info-group {
+        font-size: 0.9rem;
+    }
+
+    .highlight-list {
+        font-size: 0.9rem;
+    }
+}
+
 .equipments-info {
     margin-top: 30px;
     max-width: 900px;
@@ -296,10 +391,7 @@
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.description-section:hover {
-    transform: translateY(-3px); /* Slight hover lift effect */
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
-}
+
 
 .section-title {
     font-size: 2rem;
@@ -830,11 +922,10 @@
     font-weight: 700;
     color: #222;
 }
-
 /* Button */
 .ios-button {
     padding: 12px; /* Reduced padding */
-    background: linear-gradient(45deg, #007bff, #32d3e7);
+    background: linear-gradient(45deg, #2c2c2c, #5a5a5a); /* Dark grey gradient */
     border: none;
     border-radius: 12px; /* Smaller border radius */
     color: #fff;
@@ -849,26 +940,25 @@
 
 /* Hover Effect */
 .ios-button:hover {
-    background: linear-gradient(45deg, #0056b3, #1bb6c4);
+    background: linear-gradient(45deg, #1a1a1a, #4a4a4a); /* Slightly darker gradient */
     transform: translateY(-2px);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
 }
 
 /* Disabled button */
 .ios-button.disabled {
-    background: linear-gradient(45deg, #d3d3d3, #f0f0f0); /* Light gray gradient */
-    color: #a0a0a0; /* Slightly darker gray for text */
+    background: linear-gradient(45deg, #3a3a3a, #6a6a6a); /* Lighter dark grey gradient */
+    color: #b0b0b0; /* Light grey for text */
     cursor: not-allowed; /* Not allowed cursor */
     box-shadow: none; /* Remove shadow for disabled state */
 }
 
 /* Disabled button hover */
 .ios-button.disabled:hover {
-    background: linear-gradient(45deg, #d3d3d3, #f0f0f0); /* Keep background same */
+    background: linear-gradient(45deg, #3a3a3a, #6a6a6a); /* Keep background same */
     transform: none; /* No movement */
     box-shadow: none; /* No shadow */
 }
-
 
 /* Media Queries for Responsiveness */
 @media (max-width: 1200px) {
@@ -915,6 +1005,128 @@
     .ios-button {
         padding: 10px; /* Reduced padding */
     }
+}
+/* Container for the entire Property Rules section */
+.property-rules-section {
+    margin: 30px 0;
+    padding: 20px;
+    background: linear-gradient(145deg, #e2e2e2, #f9f9f9); /* Softer gradient background */
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+    max-width: 100%;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Title of the Property Rules section */
+.section-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 10px;
+}
+
+/* Container for all rules */
+.rules-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* For valid rules */
+.valid-rules {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* 2 or 3 rules per row */
+    gap: 20px;
+}
+
+/* For invalid (negative) rules */
+.invalid-rules {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* 2 or 3 rules per row */
+    gap: 20px;
+    margin-top: 30px; /* Space between valid and invalid rules */
+}
+
+/* Styling for each rule item */
+.rule-item {
+    font-size: 1.2rem;
+    font-weight: 600; /* Slightly bolder text */
+    color: #555; /* Darker grey for text */
+    line-height: 1.6;
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    border-radius: 12px;
+    background-color: #e5e5e5; /* Slightly darker grey background */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Soft shadow */
+    transition: all 0.3s ease; /* Smooth transition */
+}
+
+
+/* Icon styling for the rules */
+.rule-icon {
+    font-size: 1.8rem;
+    margin-right: 15px;
+}
+
+/* Green check icon for valid rules */
+.check-icon {
+    color: #4caf50; /* iOS-style green */
+}
+
+/* Red X icon for invalid rules */
+.x-icon {
+    color: #f44336; /* iOS-style red */
+}
+
+/* Remove hover effect (no hover interaction on rule items) */
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .valid-rules,
+    .invalid-rules {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* 1-2 per row on small screens */
+    }
+}
+.map-display {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.ios-map-container-wider {
+    width: 100%;
+    max-width: 2200px; /* Increased width for a much larger display */
+    background: #f2f2f7; /* iOS light grey background */
+    border-radius: 16px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Enhanced shadow for depth */
+    overflow: hidden;
+    position: relative;
+    padding: 16px;
+    margin-top: -15px; /* Move the container up slightly */
+}
+
+
+.ios-map-frame {
+    width: 100%;
+    height: 760px; /* Decreased height by ~4cm (from 800px to 760px) */
+    border: none;
+    border-radius: 12px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15); /* Inner shadow for a subtle effect */
+}
+
+.map-unavailable {
+    text-align: center;
+    color: #888;
+    font-size: 1rem;
+    margin-top: 10px; /* Reduced the top margin */
+    font-style: italic;
 }
 
 

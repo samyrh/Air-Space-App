@@ -1,22 +1,27 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';  // Use Routes instead of Router
+import { Routes, Route } from 'react-router-dom';
 import Home from "../layers/Home.jsx";
 import Login from "../components/authentification/Login.jsx";
 import GuestRegister from "../components/authentification/GuestRegister.jsx";
-import ProtectedRoute from './ProtectedRoute';  // Import ProtectedRoute
+import ProtectedRoute from './ProtectedRoute';
+import Booking from "../layers/Booking.jsx";
 
 const AppRoutes = () => (
     <Routes>
-        {/* Always show the Login page first if the user is not logged in */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<GuestRegister />} />
-
-        {/* Protect the Home route */}
         <Route path="/" element={
             <ProtectedRoute>
                 <Home />
             </ProtectedRoute>
         } />
+        {/* Dynamic property ID */}
+        <Route path="/booking/property/:id" element={
+            <ProtectedRoute>
+                <Booking />
+            </ProtectedRoute>
+        } />
+
     </Routes>
 );
 

@@ -46,11 +46,9 @@ public class PropertyService {
         List<Property> properties = new ArrayList<>();
 
         try {
-            // Set headers for the second API (Apify)
+   
             HttpHeaders headers = new HttpHeaders();
-            // Add authentication headers if needed, e.g., API key
-             headers.set("x-rapidapi-key", "87f971b688mshe63806b1f340064p11d851jsna0aaf106ff81");
-             headers.set("x-rapidapi-host", "airbnb19.p.rapidapi.com");
+
 
             HttpEntity<String> entity = new HttpEntity<>(headers);
 

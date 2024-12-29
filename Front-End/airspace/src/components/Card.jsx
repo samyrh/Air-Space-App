@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
 import '../assets/components/Card.css';
-
+import { useNavigate } from 'react-router-dom';
 const Card = ({ property }) => {
     console.log(property);
+    const navigate = useNavigate();
+    const handleMoreDetails = () => {
+        // Navigate to the booking layer with the property ID
+        navigate(`/booking/property/${property.id}`);
+    };
     return (
         <div className="card">
             {/* Image */}
@@ -42,14 +47,15 @@ const Card = ({ property }) => {
                 </div>
 
 
-                {/* More Details Button */}
-                <button className="more-details-btn">More Details</button>
+                <button className="more-details-btn" onClick={handleMoreDetails}>
+                    More Details
+                </button>
             </div>
         </div>
     );
 };
 
-const CardContainer = ({properties, onLoadMore, onShowLess }) => {
+const CardContainer = ({properties, onLoadMore, onShowLess}) => {
     const [showAll, setShowAll] = useState(false);
 
     const handleShowMore = () => {

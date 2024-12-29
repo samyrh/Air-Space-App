@@ -5,13 +5,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ma.xproce.springsecurity.dao.entity.Host;
 import ma.xproce.springsecurity.dao.repositories.HostRepository;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.ArrayList;
@@ -42,6 +42,8 @@ public class HostService {
         return hosts;
     }
 
+
+
     public List<Host> fetchApifyHosts() {
         RestTemplate restTemplate = new RestTemplate();
         List<Host> hosts = new ArrayList<>();
@@ -67,11 +69,15 @@ public class HostService {
                 for (JsonNode node : rootNode) {
                     Host host = new Host();
 
-                    // Extract data from the JSON and map to Host object
-                    host.setId(node.get("id").asText());
+                    JsonNode hostNode = node.path("host");
+                    if (hostNode != null && hostNode.isObject()) {
+                        String ref = hostNode.path("id").asText("");
+                        host.setRefHost(ref);
+                    }
 
                     // Extract host information
-                    host.setName(node.path("host").path("name").asText("Unknown Name"));
+                    String name = node.path("host").path("name").asText("Unknown Name");
+                    host.setName(name);
                     host.setUsername(node.path("host").path("name").asText("Unknown Username"));
                     host.setProfileImage(node.path("host").path("profileImage").asText(""));
 
@@ -81,6 +87,16 @@ public class HostService {
 
                     host.setRatingCount(node.path("host").path("ratingCount").asInt(0));
                     host.setRatingAverage(node.path("host").path("ratingAverage").asDouble(0));
+
+                    // Generate random phone number (example: +1-555-XXXX)
+                    String phoneNumber = "+1-555-" + RandomStringUtils.randomNumeric(4);
+                    host.setPhone(phoneNumber);
+
+                    // Generate random email based on the host's name (example: name@gmail.com)
+                    String emailDomain = "gmail.com"; // You can change this to icloud.com, etc.
+                    String email = name.toLowerCase().replaceAll(" ", "") + "@" + emailDomain;
+                    host.setEmail(email);
+
                     // Handle host details, if any
                     JsonNode hostDetailsNode = node.path("host").path("hostDetails");
                     if (hostDetailsNode.isArray()) {
@@ -120,4 +136,12 @@ public class HostService {
 
         return hosts;
     }
+
+
+
+    // Fetch a host by ref (String)
+    public Optional<Host> getHostByRef(String ref) {
+        return hostRepository.findByRefHost(ref); // Assuming the repository has this method
+    }
+
 }

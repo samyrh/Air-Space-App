@@ -1,0 +1,477 @@
+/* General Container */
+.chat-container {
+    display: flex;
+    height: 90vh; /* Reduced height to avoid excessive scrolling */
+    background-color: #f5f5f7;
+    font-family: "San Francisco", sans-serif;
+}
+
+.sidebar {
+    width: 420px; /* Increased width for a wider sidebar */
+    background-color: #ffffff;
+    border-right: 1px solid #e0e0e0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 4px 0px 12px rgba(0, 0, 0, 0.1);
+    transition: width 0.3s ease; /* Smooth transition for width changes */
+    overflow-y: auto; /* Enables vertical scrolling */
+}
+
+/* Sidebar Header */
+.sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px; /* Adjust the bottom margin */
+    width: 100%;
+    border-bottom: 1px solid #000; /* Change the border to black */
+    padding-bottom: 5px; /* Decrease the padding to lift the line up */
+}
+
+/* Sidebar Header Title */
+.sidebar-header h2 {
+    font-size: 28px; /* Increased font size */
+    font-weight: 700; /* Bold weight for a more modern look */
+    color: #333; /* Dark grey for a clean look */
+    margin-right: 15px;
+    flex-grow: 1; /* Ensures the title takes up available space */
+    letter-spacing: 0.5px; /* Adds a slight letter-spacing for a more contemporary feel */
+    text-transform: capitalize; /* Capitalize the first letter of each word */
+    transition: 0.3s ease; /* Smooth transition for hover effects */
+}
+
+/* Sidebar Item Hover Effect */
+.sidebar-header h2:hover {
+    color: #007bff; /* Change to blue on hover */
+    cursor: pointer; /* Pointer cursor for hover effect */
+}
+
+/* Sidebar Actions Styling */
+.sidebar-actions {
+    display: flex;
+    justify-content: flex-start;
+    width: 50%; /* Adjust width for search bar */
+}
+
+.sidebar-actions input {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 25px;
+    outline: none;
+    background-color: #f0f0f5;
+    color: #333;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: 0.3s;
+}
+
+/* Search Bar Input Focus */
+.sidebar-actions input:focus {
+    border-color: #333; /* Dark grey border */
+    box-shadow: 0 0 5px rgba(51, 51, 51, 0.4); /* Darker grey shadow */
+}
+
+/* Contact Item Styling */
+.contact-item {
+    display: flex;
+    align-items: flex-start; /* Align to the top to prevent stretching */
+    justify-content: space-between;
+    margin-bottom: 25px; /* Increased space between contact items */
+    padding: 18px; /* More padding for a modern look */
+    background-color: #f9f9f9; /* Super light grey for iOS feel */
+    border-radius: 15px; /* Rounded corners for modern design */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Slight shadow for depth */
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+    width: 100%; /* Ensure full-width */
+}
+
+/* Make the first contact item move down */
+.contact-list .contact-item:first-child {
+    margin-top: 10px; /* Adds some space to the first item */
+}
+
+/* Hover Effect for Contact Item */
+.contact-item:hover {
+    background-color: #e6e6e6; /* Light grey hover effect */
+    transform: translateY(-5px); /* Slight raise effect */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Slight shadow on hover */
+}
+
+/* Avatar Styling */
+.contact-avatar {
+    width: 55px; /* Slightly larger avatar */
+    height: 55px;
+    border-radius: 50%;
+    margin-right: 18px; /* More space between avatar and text */
+}
+
+/* Contact Info Styling */
+.contact-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Align content from top */
+    margin-right: 10px; /* Added margin for better spacing */
+}
+
+/* New Parent Wrapper for Name and Date */
+.contact-name-date-wrapper {
+    display: flex;
+    justify-content: space-between; /* Aligns name and date horizontally */
+    align-items: center; /* Vertically aligns the text */
+    width: 100%;
+    margin-bottom: 5px; /* Decreased space between message and contact-name-date-wrapper */
+}
+
+/* Contact Name */
+.contact-name {
+    font-size: 20px;
+    font-weight: 700; /* Bold name */
+    color: #333;
+    margin: 0; /* Removed extra margin */
+    white-space: nowrap; /* Prevents wrapping */
+    overflow: hidden; /* Ensures overflow is hidden */
+    text-overflow: ellipsis; /* Adds ... for overflowing text */
+}
+
+/* Contact Message */
+.contact-message {
+    font-size: 16px; /* Slightly larger text for message */
+    color: #555;
+    margin: 0; /* Removed extra margin */
+    white-space: pre-wrap; /* Allows wrapping and respects newlines in the message */
+    word-wrap: break-word; /* Breaks long words onto the next line */
+    word-break: break-all; /* Breaks very long words to prevent overflow */
+    overflow: hidden; /* Ensures overflow is hidden */
+    line-height: 1.4; /* Makes the text a bit more readable */
+    max-width: calc(100% - 70px); /* Adjust the message width to account for avatar size */
+}
+
+/* Contact Date */
+.contact-date {
+    font-size: 13px;
+    color: #888;
+    font-weight: 700; /* Bold date for emphasis */
+    margin-left: 10px; /* Adds some space between name and date */
+    white-space: nowrap; /* Prevents wrapping */
+}
+
+/* Contact List Styling */
+.contact-list {
+    flex: 1;
+    overflow-y: auto; /* Vertical scrolling */
+    padding-right: 10px;
+    scrollbar-width: thin;
+    scrollbar-color: #888 #f0f0f5;
+    margin-top: 15px; /* Adds some space between the separator and contact list */
+}
+/* Fancy Scrollbar for Sidebar */
+.sidebar::-webkit-scrollbar {
+    width: 8px; /* Slightly thinner scrollbar for a modern feel */
+    height: 8px; /* Optional: for horizontal scrollbar */
+}
+
+/* Scrollbar Thumb */
+.sidebar::-webkit-scrollbar-thumb {
+    background-color: #b3b3b3; /* Lighter grey for a softer look */
+    border-radius: 10px; /* More rounded edges */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth color and transform transition */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Adds subtle depth to the thumb */
+}
+
+/* Hover Effect on Scrollbar Thumb */
+.sidebar::-webkit-scrollbar-thumb:hover {
+    background-color: #8c8c8c; /* Darker grey for a smooth hover effect */
+    transform: scale(1.05); /* Slight scaling effect on hover for smooth interaction */
+}
+
+/* Scrollbar Track */
+.sidebar::-webkit-scrollbar-track {
+    background-color: #f4f4f4; /* Light, soft background for track */
+    border-radius: 10px; /* Rounded corners for the track */
+}
+
+/* Scrollbar Track Piece */
+.sidebar::-webkit-scrollbar-track-piece {
+    background-color: #f4f4f4; /* Ensures the track color is consistent */
+    border-radius: 10px;
+}
+
+/* Optional: Adds a shadow effect to the track when scrolling */
+.sidebar::-webkit-scrollbar:vertical {
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1); /* Adds subtle depth */
+}
+/* Chat Section */
+.chat {
+    width: 50%; /* Set width to 50% */
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+}
+
+/* Chat Header */
+.chat-header {
+    display: flex;
+    justify-content: space-between; /* Space between title and options */
+    border-bottom: 2px solid #000; /* Black separator line with slightly reduced thickness */
+    padding-bottom: 12px;
+    margin-bottom: 15px;
+}
+
+/* Chat Header Content (Title and Subtitle) */
+.chat-header-content {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Chat Header Title */
+.chat-header h2 {
+    font-size: 22px;
+    color: #000; /* Black color */
+    font-weight: 700; /* Bold weight */
+}
+
+/* Chat Subtitle */
+.chat-subtitle {
+    font-size: 14px;
+    color: #000; /* Black color */
+    font-weight: 500; /* Reduced bold weight */
+    margin-top: 4px;
+}
+
+
+/* Chat Header Options Button */
+.chat-header-options {
+    display: flex;
+    align-items: center;
+}
+
+
+/* Chat Messages */
+.chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    margin-bottom: 15px;
+    padding-right: 10px;
+    display: flex;
+    flex-direction: column; /* Stack messages vertically */
+    gap: 12px;
+}
+
+/* Chat Message Styling */
+.chat-message {
+    max-width: 12cm; /* Fixed width for long messages (12 cm) */
+    width: auto; /* Auto width for smaller messages */
+    padding: 12px;
+    border-radius: 20px; /* Rounded corners for messages */
+    font-size: 14px;
+    line-height: 1.5;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+    word-wrap: break-word; /* Wrap long words */
+    display: inline-block;
+    position: relative;
+    background-color: #e6e6e6; /* Light grey background for guest messages */
+    white-space: normal; /* Ensure text wraps properly */
+}
+
+/* Host Message */
+.chat-message.host {
+    background-color: #555; /* Mid-dark grey */
+    color: white;
+    align-self: flex-end;
+    text-align: right;
+}
+
+/* Guest Message */
+.chat-message.guest {
+    background-color: #f0f0f5;
+    color: #333;
+    align-self: flex-start;
+    text-align: left;
+}
+
+/* Chat Message Time */
+.chat-time {
+    font-size: 12px; /* Increase font size for the date */
+    color: #aaa; /* Default color */
+    margin-top: 6px;
+    display: block;
+    text-align: right;
+}
+
+/* Host Message Time */
+.chat-message.host .chat-time {
+    color: white; /* White color for host message time */
+}
+
+/* Guest Message Time */
+.chat-message.guest .chat-time {
+    color: black; /* Black color for guest message time */
+}
+/* Chat Input */
+.chat-input {
+    display: flex;
+    align-items: center;
+    margin-top: 15px;
+    border-top: 1px solid #000000; /* Lighter border color */
+    padding-top: 10px;
+}
+
+
+/* Chat Input Field */
+.chat-input input {
+    width: 100%; /* Adjust width to leave space for the button */
+    padding: 12px;
+    font-size: 14px;
+    border-radius: 25px;
+    border: 1px solid #5d5a5a;
+    outline: none;
+    box-sizing: border-box;
+    margin-top: 10px;
+}
+
+/* Chat Send Button */
+.send-btn {
+    width: 40px;
+    height: 40px;
+    background-color: #333; /* Dark grey button */
+    color: white;
+    border-radius: 50%;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-left: 10px; /* Space between input and button */
+}
+
+/* Hover Effect for Send Button */
+.send-btn:hover {
+    background-color: #555; /* Lighter dark grey for hover */
+}
+
+/* Font Awesome Send Icon */
+.send-btn i {
+    font-size: 18px;
+}
+
+/* Chat Input Focus */
+.chat-input input:focus {
+    border-color: #333;
+    box-shadow: 0 0 5px rgba(51, 51, 51, 0.3);
+}
+/* Live Timer Styling */
+.live-timer {
+    font-size: 16px; /* Increase the font size for better readability */
+    font-weight: 600; /* Make it slightly bolder for emphasis */
+    color: #333; /* Darker color for better contrast */
+    background-color: #f0f0f5; /* Light grey background */
+    padding: 8px 16px; /* Increased padding for a more balanced look */
+    border-radius: 30px; /* More rounded corners for a modern feel */
+    border: 2px solid #d1d1d6; /* Light grey border */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 20px; /* Increased space from the button */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Larger shadow for depth */
+    transition: all 0.3s ease;
+    font-family: 'Arial', sans-serif; /* Modern font */
+    letter-spacing: 0.5px; /* Slight letter spacing for readability */
+}
+
+/* Focus effect (for accessibility) */
+.live-timer:focus {
+    outline: none;
+    box-shadow: 0 0 10px rgba(0, 122, 255, 0.5); /* Blue focus ring */
+}
+.policy-section {
+    background-color: #f6f6f6;
+    padding: 35px; /* Increased padding for a more spacious design */
+    margin-top: -25px; /* Added margin at the top for spacing */
+    border-radius: 0px; /* Slightly rounded corners for a modern feel */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1); /* Enhanced shadow for a more elevated look */
+    max-width: 500px; /* Limiting the width for a clean layout */
+    width: 100%; /* Ensure it adjusts for different screen sizes */
+    margin-left: auto;
+    margin-right: auto; /* Center the section horizontally */
+    font-family: 'Arial', sans-serif;
+    max-height: 800px; /* Ensuring it can contain a lot of content */
+    overflow-y: auto; /* Enable vertical scrolling */
+}
+
+.policy-section h3 {
+    font-size: 22px; /* Slightly larger font for the header */
+    font-weight: 800; /* Bolder header text for emphasis */
+    color: #333;
+    margin-bottom: 20px; /* Added more space below the header */
+    text-align: center; /* Center-align the title */
+}
+
+.policy-section p {
+    font-size: 16px; /* Increased font size for better readability */
+    color: #555;
+    line-height: 1.8; /* Slightly increased line height for readability */
+    text-align: justify; /* Justify the text for a more professional look */
+    margin-bottom: 20px; /* Added spacing below paragraphs */
+}
+
+.policy-section ul {
+    margin-top: 15px;
+    margin-left: 0;
+    padding-left: 0;
+    list-style: none; /* Remove the default bullet points */
+}
+
+.policy-section ul li {
+    font-size: 16px; /* Larger font size for list items */
+    margin-bottom: 12px; /* More space between list items */
+    line-height: 1.8; /* Increased line height for clarity */
+    display: flex; /* Display icon and text in a row */
+    align-items: center; /* Align icon and text */
+}
+
+.policy-section ul li i {
+    margin-right: 10px; /* Space between icon and text */
+}
+
+.policy-section a {
+    display: inline-block;
+    margin-top: 25px; /* More spacing before the link */
+    color: #007bff;
+    text-decoration: none;
+    font-weight: 700; /* Bold link for better visibility */
+    font-size: 16px; /* Larger font for the link */
+    text-align: center;
+    padding: 8px 15px; /* Added padding around the link */
+    border-radius: 5px; /* Rounded corners for the link */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition effect */
+}
+
+.policy-section a:hover {
+    text-decoration: underline;
+    background-color: #f1f1f1; /* Light background color on hover */
+    color: #0056b3; /* Darker color on hover for contrast */
+}
+
+.policy-section h4 {
+    font-size: 20px; /* Larger sub-header font size for better clarity */
+    font-weight: 700; /* Bold sub-header text */
+    color: #333;
+    margin-top: 25px;
+    margin-bottom: 15px;
+}
+
+.policy-description {
+    font-size: 16px; /* Larger font for description */
+    color: #666;
+    margin-bottom: 20px; /* Increased bottom margin for better spacing */
+    line-height: 1.8; /* More space between lines for readability */
+}

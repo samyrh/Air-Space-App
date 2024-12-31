@@ -237,60 +237,56 @@ const IosWidget = () => {
                             alt={`${host?.name || "Unknown"}'s Avatar`}
                             className="host-avatar"
                         />
-                        {host?.verified && <span className="verified-badge"></span>}
+                        {host?.verified && (
+                            <span className="verified-badge">
+                                <i className="fas fa-check"></i>
+                            </span>
+                        )}
                     </div>
-                    {host ? (
-                        <div className="host-details">
-                            <h2 className="host-name">{host?.name || "Unknown Name"}</h2>
-                            <div className="info-group">
-                                <div className="info-item">
-                                    <p>
-                                        <strong>Rating Count:</strong> {host?.ratingCount || 0}
-                                    </p>
-                                </div>
-                                <div className="info-item">
-                                    <p>
-                                        <strong>Rating Average:</strong> {host?.ratingAverage?.toFixed(1) || "N/A"}
-                                    </p>
-                                </div>
-                                <div className="info-item">
-                                    <p>
-                                        <strong>Highlights:</strong>
-                                        <ul className="highlight-list">
-                                            {host?.highlights?.length ? (
-                                                host.highlights.map((highlight, index) => (
-                                                    <li key={index}>{highlight}</li>
-                                                ))
-                                            ) : (
-                                                <li>No highlights available</li>
-                                            )}
-                                        </ul>
-                                    </p>
-                                </div>
-                                <div className="info-item">
-                                    <p>
-                                        <strong>Host
-                                            Details:</strong> {host?.hostDetails?.join(", ") || "No details provided"}
-                                    </p>
-                                </div>
-                                <div className="info-item">
-                                    <p>
-                                        <strong>Time as
-                                            Host:</strong> {host?.timeAsHost ? `${host.timeAsHost.years} years, ${host.timeAsHost.months} months` : "N/A"}
-                                    </p>
-                                </div>
-                                <div className="info-item">
-                                    <p>
-                                        <strong>Super Host:</strong> {host?.superHost ? "Yes" : "No"}
-                                    </p>
+                    <div className="host-details">
+                        <h2 className="host-name">{host?.name || "Unknown Name"}</h2>
+                        <div className="info-group">
+                            <div className="info-item">
+                                <i className="fas fa-star"></i>
+                                <p><strong>Rating Count:</strong> {host?.ratingCount || 0}</p>
+                            </div>
+                            <div className="info-item">
+                                <div className="rating-section">
+                                    <i className="fas fa-star"></i>
+                                    <strong> Rating Average: </strong>
+                                    <strong>{host?.ratingAverage?.toFixed(1) || "N/A"}</strong>
                                 </div>
                             </div>
+
+                            <div className="info-item">
+                                <i className="fas fa-lightbulb"></i>
+                                <p><strong>Highlights:</strong></p>
+                                <ul className="structured-list">
+                                    {host?.highlights?.length ? (
+                                        host.highlights.map((highlight, index) => (
+                                            <li key={index}><i className="fas fa-check-circle"></i> {highlight}</li>
+                                        ))
+                                    ) : (
+                                        <li>No highlights available</li>
+                                    )}
+                                </ul>
+                            </div>
+                            <div className="info-item">
+                                <i className="fas fa-info-circle"></i>
+                                <p><strong>Host Details:</strong></p>
+                                <ul className="structured-list">
+                                    {host?.hostDetails?.length ? (
+                                        host.hostDetails.map((detail, index) => (
+                                            <li key={index}><i className="fas fa-user-circle"></i> {detail}</li>
+                                        ))
+                                    ) : (
+                                        <li>No details provided</li>
+                                    )}
+                                </ul>
+                            </div>
+
                         </div>
-                    ) : error ? (
-                        <p>{error}</p>
-                    ) : (
-                        <p>Loading host information...</p>
-                    )}
+                    </div>
                 </div>
 
                 {/* Separator Line */}
@@ -368,8 +364,8 @@ const IosWidget = () => {
                                 className="read-more-ellipsis"
                                 onClick={() => setShowDescription(true)}
                             >
-                ... Read More
-            </span>
+                                ... Read More
+                            </span>
                         )}
                     </p>
                     {showDescription && property && property.description && property.description.length > 150 && (
@@ -458,13 +454,18 @@ const IosWidget = () => {
                 <div className="contact-host-container">
                     <div className="host-info">
                         <h2>Contact Your Host</h2>
-                        <ul>
-                            <li><strong>Host:</strong> Sarah Connor</li>
-                            <li><strong>Phone:</strong> +1 555 987 654</li>
-                            <li><strong>Email:</strong> host@vacay.com</li>
-                            <li><strong>Location:</strong> New York, NY</li>
-                        </ul>
+                        {host ? (
+                            <ul>
+                                <li><strong>Host:</strong> {host.name || "N/A"}</li>
+                                <li><strong>Phone:</strong> {host.phone || "N/A"}</li>
+                                <li><strong>Email:</strong> {host.email || "N/A"}</li>
+                                <li><strong>Location:</strong> {host.location || "N/A"}</li>
+                            </ul>
+                        ) : (
+                            <p>Host information is not available.</p>
+                        )}
                     </div>
+
 
                     <div className="message-input">
                         <p className="info-text">

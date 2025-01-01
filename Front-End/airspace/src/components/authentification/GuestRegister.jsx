@@ -70,7 +70,7 @@ const Register = () => {
             setTransitioning(false);
         } else {
             try {
-                const response = await axios.post("http://localhost:5566/api/auth/register", formData);
+                const response = await axios.post("http://localhost:2424/api/auth/register", formData);
 
                 if (response.status === 201) {
                     // Simulate loader progress and then redirect

@@ -1120,4 +1120,58 @@
     font-style: italic;
 }
 
+/* Spinner with mid-grey and dark-grey styling */
+.ios-spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba(255, 255, 255, 0.1); /* Light-grey border */
+    border-top: 4px solid #555; /* Mid-grey */
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+/* Spinner animation */
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Alert styling with grey theme */
+.ios-alert {
+    border-radius: 16px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    color: #ccc; /* Mid-grey text */
+}
+
+/* Confirm button with grey styling */
+.ios-confirm-btn {
+    background-color: #444; /* Light-dark grey */
+    color: #ccc; /* Mid-grey */
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 12px;
+    padding: 10px 20px;
+    transition: all 0.2s ease-in-out;
+}
+
+.ios-confirm-btn:hover {
+    background-color: #555; /* Slightly darker grey */
+    transform: scale(1.05);
+}
+
+/* Adjust text for better readability */
+.ios-alert .swal2-title {
+    font-size: 20px;
+    color: #ccc; /* Mid-grey */
+}
+
+.ios-alert .swal2-html-container {
+    font-size: 16px;
+    color: #aaa; /* Light grey */
+}
 

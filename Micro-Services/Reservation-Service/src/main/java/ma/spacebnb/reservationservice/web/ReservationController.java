@@ -1,0 +1,56 @@
+package ma.spacebnb.reservationservice.web;
+
+
+import ma.spacebnb.reservationservice.dao.dto.BookingRequest;
+import ma.spacebnb.reservationservice.dao.dto.NotificationRequest;
+import ma.spacebnb.reservationservice.dao.entity.Reservation;
+import ma.spacebnb.reservationservice.dao.repository.ReservationRepo;
+import ma.spacebnb.reservationservice.dao.enums.ReservationStatus;
+import ma.spacebnb.reservationservice.feign.NotificationClient;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api/booking")
+@CrossOrigin("*")
+public class ReservationController {
+
+
+    @Autowired
+    private ReservationRepo reservationRepo;
+    @Autowired
+    private NotificationClient notificationClient;
+
+    // POST request to add a new booking
+    @PostMapping("/add")
+    public ResponseEntity<String> addBooking(@RequestBody BookingRequest bookingRequest) {
+
+        // Create a new booking object
+        Reservation booking = new Reservation();
+        booking.setStartDate(bookingRequest.getStartDate());
+        booking.setEndDate(bookingRequest.getEndDate());
+        booking.setNumberOfGuests(bookingRequest.getNumberOfGuests());
+        booking.setTotalAmount(bookingRequest.getTotalPrice());
+        booking.setUserId(bookingRequest.getGuestId());
+        booking.setPropertyId(bookingRequest.getPropertyId());
+        booking.setStatus(ReservationStatus.PENDING);
+
+        // Save the booking to the database
+        reservationRepo.save(booking);
+        // Create the notification request
+        NotificationRequest notificationRequest = new NotificationRequest();
+        notificationRequest.setGuestId(bookingRequest.getGuestId());
+        notificationRequest.setPropertyId(bookingRequest.getPropertyId());
+        notificationRequest.setMessage("Your booking is pending from "
+                + bookingRequest.getStartDate() + " to " + bookingRequest.getEndDate()
+                + ". Total price: " + bookingRequest.getTotalPrice() + " $. Please await confirmation.");
+
+        // Send notification to the Notification microservice (calls the repository in Notification service)
+        notificationClient.sendNotificationFromGuestToHost(notificationRequest);
+
+        // Return a success response
+        return new ResponseEntity<>("Booking successfully created", HttpStatus.CREATED);
+    }
+}

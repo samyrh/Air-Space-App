@@ -206,7 +206,8 @@ const IosWidget = () => {
             numberOfGuests: adults,
             totalPrice: totalBeforeTax,
             guestId: guestId, // Assuming guestId is passed as a prop
-            propertyId: property.id, // Assuming property.id is available
+            propertyId: property.id,
+            hostId: host.id
         };
 
         // Show a modern loading SweetAlert
@@ -266,7 +267,9 @@ const IosWidget = () => {
                     confirmButton: 'ios-confirm-btn',
                 },
             }).then(() => {
-                navigate('/inbox');
+                navigate('/inbox', {
+                    state: { hostId: host.id, guestId: guestId },
+                });
             });
         } catch (error) {
             console.error('Error making booking:', error);

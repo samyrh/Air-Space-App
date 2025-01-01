@@ -16,7 +16,7 @@ public class BookingRequest {
     private double totalPrice;
     private Long guestId;
     private Long propertyId;
-
+    private Long hostId;
     public Date getStartDate() {
         return startDate;
     }
@@ -63,5 +63,13 @@ public class BookingRequest {
 
     public void setPropertyId(Long propertyId) {
         this.propertyId = propertyId;
+    }
+
+    public Long getHostId() {
+        return hostId;
+    }
+
+    public void setHostId(Long hostId) {
+        this.hostId = hostId;
     }
 }

@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -53,12 +55,15 @@ public class HostController {
         }
     }
 
-
     @GetMapping("/fetch/host/{id}")
-    public ResponseEntity<Host> getHostById(@PathVariable("id") Long id) {
+    public ResponseEntity<Map<String, Host>> getHostById(@PathVariable("id") Long id) {
         try {
-            Optional<Host> host = hostRepository.findById(id); // Adjust this based on your service method
-            return host.map(ResponseEntity::ok)
+            Optional<Host> host = hostRepository.findById(id);
+            return host.map(h -> {
+                        Map<String, Host> response = new HashMap<>();
+                        response.put("host", h);
+                        return ResponseEntity.ok(response);
+                    })
                     .orElseGet(() -> {
                         System.out.println("Host not found for id: " + id);
                         return ResponseEntity.status(404).body(null);
@@ -68,6 +73,8 @@ public class HostController {
             return ResponseEntity.status(500).body(null);
         }
     }
+
+
 
 
 }

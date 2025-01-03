@@ -1,164 +1,216 @@
 import React, { useState, useEffect, useRef } from "react";
+import axios from "axios";
+import { useLocation } from "react-router-dom";
 import LiveTimer from './LiveTimer'; // Import the LiveTimer component
-import "../assets/components/Chat.css";
+import "../assets/components/Chat.css"; // Import custom CSS styles
 
 const Chat = () => {
-    const [searchQuery, setSearchQuery] = useState("");
-    const [selectedContact, setSelectedContact] = useState(null); // State to track selected contact
-    const [messages, setMessages] = useState([]); // State to track the current conversation's messages
-    const [newMessage, setNewMessage] = useState(""); // State to track new message input
+    const location = useLocation();
+    const [hostId, setHostId] = useState(location.state?.hostId || null); // Dynamic hostId
+    const [guestId, setGuestId] = useState(location.state?.guestId || null);
+    const [guestMessages, setGuestMessages] = useState([]); // Guest messages state
+    const [hostMessages, setHostMessages] = useState([]); // Host messages state
+    const [contacts, setContacts] = useState([]); // Contacts state (for sidebar)
+    const [newMessage, setNewMessage] = useState(""); // New message input state
+    const chatEndRef = useRef(null); // Reference for auto-scrolling
+    const chatContainerRef = useRef(null); // Reference for the chat container
 
-    const [contacts, setContacts] = useState([ // Contacts data
-        { name: "Oualid", message: "Can we confirm the check-in time?", date: "13. Monday. 2023", avatar: "https://randomuser.me/api/portraits/men/10.jpg" },
-        { name: "Jalila", message: "Thanks for the quick reply!", date: "13. Monday. 2023", avatar: "https://randomuser.me/api/portraits/women/11.jpg" },
-        { name: "Idriss", message: "Is the listing still available?", date: "12. Sunday. 2023", avatar: "https://randomuser.me/api/portraits/men/12.jpg" },
-        // Other contacts...
-    ]);
+    // Fetch guest's messages when guestId or hostId changes
+    useEffect(() => {
+        if (guestId && hostId) {
+            axios
+                .get(`http://localhost:5659/api/message/messages/guest/${guestId}/host/${hostId}`)
+                .then((response) => {
+                    setGuestMessages(Array.isArray(response.data) ? response.data : []);
+                })
+                .catch((error) => console.error("Error fetching guest messages:", error));
+        }
+    }, [guestId, hostId]);
 
-    const [conversations, setConversations] = useState({ // Conversations data
-        Oualid: [
-            { sender: "Guest", text: "Hi, can I confirm the check-in time?", time: "8:30 PM" },
-            { sender: "Host", text: "Of course! What time are you planning to arrive?", time: "8:32 PM" },
-            { sender: "Guest", text: "Around 3 PM. Will that work?", time: "8:35 PM" },
-            { sender: "Host", text: "Yes, that works perfectly.", time: "8:40 PM" },
-        ],
-        Jalila: [
-            { sender: "Guest", text: "Thanks for the quick reply!", time: "7:10 PM" },
-            { sender: "Host", text: "You're welcome! Let me know if you need anything else.", time: "7:12 PM" },
-            { sender: "Guest", text: "I just wanted to confirm the amenities.", time: "7:15 PM" },
-            { sender: "Host", text: "Sure! We have free Wi-Fi, air conditioning, and a fully equipped kitchen.", time: "7:20 PM" },
-        ],
-        Idriss: [
-            { sender: "Guest", text: "Is the listing still available?", time: "6:50 PM" },
-            { sender: "Host", text: "Yes, it's still available! Would you like to book it?", time: "6:55 PM" },
-            { sender: "Guest", text: "Great! I’ll book it today.", time: "7:00 PM" },
-            { sender: "Host", text: "Perfect! Let me know if you need any help during the booking process.", time: "7:05 PM" },
-        ],
-        // Add more conversations if needed...
-    });
+    // Fetch host's messages when hostId or guestId changes
+    useEffect(() => {
+        if (hostId && guestId) {
+            axios
+                .get(`http://localhost:5659/api/message/messages/host/${hostId}/guest/${guestId}`)
+                .then((response) => {
+                    setHostMessages(Array.isArray(response.data) ? response.data : []);
+                })
+                .catch((error) => console.error("Error fetching host messages:", error));
+        }
+    }, [hostId, guestId]);
 
-    const chatEndRef = useRef(null); // Ref for auto-scrolling
+    // Fetch contacts list (hosts) for the sidebar
+    useEffect(() => {
+        if (hostId) {
+            axios
+                .get(`http://localhost:2424/api/hosts/fetch/host/${hostId}`)
+                .then((response) => {
+                    if (response.data && response.data.host) {
+                        setContacts([response.data.host]); // Wrap the host object in an array to keep the map logic intact
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error fetching host:", error);
+                });
+        }
+    }, [hostId]);
 
-    // Handle search input
-    const handleSearch = (event) => {
-        setSearchQuery(event.target.value);
+    // Scroll to the bottom when messages change
+    const scrollToBottom = () => {
+        const chatContainer = chatContainerRef.current;
+        if (chatContainer) {
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
     };
 
-    // Filter contacts based on search query
-    const filteredContacts = contacts.filter(contact =>
-        contact.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        contact.message.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-
-    // Handle contact selection
-    const handleSelectContact = (contact) => {
-        setSelectedContact(contact.name);
-        setMessages(conversations[contact.name] || []); // Set messages for selected contact
-    };
-
-    // Set default contact and conversation when the component mounts
+    // Automatically scroll to the bottom whenever messages change
     useEffect(() => {
-        if (contacts.length > 0) {
-            setSelectedContact(contacts[0].name); // Default to first contact
-            setMessages(conversations[contacts[0].name] || []); // Set conversation for first contact
-        }
-    }, []);
+        scrollToBottom();
+    }, [guestMessages, hostMessages]); // Trigger whenever messages change
 
-    // Scroll to the bottom of the chat when messages change
-    useEffect(() => {
-        if (chatEndRef.current) {
-            chatEndRef.current.scrollIntoView({ behavior: "smooth" });
-        }
-    }, [messages]);
-
-    // Handle input change for new message
+    // Handle new message input change
     const handleInputChange = (event) => {
         setNewMessage(event.target.value);
     };
 
-    // Handle sending a new message
+    // Send new message
     const handleSendMessage = () => {
         if (newMessage.trim()) {
-            const updatedMessages = [...messages, { sender: "Guest", text: newMessage, time: new Date().toLocaleTimeString() }];
-            setMessages(updatedMessages); // Add new message to conversation
-            setNewMessage(""); // Clear the input field after sending
+            const messageData = {
+                message: newMessage,
+                hostId: hostId,
+                guestId: guestId,
+            };
 
-            const updatedConversations = { ...conversations, [selectedContact]: updatedMessages };
-            setConversations(updatedConversations);
+            const params = new URLSearchParams();
+            params.append("message", messageData.message);
+            params.append("hostId", messageData.hostId);
+            params.append("guestId", messageData.guestId);
 
-            const updatedContacts = contacts.map((contact) =>
-                contact.name === selectedContact
-                    ? { ...contact, message: newMessage, date: new Date().toLocaleDateString() }
-                    : contact
-            );
-
-            const sortedContacts = [updatedContacts.find(contact => contact.name === selectedContact), ...updatedContacts.filter(contact => contact.name !== selectedContact)];
-            setContacts(sortedContacts); // Update contacts state with reordered contacts
+            axios
+                .post(`http://localhost:5659/api/message/guest/host/add?${params.toString()}`)
+                .then((response) => {
+                    const newMessageData = {
+                        ...response.data,
+                        sender: 'guest', // Mark this as a guest message
+                    };
+                    setGuestMessages((prevMessages) => [...prevMessages, newMessageData]); // Add new message to guest messages
+                    setNewMessage(""); // Clear the input field
+                })
+                .catch((error) => {
+                    console.error("Error sending message:", error);
+                });
         }
+    };
+
+    // Sidebar contact selection
+    const handleSelectContact = (contactId) => {
+        setHostId(contactId); // Set the selected contact's ID as the hostId
+    };
+
+    // Combine and sort messages by sendDate
+    const allMessages = [
+        ...guestMessages.map(msg => ({ ...msg, sender: 'guest' })),
+        ...hostMessages.map(msg => ({ ...msg, sender: 'host' }))
+    ];
+
+    // Sort all messages by sendDate
+    const sortedMessages = allMessages.sort((a, b) => new Date(a.sendDate) - new Date(b.sendDate));
+
+    // Get the last message for each contact
+    const getLastMessage = (hostId) => {
+        const contactMessages = [
+            ...guestMessages.filter((msg) => msg.hostId === hostId),
+            ...hostMessages.filter((msg) => msg.hostId === hostId)
+        ];
+        return contactMessages.length > 0 ? contactMessages[contactMessages.length - 1] : null;
     };
 
     return (
         <div className="chat-container">
-            {/* Sidebar */}
+            {/* Sidebar with hosts */}
             <div className="sidebar">
                 <header className="sidebar-header">
                     <h2>Messages</h2>
-                    <div className="sidebar-actions">
-                        <input
-                            type="text"
-                            placeholder="Search"
-                            value={searchQuery}
-                            onChange={handleSearch}
-                        />
-                    </div>
                 </header>
-                <div className="contact-list">
-                    {filteredContacts.map((contact, index) => (
-                        <div
-                            className="contact-item"
-                            key={index}
-                            onClick={() => handleSelectContact(contact)} // Select contact on click
-                        >
-                            <img src={contact.avatar} alt={contact.name} className="contact-avatar"/>
-                            <div className="contact-info">
-                                <div className="contact-name-date-wrapper">
-                                    <h3 className="contact-name">{contact.name}</h3>
-                                    <span className="contact-date">{contact.date}</span>
+
+                {contacts.length > 0 ? (
+                    contacts.map((contact) => {
+                        const lastMessage = getLastMessage(contact.id);
+                        return (
+                            <div
+                                key={contact.id}
+                                className={`contact-item ${hostId === contact.id ? 'selected' : ''}`}
+                                onClick={() => handleSelectContact(contact.id)}
+                                style={{ borderBottom: '1px solid #ddd' }} // Add a separator between contacts
+                            >
+                                <div className="contact-avatar-container">
+                                    <img
+                                        src={contact.profileImage} // Ensure this path is correct
+                                        alt={contact.name}
+                                        className="contact-avatar"
+                                    />
                                 </div>
-                                <p className="contact-message">{contact.message}</p>
+
+                                <div className="contact-info">
+                                    <h3 className="contact-name">Host: {contact.name}</h3>
+
+                                    <p className="contact-email">
+                                        <strong>Email:</strong> {contact.email || "Not provided"}
+                                    </p>
+
+                                    <p className="contact-about">
+                                        <strong>About:</strong> {contact.about || "No description available"}
+                                    </p>
+
+                                    <p className="contact-phone">
+                                        <strong>Phone:</strong> {contact.phone || "Not available"}
+                                    </p>
+
+                                    <div className="contact-rating">
+                                        <span className="rating-average">{contact.ratingAverage} ★</span>
+                                        <span className="rating-count">({contact.ratingCount} reviews)</span>
+                                    </div>
+
+                                    <p className="time-as-host">
+                                        <strong>Time as Host:</strong> {contact.timeAsHost.years} years, {contact.timeAsHost.months} months
+                                    </p>
+                                </div>
                             </div>
-                        </div>
-                    ))}
-                </div>
+                        );
+                    })
+                ) : (
+                    <p>No hosts available</p>
+                )}
             </div>
 
-            {/* Chat Section */}
             <div className="chat">
                 <header className="chat-header">
                     <div className="chat-header-content">
-                        <h2>{selectedContact ? selectedContact : "Select a Contact"}</h2>
+                        <h2>{hostId ? `Chat with Host: ${contacts.find(contact => contact.id === hostId)?.name || "Host Not Found"}` : "Select a Host"}</h2>
                         <p className="chat-subtitle">Conversation about your reservation.</p>
                     </div>
+
                     <div className="chat-header-options">
-                        <LiveTimer/> {/* Live timer showing the current date and time */}
+                        <LiveTimer />
                     </div>
                 </header>
-                <div className="chat-messages">
-                    {selectedContact && messages.length > 0 ? (
-                        messages.map((msg, index) => (
-                            <div
-                                key={index}
-                                className={`chat-message ${msg.sender === "Host" ? "host" : "guest"}`}
-                            >
-                                <p>{msg.text}</p>
-                                <span className="chat-time">{msg.time}</span>
-                            </div>
-                        ))
-                    ) : (
-                        <p>No conversation selected.</p>
-                    )}
-                    <div ref={chatEndRef}/>
-                    {/* Empty div for auto-scrolling */}
+
+                <div className="chat-messages" ref={chatContainerRef}>
+                    {/* Render sorted messages */}
+                    {sortedMessages.map((msg, index) => (
+                        <div
+                            key={index}
+                            className={`chat-message ${msg.sender}`} // Dynamically set sender class
+                        >
+                            <p>{msg.content}</p>
+                            <span className="chat-time">
+                                {new Date(msg.sendDate).toLocaleTimeString()}
+                            </span>
+                        </div>
+                    ))}
+
+                    <div ref={chatEndRef} />
                 </div>
 
                 <div className="chat-input">
@@ -169,86 +221,10 @@ const Chat = () => {
                         onChange={handleInputChange}
                     />
                     <button className="send-btn" onClick={handleSendMessage}>
-                        <i className="fas fa-paper-plane"></i> {/* Font Awesome icon */}
+                        <i className="fas fa-paper-plane"></i>
                     </button>
                 </div>
             </div>
-
-            <div className="policy-section">
-                <h3><i className="fas fa-file-alt"></i> Spacebnb Policy</h3>
-                <p className="policy-description">
-                    By using this platform, you agree to our terms of service, privacy policy, and community guidelines.
-                    Here are the key points of our policy:
-                </p>
-                <ul>
-                    <li><i className="fas fa-check-circle"></i> Listings must comply with local regulations and zoning
-                        laws.
-                    </li>
-                    <li><i className="fas fa-check-circle"></i> Ensure respectful behavior towards hosts and guests at
-                        all times.
-                    </li>
-                    <li><i className="fas fa-check-circle"></i> Clear communication about the booking, check-in, and
-                        check-out details.
-                    </li>
-                    <li><i className="fas fa-check-circle"></i> Guests must provide accurate personal information and
-                        booking details.
-                    </li>
-                    <li><i className="fas fa-check-circle"></i> Cancellation policies vary by listing and are
-                        communicated clearly before booking.
-                    </li>
-                    <li><i className="fas fa-check-circle"></i> Payment for bookings is required at the time of booking
-                        and must be processed through the platform.
-                    </li>
-                    <li><i className="fas fa-check-circle"></i> Users are responsible for their own safety, including
-                        taking precautions during the stay.
-                    </li>
-                    <li><i className="fas fa-check-circle"></i> All guests must adhere to the house rules set by the
-                        host for a smooth and respectful stay.
-                    </li>
-                    <li><i className="fas fa-check-circle"></i> Any disputes between guests and hosts should be reported
-                        to Airbnb support for mediation.
-                    </li>
-                </ul>
-
-                <h4><i className="fas fa-users"></i> Host Responsibility</h4>
-                <p className="policy-description">
-                    As a host, you are responsible for providing a safe and welcoming environment for your guests.
-                    Please ensure that:
-                </p>
-                <ul>
-                    <li><i className="fas fa-check-circle"></i> Your property is maintained and free of hazards.</li>
-                    <li><i className="fas fa-check-circle"></i> The amenities listed in your profile are available and
-                        functional.
-                    </li>
-                    <li><i className="fas fa-check-circle"></i> Guests are provided with clear check-in and check-out
-                        instructions.
-                    </li>
-                </ul>
-
-                <h4><i className="fas fa-user-friends"></i> Guest Responsibility</h4>
-                <p className="policy-description">
-                    As a guest, you are expected to:
-                </p>
-                <ul>
-                    <li><i className="fas fa-check-circle"></i> Respect the privacy of the host and other guests.</li>
-                    <li><i className="fas fa-check-circle"></i> Leave the property in good condition, as you found it.
-                    </li>
-                    <li><i className="fas fa-check-circle"></i> Inform the host immediately of any damages or issues
-                        during your stay.
-                    </li>
-                </ul>
-
-                <h4><i className="fas fa-shield-alt"></i> Privacy and Data Protection</h4>
-                <p className="policy-description">
-                    We take your privacy seriously. Our platform collects and processes personal data as outlined in our
-                    Privacy Policy, which you can review here.
-                    We are committed to safeguarding your data and only share it with trusted parties for
-                    booking-related purposes.
-                </p>
-                <a href="/terms" className="policy-link"><i className="fas fa-link"></i> View our full policy</a>
-            </div>
-
-
         </div>
     );
 };

@@ -40,6 +40,7 @@ public class MessageController {
     }
 
 
+
     @GetMapping("/sender/{id}")
     public ResponseEntity<List<Message>> getMessagesBySenderId(@PathVariable long id) {
         List<Message> messages = messageRepo.findBySenderId(id);
@@ -50,4 +51,43 @@ public class MessageController {
     }
 
 
+    @GetMapping("/messages/guest/{guestId}/host/{hostId}")
+    public ResponseEntity<List<Message>> getMessagesByGuestAndHost(
+            @PathVariable("guestId") Long guestId, @PathVariable("hostId") Long hostId) {
+        List<Message> messages = messageRepo.findMessagesBySenderIdAndRecipientId(guestId, hostId);
+        if (messages.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);  // 204 if no messages found
+        }
+        return new ResponseEntity<>(messages, HttpStatus.OK);  // 200 with list of messages
+    }
+
+    @GetMapping("/messages/host/{hostId}/guest/{guestId}")
+    public ResponseEntity<List<Message>> getMessagesByHostAndGuest(
+            @PathVariable("hostId") Long hostId, @PathVariable("guestId") Long guestId) {
+        List<Message> messages = messageRepo.findMessagesBySenderIdAndRecipientId(hostId, guestId);
+        if (messages.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);  // 204 if no messages found
+        }
+        return new ResponseEntity<>(messages, HttpStatus.OK);  // 200 with list of messages
+    }
+
+    // Get all hosts a guest has communicated with
+    @GetMapping("/guest/{guestId}/hosts")
+    public ResponseEntity<List<Long>> getAllHostsForGuest(@PathVariable Long guestId) {
+        try {
+            // Fetch all host IDs where guest is the sender
+            List<Long> hostsAsSender = messageRepo.findAllHostsByGuestId(guestId);
+
+            // Fetch all host IDs where guest is the recipient
+            List<Long> hostsAsRecipient = messageRepo.findAllHostsByGuestIdAsRecipient(guestId);
+
+            // Merge the lists and remove duplicates (if any)
+            hostsAsSender.addAll(hostsAsRecipient);
+            List<Long> uniqueHosts = hostsAsSender.stream().distinct().toList();
+
+            return ResponseEntity.ok(uniqueHosts);  // Return the unique host IDs
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
 }

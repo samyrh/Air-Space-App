@@ -1,29 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios"; // Import Axios
 import { Card } from "./Card.jsx"; // Import the Card component
-
-const CardContainer = () => {
-    const [properties, setProperties] = useState([]);
+const CardContainer = ({ properties }) => {
+    console.log("Properties passed to CardContainer:", properties); // Log the properties
     const [visibleCards, setVisibleCards] = useState(16); // Show 16 items by default
     const cardRefs = useRef([]);
 
     const totalCards = properties.length;
-
-    useEffect(() => {
-        const fetchProperties = async () => {
-            try {
-                // Fetch properties from the second API
-                const api2Response = await axios.get("http://localhost:8989/api/properties/fetchApifyProperties");
-
-                // Set the fetched properties
-                setProperties(api2Response.data);
-            } catch (error) {
-                console.error("Error fetching properties:", error);
-            }
-        };
-
-        fetchProperties();
-    }, []);
 
     const loadMoreCards = () => {
         setVisibleCards((prevVisibleCards) => Math.min(prevVisibleCards + 16, totalCards)); // Load 16 more cards
@@ -57,5 +40,6 @@ const CardContainer = () => {
         </div>
     );
 };
+
 
 export default CardContainer;

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Box, IconButton, Paper, Tooltip, Typography, Button } from '@mui/material';
+import { Box, IconButton, Paper, Tooltip, Typography, Button, Modal } from '@mui/material';
 import { AiOutlineHome, AiOutlineApartment, AiOutlineCoffee, AiOutlineRocket, AiOutlineEnvironment, AiOutlineFire } from 'react-icons/ai';
+import FilterPanel from './FilterPanel';
 
 // Filter options with icons
 const filterOptions = [
@@ -12,12 +13,24 @@ const filterOptions = [
     { icon: <AiOutlineCoffee />, label: "Chambres d'hôtes" }
 ];
 
-const FilterBar = () => {
+const CategoryBar = ({ onApplyFilters }) => {
     const [selectedFilter, setSelectedFilter] = useState(null);
+    const [showFilterPanel, setShowFilterPanel] = useState(false);
 
     // Handle filter selection
     const handleFilterClick = (label) => {
         setSelectedFilter(label);
+    };
+
+    // Toggle Filter Panel visibility
+    const toggleFilterPanel = () => {
+        setShowFilterPanel(!showFilterPanel);
+    };
+
+    const handleApplyFilters = (filters) => {
+        // Pass the selected filters back to the parent component (Home)
+        onApplyFilters(filters);
+        setShowFilterPanel(false); // Close the filter panel
     };
 
     return (
@@ -105,9 +118,10 @@ const FilterBar = () => {
                     </Box>
                 ))}
 
-                {/* New Filter Button with SVG Icon */}
+                {/* Filter Button */}
                 <Button
                     variant="contained"
+                    onClick={toggleFilterPanel}
                     sx={{
                         display: 'flex',
                         alignItems: 'center',
@@ -120,26 +134,29 @@ const FilterBar = () => {
                         fontSize: { xs: '0.75rem', sm: '0.875rem' },
                         '&:hover': {
                             backgroundColor: '#6e9fcc',
-                            border:'1px solid #232323',
+                            border: '1px solid #232323',
                         },
                     }}
                 >
-                    {/* SVG Icon */}
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="16"
-                        height="16"
-                        fill="currentColor"
-                        viewBox="0 0 16 16"
-                        style={{ marginRight: '8px' }}
-                    >
-                        <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5" />
-                    </svg>
-                    Filters
+                    Filtres
                 </Button>
             </Paper>
+
+            {/* Filter Panel Modal */}
+            <Modal open={showFilterPanel} onClose={toggleFilterPanel}>
+                <Box
+                    sx={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        height: '100vh',
+                    }}
+                >
+                    <FilterPanel onClose={toggleFilterPanel} onApplyFilters={handleApplyFilters} />
+                </Box>
+            </Modal>
         </Box>
     );
 };
 
-export default FilterBar;
+export default CategoryBar;

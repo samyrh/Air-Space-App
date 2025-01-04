@@ -141,7 +141,7 @@ public class HostService {
 
     // Fetch a host by ref (String)
     public Optional<Host> getHostByRef(String ref) {
-        return hostRepository.findByRefHost(ref); // Assuming the repository has this method
+        return Optional.ofNullable(hostRepository.findByRefHost(ref)); // Assuming the repository has this method
     }
 
 }

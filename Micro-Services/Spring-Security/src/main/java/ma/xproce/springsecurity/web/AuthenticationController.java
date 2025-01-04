@@ -35,14 +35,15 @@ public class AuthenticationController {
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
 
-// Authenticate and generate JWT token
     @PostMapping("/authenticate")
     public String createAuthenticationToken(@RequestBody String loginRequest) throws Exception {
+        // Extract username and password from the request body
         String[] credentials = loginRequest.split(",");
         String username = credentials[0].split(":")[1].replaceAll("\"", "");
         String password = credentials[1].split(":")[1].replaceAll("\"", "").replaceAll("}", "");
 
         try {
+            // Authenticate the user with the provided credentials
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(username, password)
             );
@@ -50,15 +51,23 @@ public class AuthenticationController {
             throw new BadCredentialsException("Invalid credentials, try again", e);
         }
 
+        // Load user details (this is where we fetch the guest details)
         UserDetails userDetails = customUserDetailsService.loadUserByUsername(username);
-        String role = userDetails.getAuthorities().toString();  // Assuming the role is part of the authorities
 
-        // Generate JWT token with the user role
-        String jwtToken = jwtUtil.generateToken(userDetails.getUsername(), role);
+        // Fetch the guest entity to get the guest ID
+        Guest client = clientRepository.findByUsername(username);
+        Long guestId = client.getId(); // Retrieve the guest ID from the Guest entity
 
-        // Return JWT token with role information
-        return "{ \"jwt\": \"" + jwtToken + "\", \"role\": \"" + role + "\" }";
+        // Get the role from the user details (or assign a default role if not found)
+        String role = userDetails.getAuthorities().toString(); // This could be more specific based on the actual authorities
+
+        // Generate the JWT token with the guestId
+        String jwtToken = jwtUtil.generateToken(userDetails.getUsername(), role, guestId);
+
+        // Return the JWT token with role and guestId in the response
+        return "{ \"jwt\": \"" + jwtToken + "\", \"role\": \"" + role + "\", \"guestId\": \"" + guestId + "\" }";
     }
+
 
     // Register a new client
     @PostMapping("/register")

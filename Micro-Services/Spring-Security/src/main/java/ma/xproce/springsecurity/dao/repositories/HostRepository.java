@@ -7,8 +7,8 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface HostRepository extends JpaRepository<Host, String> {
+public interface HostRepository extends JpaRepository<Host, Long> {
 
 
-    Optional<Host> findByRefHost(String ref);
+    Host findByRefHost(String ref);
 }

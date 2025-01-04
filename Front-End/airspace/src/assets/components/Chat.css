@@ -1,0 +1,469 @@
+/* General Container */
+.chat-container {
+    display: flex;
+    height: 90vh; /* Reduced height to avoid excessive scrolling */
+    background-color: #f5f5f7;
+    font-family: "San Francisco", sans-serif;
+}
+
+.sidebar {
+    width: 420px; /* Increased width for a wider sidebar */
+    background-color: #ffffff;
+    border-right: 1px solid #e0e0e0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 4px 0px 12px rgba(0, 0, 0, 0.1);
+    transition: width 0.3s ease; /* Smooth transition for width changes */
+    overflow-y: auto; /* Enables vertical scrolling */
+}
+
+/* Sidebar Header */
+.sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px; /* Adjust the bottom margin */
+    width: 100%;
+    border-bottom: 1px solid #000; /* Change the border to black */
+    padding-bottom: 5px; /* Decrease the padding to lift the line up */
+}
+
+/* iOS-Inspired Button with Grey Theme and Smooth Hover */
+.ios-return-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f0f0f0; /* Light grey background */
+    color: #555555; /* Medium grey text */
+    font-size: 16px;
+    font-weight: 600;
+    padding: 8px 16px;
+    border: 1px solid #dcdcdc; /* Subtle border with light grey */
+    border-radius: 20px; /* Rounded corners */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+    cursor: pointer;
+    transition: all 0.3s ease-in-out; /* Smooth transition for hover and other states */
+}
+
+/* Icon Styling */
+.ios-return-btn i {
+    font-size: 18px; /* Chevron size */
+    margin-right: 8px; /* Spacing between icon and text */
+    color: #777777; /* Slightly darker grey for the icon */
+}
+
+
+.ios-return-btn:active {
+    background-color: #d8d8d8; /* Darker grey background on click */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Return to default shadow */
+    transform: scale(1); /* Reset scale effect */
+}
+
+
+/* Sidebar Header Title */
+.sidebar-header h2 {
+    font-size: 28px; /* Increased font size */
+    font-weight: 700; /* Bold weight for a more modern look */
+    color: #333; /* Dark grey for a clean look */
+    margin-right: 15px;
+    flex-grow: 1; /* Ensures the title takes up available space */
+    letter-spacing: 0.5px; /* Adds a slight letter-spacing for a more contemporary feel */
+    text-transform: capitalize; /* Capitalize the first letter of each word */
+    transition: 0.3s ease; /* Smooth transition for hover effects */
+}
+
+/* Sidebar Item Hover Effect */
+.sidebar-header h2:hover {
+    color: #007bff; /* Change to blue on hover */
+    cursor: pointer; /* Pointer cursor for hover effect */
+}
+
+/* Sidebar Actions Styling */
+.sidebar-actions {
+    display: flex;
+    justify-content: flex-start;
+    width: 50%; /* Adjust width for search bar */
+}
+
+.sidebar-actions input {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 25px;
+    outline: none;
+    background-color: #f0f0f5;
+    color: #333;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: 0.3s;
+}
+
+/* Search Bar Input Focus */
+.sidebar-actions input:focus {
+    border-color: #333; /* Dark grey border */
+    box-shadow: 0 0 5px rgba(51, 51, 51, 0.4); /* Darker grey shadow */
+}
+/* Contact Item Styles */
+/* Contact Item Styles */
+.contact-item {
+    display: flex;
+    margin-top: 20px;
+    flex-direction: column;
+    align-items: center;
+    padding: 28px 32px;
+    margin-bottom: 24px;
+    background-color: #f9f9f9;
+    border-radius: 20px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    text-align: center;
+    border: 2px solid #333333;
+}
+
+/* Focus and Selected State */
+.contact-item:focus, .contact-item.selected {
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+/* Avatar Styling */
+.contact-avatar {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 5px solid #333333;
+    margin-bottom: 24px;
+}
+
+/* Contact Information Styles */
+.contact-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    width: 100%;
+}
+
+.contact-name {
+    font-size: 30px;
+    font-weight: 800;
+    color: #333333;
+    margin: 0;
+    letter-spacing: 1px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    margin-bottom: 16px;
+}
+
+.contact-phone {
+    font-size: 20px;
+    color: #555555;
+    opacity: 0.85;
+    margin: 6px 0;
+}
+
+.contact-email, .contact-about {
+    font-size: 18px;
+    color: #777777;
+    opacity: 0.85;
+    margin: 6px 0;
+}
+
+.contact-about {
+    font-weight: bold;
+    text-align: justify;
+    color: #444444;
+    margin-top: 12px;
+    line-height: 1.6;
+}
+
+/* Contact Rating */
+.contact-rating {
+    display: flex;
+    align-items: center;
+    margin-top: 14px;
+}
+
+.rating-average {
+    font-size: 22px;
+    color: #333333;
+    font-weight: 700;
+    margin-right: 12px;
+}
+
+.rating-count {
+    font-size: 18px;
+    color: #888888;
+}
+
+/* Verified/Unverified Badge */
+.contact-verified {
+    margin-top: 16px;
+    display: flex;
+    align-items: center;
+}
+
+.verified-badge {
+    font-size: 18px;
+    color: #4caf50;
+    font-weight: 600;
+    background-color: #e1f7e1;
+    padding: 8px 16px;
+    border-radius: 25px;
+    transition: background-color 0.3s ease;
+}
+
+.unverified-badge {
+    font-size: 18px;
+    color: #f44336;
+    font-weight: 600;
+    background-color: #ffebee;
+    padding: 8px 16px;
+    border-radius: 25px;
+    transition: background-color 0.3s ease;
+}
+
+/* New Grey Verified Badge */
+.grey-verified-badge {
+    font-size: 18px;
+    color: #808080; /* Grey color for the badge */
+    font-weight: 600;
+    background-color: #f0f0f0; /* Light grey background */
+    padding: 8px 16px;
+    border-radius: 25px;
+    transition: background-color 0.3s ease;
+}
+
+/* Hover Effect for Badge */
+.verified-badge:hover, .unverified-badge:hover, .grey-verified-badge:hover {
+    background-color: #d7f7d7;
+    color: #333333;
+}
+
+.unverified-badge:hover {
+    background-color: #fbe9e7;
+}
+
+/* Time as Host - Modern Design */
+.contact-time-host {
+    font-size: 18px;
+    color: #444444;
+    font-weight: 600;
+    margin-top: 20px;
+    padding: 10px 18px;
+    background-color: #eaeaea;
+    border-radius: 25px;
+    border: 2px solid #333333;
+    display: inline-block;
+}
+
+/* Highlight Selected Contact */
+.contact-item.selected {
+    background-color: #f0f0f0;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.14);
+}
+
+/* Scrollbar Customization for Sidebar */
+.sidebar::-webkit-scrollbar {
+    width: 8px;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background-color: #dcdcdc;
+    border-radius: 10px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background-color: #f9f9f9;
+}
+
+
+/* Chat Section */
+.chat {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 24px; /* Increased padding for a more spacious feel */
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Soft, deeper shadow */
+    border-radius: 0px; /* Rounded corners for a softer look */
+    overflow: hidden;
+    transition: all 0.3s ease-in-out; /* Smooth transition for hover or focus effects */
+}
+
+/* Chat Header */
+.chat-header {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #ddd; /* Subtle border */
+    padding-bottom: 12px;
+    margin-bottom: 20px; /* More spacing below the header */
+}
+
+/* Chat Header Content */
+.chat-header-content {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Title */
+.chat-header h2 {
+    font-size: 24px; /* Slightly larger title */
+    color: #333; /* Dark text for good contrast */
+    font-weight: 600;
+    margin: 0;
+}
+
+/* Subtitle */
+.chat-subtitle {
+    font-size: 14px;
+    color: #666; /* Lighter subtitle */
+    font-weight: 500;
+    margin-top: 4px;
+}
+
+/* Chat Messages */
+.chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    margin-bottom: 20px;
+    padding-right: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px; /* Increased gap for better spacing between messages */
+    scroll-behavior: smooth; /* Smooth scrolling for automatic and manual scroll */
+}
+
+/* Message */
+.chat-message {
+    max-width: 75%; /* Increased message width */
+    padding: 14px;
+    border-radius: 18px; /* Slightly less round for a more modern look */
+    font-size: 15px; /* Slightly larger font */
+    line-height: 1.6;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
+    word-wrap: break-word;
+    position: relative;
+    white-space: normal;
+}
+
+/* Guest Message */
+.chat-message.guest {
+    align-self: flex-start;
+    background-color: #f0f0f5; /* Soft background */
+    color: #333; /* Dark text */
+    border-radius: 20px 20px 20px 0; /* Rounded top and bottom for a balloon-like effect */
+}
+
+/* Host Message */
+.chat-message.host {
+    align-self: flex-end;
+    background-color: #555;
+    color: white;
+    border-radius: 20px 20px 0 20px; /* Different border radius for better contrast */
+}
+
+/* Time */
+.chat-time {
+    font-size: 12px;
+    margin-top: 6px;
+    display: block;
+    text-align: right;
+    opacity: 0.7; /* Slightly transparent time text */
+}
+
+/* Time Colors */
+.chat-message.host .chat-time {
+    color: #ccc;
+}
+.chat-message.guest .chat-time {
+    color: #888;
+}
+
+/* Chat Input */
+.chat-input {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+    border-top: 1px solid #ddd; /* Subtle border color */
+    padding-top: 14px;
+}
+
+/* Chat Input Field */
+.chat-input input {
+    width: 100%;
+    padding: 14px 18px;
+    font-size: 15px;
+    border-radius: 30px; /* Full rounded input */
+    border: 1px solid #ccc; /* Light border */
+    outline: none;
+    box-sizing: border-box;
+    background-color: #f9f9f9; /* Light background */
+    transition: all 0.3s ease; /* Smooth transition on focus */
+}
+
+/* Chat Input Focus */
+.chat-input input:focus {
+    border-color: #000000; /* Blue on focus */
+    box-shadow: 0 0 6px rgb(93, 90, 90); /* Blue shadow */
+}
+
+/* Chat Send Button */
+.send-btn {
+    width: 48px;
+    height: 48px;
+    background-color: #333; /* Dark grey button */
+    color: white;
+    border-radius: 50%;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    margin-left: 12px; /* Space between input and button */
+}
+
+/* Font Awesome Send Icon */
+.send-btn i {
+    font-size: 20px; /* Larger icon */
+}
+
+/* Live Timer Styling */
+.live-timer {
+    font-size: 12px;
+    color: #aaa;
+    font-weight: 500;
+    margin-top: 12px;
+}
+
+/* Smooth Scrollbar */
+.chat-messages::-webkit-scrollbar {
+    width: 6px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 10px;
+}
+
+.chat-messages::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+}
+
+/* Live Timer Styling */
+.live-timer {
+    font-size: 16px; /* Increase the font size for better readability */
+    font-weight: 600; /* Make it slightly bolder for emphasis */
+    color: #333; /* Darker color for better contrast */
+    background-color: #f0f0f5; /* Light grey background */
+    padding: 8px 16px; /* Increased padding for a more balanced look */
+    border-radius: 30px; /* More rounded corners for a modern feel */
+    border: 2px solid #d1d1d6; /* Light grey border */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+}

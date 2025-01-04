@@ -1,11 +1,16 @@
 import React, {useEffect, useState} from 'react';
 import "../assets/components/BookingCard.css";
 import '@fortawesome/fontawesome-free/css/all.min.css';
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import 'leaflet/dist/leaflet.css';
 import 'leaflet/dist/leaflet.css';
+import {jwtDecode} from "jwt-decode";
+import axios from "axios";
+import withReactContent from 'sweetalert2-react-content';
+import Swal from "sweetalert2";
 
 const IosWidget = () => {
+    const navigate = useNavigate(); // Initialize navigate inside the component
 
     const { id } = useParams(); // Get the `id` from the route
     // State for managing dates and guest count
@@ -23,7 +28,21 @@ const IosWidget = () => {
     const isPropertyValid = property && property.latitude && property.longitude;
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
-    // Ensure that property and latitude/longitude are available
+    const [guestId, setGuestId] = useState(null);  // State to store guestId
+    const MySwal = withReactContent(Swal); // Initialize SweetAlert with React content
+
+    useEffect(() => {
+        // Retrieve the JWT token from localStorage
+        const token = localStorage.getItem("jwt");
+
+        if (token) {
+            // Decode the JWT token to extract user information
+            const decodedToken = jwtDecode(token);
+            // Assuming guestId is stored as part of the decoded token
+            const extractedGuestId = decodedToken.guestId;  // Or adjust based on your token structure
+            setGuestId(extractedGuestId); // Set the guestId in state
+        }
+    }, []);  // Empty dependency array ensures this effect runs once on mount
 
     useEffect(() => {
         const fetchProperty = async () => {
@@ -50,7 +69,7 @@ const IosWidget = () => {
             }
 
             try {
-                const response = await fetch(`http://localhost:5566/api/hosts/fetch/${property.hostId}`);
+                const response = await fetch(`http://localhost:2424/api/hosts/fetch/${property.hostId}`);
                 if (response.ok) {
                     const data = await response.json();
                     setHost(data);
@@ -176,6 +195,99 @@ const IosWidget = () => {
         }
     };
 
+    // Handle the booking click
+
+    const handleBooking = async () => {
+
+
+        const bookingData = {
+            startDate: arrivalDate,
+            endDate: departureDate,
+            numberOfGuests: adults,
+            totalPrice: totalBeforeTax,
+            guestId: guestId, // Assuming guestId is passed as a prop
+            propertyId: property.id,
+            hostId: host.id
+        };
+
+        // Show a modern loading SweetAlert
+        MySwal.fire({
+            html: `
+            <div style="display: flex; flex-direction: column; align-items: center;">
+                <div class="ios-spinner" style="margin-bottom: 15px;"></div>
+                <p style="color: #ccc; font-size: 18px; margin: 0;">Processing your booking...</p>
+                <p style="color: #aaa; font-size: 14px; margin: 0;">Please wait while we confirm your reservation.</p>
+            </div>
+        `,
+            background: '#2f2f2f', // Light-dark grey
+            showConfirmButton: false,
+            allowOutsideClick: false,
+            customClass: {
+                popup: 'ios-alert', // Custom class for further styling
+            },
+            didOpen: () => {
+                Swal.showLoading();
+            },
+        });
+
+        console.log('Booking Data:', bookingData);
+
+        try {
+            const response = await fetch('http://localhost:8786/api/booking/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(bookingData),
+
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const contentType = response.headers.get('content-type');
+            let data;
+            if (contentType && contentType.includes('application/json')) {
+                data = await response.json();
+            } else {
+                data = await response.text();
+            }
+
+            console.log('Booking successful:', data);
+
+            // Success SweetAlert with grey theme
+            MySwal.fire({
+                icon: 'success',
+                title: `<span style="color: #ccc;">Booking Confirmed!</span>`,
+                html: `<p style="color: #aaa;">Your booking for <strong>${property.name}</strong> is now pending.</p>`,
+                confirmButtonText: 'View Inbox',
+                background: '#2f2f2f',
+                customClass: {
+                    popup: 'ios-alert',
+                    confirmButton: 'ios-confirm-btn',
+                },
+            }).then(() => {
+                navigate('/inbox', {
+                    state: { hostId: host.id, guestId: guestId },
+                });
+            });
+        } catch (error) {
+            console.error('Error making booking:', error);
+
+            MySwal.fire({
+                icon: 'error',
+                title: `<span style="color: #ccc;">Booking Failed</span>`,
+                html: `<p style="color: #aaa;">There was an error while processing your booking. Please try again later.</p>`,
+                confirmButtonText: 'Retry',
+                background: '#2f2f2f',
+                customClass: {
+                    popup: 'ios-alert',
+                    confirmButton: 'ios-confirm-btn',
+                },
+            });
+        }
+    };
     return (
         <div className="page-container">
             <div className="main-content">
@@ -237,60 +349,56 @@ const IosWidget = () => {
                             alt={`${host?.name || "Unknown"}'s Avatar`}
                             className="host-avatar"
                         />
-                        {host?.verified && <span className="verified-badge"></span>}
+                        {host?.verified && (
+                            <span className="verified-badge">
+                                <i className="fas fa-check"></i>
+                            </span>
+                        )}
                     </div>
-                    {host ? (
-                        <div className="host-details">
-                            <h2 className="host-name">{host?.name || "Unknown Name"}</h2>
-                            <div className="info-group">
-                                <div className="info-item">
-                                    <p>
-                                        <strong>Rating Count:</strong> {host?.ratingCount || 0}
-                                    </p>
-                                </div>
-                                <div className="info-item">
-                                    <p>
-                                        <strong>Rating Average:</strong> {host?.ratingAverage?.toFixed(1) || "N/A"}
-                                    </p>
-                                </div>
-                                <div className="info-item">
-                                    <p>
-                                        <strong>Highlights:</strong>
-                                        <ul className="highlight-list">
-                                            {host?.highlights?.length ? (
-                                                host.highlights.map((highlight, index) => (
-                                                    <li key={index}>{highlight}</li>
-                                                ))
-                                            ) : (
-                                                <li>No highlights available</li>
-                                            )}
-                                        </ul>
-                                    </p>
-                                </div>
-                                <div className="info-item">
-                                    <p>
-                                        <strong>Host
-                                            Details:</strong> {host?.hostDetails?.join(", ") || "No details provided"}
-                                    </p>
-                                </div>
-                                <div className="info-item">
-                                    <p>
-                                        <strong>Time as
-                                            Host:</strong> {host?.timeAsHost ? `${host.timeAsHost.years} years, ${host.timeAsHost.months} months` : "N/A"}
-                                    </p>
-                                </div>
-                                <div className="info-item">
-                                    <p>
-                                        <strong>Super Host:</strong> {host?.superHost ? "Yes" : "No"}
-                                    </p>
+                    <div className="host-details">
+                        <h2 className="host-name">{host?.name || "Unknown Name"}</h2>
+                        <div className="info-group">
+                            <div className="info-item">
+                                <i className="fas fa-star"></i>
+                                <p><strong>Rating Count:</strong> {host?.ratingCount || 0}</p>
+                            </div>
+                            <div className="info-item">
+                                <div className="rating-section">
+                                    <i className="fas fa-star"></i>
+                                    <strong> Rating Average: </strong>
+                                    <strong>{host?.ratingAverage?.toFixed(1) || "N/A"}</strong>
                                 </div>
                             </div>
+
+                            <div className="info-item">
+                                <i className="fas fa-lightbulb"></i>
+                                <p><strong>Highlights:</strong></p>
+                                <ul className="structured-list">
+                                    {host?.highlights?.length ? (
+                                        host.highlights.map((highlight, index) => (
+                                            <li key={index}><i className="fas fa-check-circle"></i> {highlight}</li>
+                                        ))
+                                    ) : (
+                                        <li>No highlights available</li>
+                                    )}
+                                </ul>
+                            </div>
+                            <div className="info-item">
+                                <i className="fas fa-info-circle"></i>
+                                <p><strong>Host Details:</strong></p>
+                                <ul className="structured-list">
+                                    {host?.hostDetails?.length ? (
+                                        host.hostDetails.map((detail, index) => (
+                                            <li key={index}><i className="fas fa-user-circle"></i> {detail}</li>
+                                        ))
+                                    ) : (
+                                        <li>No details provided</li>
+                                    )}
+                                </ul>
+                            </div>
+
                         </div>
-                    ) : error ? (
-                        <p>{error}</p>
-                    ) : (
-                        <p>Loading host information...</p>
-                    )}
+                    </div>
                 </div>
 
                 {/* Separator Line */}
@@ -302,9 +410,9 @@ const IosWidget = () => {
                         {property?.amenities && property.amenities.length > 0 ? (
                             property.amenities.slice(0, showAll ? property.amenities.length : 10).map((amenity, index) => {
                                 // Log the raw amenity and its normalized version for debugging
-                                console.log("Raw Amenity:", property.host);
+
                                 const normalizedAmenity = amenity.trim().replace(/\s+/g, ' ').toLowerCase(); // Normalize spaces and case
-                                console.log("Normalized Amenity:", normalizedAmenity);
+
                                 // L8 MUST DO INCONS
                                 // Define the direct mapping of amenities to icons
                                 const amenityIcons = {
@@ -368,8 +476,8 @@ const IosWidget = () => {
                                 className="read-more-ellipsis"
                                 onClick={() => setShowDescription(true)}
                             >
-                ... Read More
-            </span>
+                                ... Read More
+                            </span>
                         )}
                     </p>
                     {showDescription && property && property.description && property.description.length > 150 && (
@@ -458,13 +566,18 @@ const IosWidget = () => {
                 <div className="contact-host-container">
                     <div className="host-info">
                         <h2>Contact Your Host</h2>
-                        <ul>
-                            <li><strong>Host:</strong> Sarah Connor</li>
-                            <li><strong>Phone:</strong> +1 555 987 654</li>
-                            <li><strong>Email:</strong> host@vacay.com</li>
-                            <li><strong>Location:</strong> New York, NY</li>
-                        </ul>
+                        {host ? (
+                            <ul>
+                                <li><strong>Host:</strong> {host.name || "N/A"}</li>
+                                <li><strong>Phone:</strong> {host.phone || "N/A"}</li>
+                                <li><strong>Email:</strong> {host.email || "N/A"}</li>
+                                <li><strong>Location:</strong> {host.location || "N/A"}</li>
+                            </ul>
+                        ) : (
+                            <p>Host information is not available.</p>
+                        )}
                     </div>
+
 
                     <div className="message-input">
                         <p className="info-text">
@@ -610,6 +723,7 @@ const IosWidget = () => {
                         <button
                             className={`ios-button ${isButtonDisabled ? 'disabled' : ''}`}
                             disabled={isButtonDisabled}
+                            onClick={handleBooking}
                         >
                             Book Now
                         </button>

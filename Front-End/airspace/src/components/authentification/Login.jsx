@@ -13,6 +13,7 @@ const Login = () => {
     const [shake, setShake] = useState(false); // State for shake animation
     const [userRole, setUserRole] = useState(null); // State for managing user role
     const [userData, setUserData] = useState(null); // State for managing decoded user data
+    const [guestId, setGuestId] = useState(null); // State for managing guest ID
     const navigate = useNavigate();
 
     // Handle input change
@@ -37,7 +38,7 @@ const Login = () => {
         try {
             // Make API call to authenticate the user
             const response = await axios.post(
-                "http://localhost:5566/api/auth/authenticate", // Match with Spring Boot endpoint
+                "http://localhost:2424/api/auth/authenticate", // Match with Spring Boot endpoint
                 JSON.stringify({ username: formData.username, password: formData.password }), // Sending the credentials in the correct format
                 {
                     headers: {
@@ -55,16 +56,18 @@ const Login = () => {
             // Store JWT token in localStorage
             localStorage.setItem("jwt", token);
 
-            // Decode the JWT to get user info (including role)
+            // Decode the JWT to get user info (including role and guestId)
             const decodedToken = jwtDecode(token);
             console.log(JSON.stringify(decodedToken, null, 2));
-            // Access both username and role (or any other details you added in the token)
+            // Access both username, role, and guestId from the token
             const username = decodedToken.sub; // `sub` typically holds the username
             const role = decodedToken.role;  // Access the role from the token
+            const guestId = decodedToken.guestId;  // Access the guestId from the token
 
-            // Update states for user data and role
+            // Update states for user data, role, and guestId
             setUserRole(role);
             setUserData(decodedToken); // Store the decoded token data
+            setGuestId(guestId); // Store guest ID
 
             // Clear any error
             setError("");

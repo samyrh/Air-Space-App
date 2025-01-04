@@ -45,15 +45,17 @@ public class JwtUtil {
     }
 
 
-    public String generateToken(String username, String role) {
+    public String generateToken(String username, String role, Long guestId) {
         return Jwts.builder()
-                .setSubject(username)
+                .setSubject(username) // Setting the subject as the username
                 .claim("role", role)  // Adding role as a claim
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY))
-                .signWith(SignatureAlgorithm.HS256, SECRET_KEY.getBytes())
-                .compact();
+                .claim("guestId", guestId)  // Adding guest ID as a claim
+                .setIssuedAt(new Date()) // Token issued date
+                .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY)) // Set expiration time
+                .signWith(SignatureAlgorithm.HS256, SECRET_KEY.getBytes()) // Sign with the secret key
+                .compact(); // Return the generated token
     }
+
 
 
     public boolean isTokenExpired(String token) {

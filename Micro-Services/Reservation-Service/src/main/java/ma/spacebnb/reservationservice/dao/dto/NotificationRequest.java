@@ -9,7 +9,7 @@ public class NotificationRequest {
    private Long guestId;
    private Long propertyId;
 
-
+   private  Long hostId;
     public String getMessage() {
         return message;
     }
@@ -40,5 +40,13 @@ public class NotificationRequest {
 
     public void setPropertyId(Long propertyId) {
         this.propertyId = propertyId;
+    }
+
+    public Long getHostId() {
+        return hostId;
+    }
+
+    public void setHostId(Long hostId) {
+        this.hostId = hostId;
     }
 }

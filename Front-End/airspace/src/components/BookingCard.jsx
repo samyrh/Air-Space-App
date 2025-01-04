@@ -239,6 +239,7 @@ const IosWidget = () => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(bookingData),
+
             });
 
             if (!response.ok) {

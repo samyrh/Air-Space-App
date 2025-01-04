@@ -29,6 +29,7 @@ public class Notification {
 
     private Long propertyId;
 
+    private Long hostId;
 
     public Long getId() {
         return id;
@@ -76,5 +77,13 @@ public class Notification {
 
     public void setPropertyId(Long propertyId) {
         this.propertyId = propertyId;
+    }
+
+    public Long getHostId() {
+        return hostId;
+    }
+
+    public void setHostId(Long hostId) {
+        this.hostId = hostId;
     }
 }

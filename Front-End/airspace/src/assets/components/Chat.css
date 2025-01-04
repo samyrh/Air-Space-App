@@ -29,6 +29,38 @@
     padding-bottom: 5px; /* Decrease the padding to lift the line up */
 }
 
+/* iOS-Inspired Button with Grey Theme and Smooth Hover */
+.ios-return-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f0f0f0; /* Light grey background */
+    color: #555555; /* Medium grey text */
+    font-size: 16px;
+    font-weight: 600;
+    padding: 8px 16px;
+    border: 1px solid #dcdcdc; /* Subtle border with light grey */
+    border-radius: 20px; /* Rounded corners */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+    cursor: pointer;
+    transition: all 0.3s ease-in-out; /* Smooth transition for hover and other states */
+}
+
+/* Icon Styling */
+.ios-return-btn i {
+    font-size: 18px; /* Chevron size */
+    margin-right: 8px; /* Spacing between icon and text */
+    color: #777777; /* Slightly darker grey for the icon */
+}
+
+
+.ios-return-btn:active {
+    background-color: #d8d8d8; /* Darker grey background on click */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Return to default shadow */
+    transform: scale(1); /* Reset scale effect */
+}
+
+
 /* Sidebar Header Title */
 .sidebar-header h2 {
     font-size: 28px; /* Increased font size */

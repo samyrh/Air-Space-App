@@ -18,6 +18,6 @@ public class NotificationController {
 
     @PostMapping("/guest/host/add")
     public void sendNotificationFromGuestToHost(@RequestBody Notification notificationRequest) {
-        notificationService.createNotification(notificationRequest.getGuestId(), notificationRequest.getPropertyId(), notificationRequest.getMessage());
+        notificationService.createNotification(notificationRequest.getGuestId(), notificationRequest.getPropertyId(), notificationRequest.getMessage(), notificationRequest.getHostId());
     }
 }

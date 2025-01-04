@@ -56,6 +56,7 @@ public class ReservationController {
         NotificationRequest notificationRequest = new NotificationRequest();
         notificationRequest.setGuestId(bookingRequest.getGuestId());
         notificationRequest.setPropertyId(bookingRequest.getPropertyId());
+        notificationRequest.setHostId(bookingRequest.getHostId());
         notificationRequest.setMessage("Your booking is pending from "
                 + bookingRequest.getStartDate() + " to " + bookingRequest.getEndDate()
                 + ". Total price: " + bookingRequest.getTotalPrice() + " $. Please await confirmation.");

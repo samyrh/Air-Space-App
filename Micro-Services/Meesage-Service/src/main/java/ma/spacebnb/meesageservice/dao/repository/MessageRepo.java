@@ -23,4 +23,9 @@ public interface MessageRepo extends JpaRepository<Message, Long> {
 
     @Query("SELECT DISTINCT m.senderId FROM Message m WHERE m.recipientId = :guestId")
     List<Long> findAllHostsByGuestIdAsRecipient(Long guestId);
+
+
+    List<Message> findMessagesBySenderId(Long guestId);
+
+    List<Message> findMessagesByRecipientId(Long guestId);
 }

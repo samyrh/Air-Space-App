@@ -3,6 +3,7 @@ package ma.spacebnb.meesageservice.web;
 
 import ma.spacebnb.meesageservice.dao.entity.Message;
 import ma.spacebnb.meesageservice.dao.repository.MessageRepo;
+import ma.spacebnb.meesageservice.dto.Host;
 import ma.spacebnb.meesageservice.services.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -38,6 +39,9 @@ public class MessageController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error creating message: " + e.getMessage());
         }
     }
+
+
+
 
 
 
@@ -88,6 +92,24 @@ public class MessageController {
             return ResponseEntity.ok(uniqueHosts);  // Return the unique host IDs
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
+    @GetMapping("/guest/{guestId}/host")
+    public ResponseEntity<List<Host>> getAllHostForGuest(@PathVariable Long guestId) {
+        try {
+            // Call the service method to fetch hosts
+            List<Host> hosts = messageService.getHostsByGuestId(guestId);
+
+            if (hosts.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);  // 204 if no hosts found
+            }
+
+            return new ResponseEntity<>(hosts, HttpStatus.OK);  // 200 with list of hosts
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);  // 500 if error occurs
         }
     }
 }

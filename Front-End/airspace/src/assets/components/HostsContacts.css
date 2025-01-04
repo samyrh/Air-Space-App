@@ -1,0 +1,227 @@
+/* Hosts Component */
+.hosts-component {
+    padding: 30px 40px;  /* Reduced vertical padding, increased horizontal padding */
+    background-color: #e0e0e0;  /* Lighter grey background */
+    border-radius: 20px;
+    max-width: 1600px;  /* Increased width */
+    margin: 40px auto;
+    font-family: "Inter", sans-serif;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);  /* Softer shadow for lighter depth */
+}
+
+/* Header */
+.hosts-header {
+    text-align: center;
+    margin-bottom: 20px;  /* Reduced space below header */
+}
+
+.hosts-header h1 {
+    font-size: 32px;  /* Smaller font size for the title */
+    font-weight: 800;
+    color: #444;  /* Slightly lighter grey for the header title */
+    margin-bottom: 10px;
+    letter-spacing: -0.5px;
+}
+
+.hosts-header p {
+    font-size: 16px;  /* Smaller font size for description */
+    color: #888;  /* Slightly lighter grey for description */
+    margin: 0;
+}
+
+/* Grid Layout for Cards */
+.hosts-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* 5 cards per row */
+    gap: 30px;
+    justify-content: center;
+    margin: 0 auto;
+    transition: grid-template-columns 0.3s ease;
+}
+
+@media (max-width: 1200px) {
+    .hosts-grid {
+        grid-template-columns: repeat(4, 1fr); /* 4 cards per row on medium screens */
+    }
+}
+
+@media (max-width: 768px) {
+    .hosts-grid {
+        grid-template-columns: repeat(3, 1fr); /* 3 cards per row on small screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .hosts-grid {
+        grid-template-columns: 1fr; /* 1 card per row on extra small screens */
+    }
+}
+
+/* Individual Card Styling */
+.host-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 15px;  /* Reduced padding for smaller height */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-align: center;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid #ddd;  /* Lighter grey border */
+}
+
+.host-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* Host Avatar Styling */
+.host-avatar-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;  /* Reduced margin */
+}
+
+.host-avatar {
+    border-radius: 50%;
+    width: 80px;  /* Smaller avatar */
+    height: 80px;
+    object-fit: cover;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
+}
+/* Host Info Styling */
+.host-info {
+    text-align: left;
+    padding: 8px;
+    background-color: #555;  /* Mid-dark grey for background */
+    border-radius: 8px;  /* Optional rounded corners for a softer look */
+}
+
+/* Host Name Styling */
+.host-info h2 {
+    font-size: 18px;  /* Slightly smaller font size */
+    font-weight: 600;  /* Bold text */
+    color: #000;  /* Black color for name */
+    margin-bottom: 8px;
+}
+
+/* Host Location Styling */
+.host-location {
+    font-size: 14px;  /* Smaller font size for location */
+    color: #bbb;  /* Lighter grey for location */
+    margin-bottom: 12px;
+}
+
+/* Host Details Styling */
+.host-details {
+    font-size: 12px;  /* Smaller font size for details */
+    color: #bbb;  /* Lighter grey for the details */
+}
+
+/* Individual Details Item */
+.details-item {
+    margin-bottom: 10px;
+}
+
+/* Strong Text within Details */
+.details-item strong {
+    color: #000;  /* Black color for strong text */
+}
+
+/* Buttons Styling */
+.host-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;  /* Reduced top margin */
+    gap: 10px;  /* Reduced gap between buttons */
+}
+
+.chat-btn, .view-property-btn {
+    padding: 6px 14px;  /* Smaller padding for compact buttons */
+    font-size: 12px;  /* Smaller font size */
+    font-weight: 500;
+    border-radius: 10px;  /* Rounded edges for a soft look */
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: none;
+    display: inline-block;
+}
+
+/* Chat Button */
+.chat-btn {
+    background-color: #888;  /* Lighter grey for button */
+    color: #fff;  /* White text for contrast */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);  /* Lighter shadow for depth */
+}
+
+.chat-btn:hover {
+    background-color: #555;  /* Lighter dark grey on hover */
+    color: white;  /* White text on hover */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);  /* Slightly darker shadow on hover */
+}
+
+/* View Property Button */
+.view-property-btn {
+    background-color: #888;  /* Lighter grey for button */
+    color: #fff;  /* White text for contrast */
+    border: 1px solid #ddd;  /* Lighter grey border */
+    text-decoration: none;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);  /* Lighter shadow for depth */
+}
+
+.view-property-btn:hover {
+    background-color: #555;  /* Lighter dark grey on hover */
+    color: white;  /* White text on hover */
+    border-color: #444;  /* Lighter dark grey border on hover */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);  /* Slightly darker shadow on hover */
+}
+
+/* Pagination */
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;  /* Reduced margin */
+    gap: 15px;  /* Slightly smaller gap between buttons */
+}
+
+/* Pagination Button */
+.pagination-button {
+    padding: 10px 20px;  /* Smaller padding for easier clickability */
+    font-size: 12px;  /* Smaller font size */
+    font-weight: 600;  /* Stronger font weight for emphasis */
+    color: #666;  /* Lighter grey text for default state */
+    background: #e0e0e0;  /* Lighter grey background */
+    border: 1px solid #ddd;  /* Lighter border for a more refined look */
+    border-radius: 16px;  /* Rounded corners for a modern touch */
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);  /* Lighter shadow for depth */
+}
+
+/* Hover State - Slightly Darker Button */
+.pagination-button:hover {
+    background-color: #d0d0d0;  /* Slightly darker grey on hover */
+    color: #444;  /* Lighter text on hover */
+    transform: translateY(-2px);  /* Small lift effect on hover */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);  /* Slightly stronger shadow */
+}
+
+/* Active Button State */
+.pagination-button.active {
+    background-color: #444;  /* Darker grey for active state */
+    color: white;  /* White text for contrast */
+    border: none;  /* Remove border for cleaner look */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);  /* Stronger shadow for active state */
+    transform: scale(1.05);  /* Slight zoom effect on active state */
+}
+
+/* Disabled Button State */
+.pagination-button:disabled {
+    background-color: #c0c0c0;  /* Light grey for disabled buttons */
+    color: #aaa;  /* Faded text color */
+    cursor: not-allowed;  /* Indicate the button is disabled */
+    box-shadow: none;  /* Remove shadow on disabled state */
+}
+
+

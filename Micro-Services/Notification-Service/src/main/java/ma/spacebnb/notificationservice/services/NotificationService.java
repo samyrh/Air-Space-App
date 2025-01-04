@@ -13,13 +13,13 @@ public class NotificationService {
     @Autowired
     private NotificationRepo notificationRepository;
 
-    public void createNotification(Long guestId, Long propertyId, String message) {
+    public void createNotification(Long guestId, Long propertyId, String message, Long hostId) {
         Notification notification = new Notification();
         notification.setGuestId(guestId);
         notification.setPropertyId(propertyId);
         notification.setMessage(message);
         notification.setSendDate(new Date());
-
+        notification.setHostId(hostId);
         notificationRepository.save(notification);
     }
 }

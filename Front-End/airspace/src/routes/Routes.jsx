@@ -6,6 +6,7 @@ import GuestRegister from "../components/authentification/GuestRegister.jsx";
 import ProtectedRoute from './ProtectedRoute';
 import Booking from "../layers/Booking.jsx";
 import Inbox from "../layers/Inbox.jsx";
+import ContactsHost from "../layers/ContactsHost.jsx";
 
 const AppRoutes = () => (
     <Routes>
@@ -25,6 +26,11 @@ const AppRoutes = () => (
         <Route path="/inbox" element={
             <ProtectedRoute>
                 <Inbox />
+            </ProtectedRoute>
+        } />
+        <Route path="/guest/contacts" element={
+            <ProtectedRoute>
+                <ContactsHost   />
             </ProtectedRoute>
         } />
     </Routes>

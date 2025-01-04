@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import LiveTimer from './LiveTimer'; // Import the LiveTimer component
 import "../assets/components/Chat.css"; // Import custom CSS styles
 
@@ -14,6 +14,7 @@ const Chat = () => {
     const [newMessage, setNewMessage] = useState(""); // New message input state
     const chatEndRef = useRef(null); // Reference for auto-scrolling
     const chatContainerRef = useRef(null); // Reference for the chat container
+    const navigate = useNavigate();  // Initialize useNavigate
 
     // Fetch guest's messages when guestId or hostId changes
     useEffect(() => {
@@ -25,7 +26,7 @@ const Chat = () => {
                 })
                 .catch((error) => console.error("Error fetching guest messages:", error));
         }
-    }, [guestId, hostId]);
+    }, [guestId, hostId,guestMessages]);
 
     // Fetch host's messages when hostId or guestId changes
     useEffect(() => {
@@ -37,7 +38,7 @@ const Chat = () => {
                 })
                 .catch((error) => console.error("Error fetching host messages:", error));
         }
-    }, [hostId, guestId]);
+    }, [hostId, guestId,hostMessages]);
 
     // Fetch contacts list (hosts) for the sidebar
     useEffect(() => {
@@ -126,13 +127,20 @@ const Chat = () => {
         return contactMessages.length > 0 ? contactMessages[contactMessages.length - 1] : null;
     };
 
+    const handleReturnClick = () => {
+        navigate("/guest/contacts");  // Navigate to /guest/contacts when the button is clicked
+    };
     return (
         <div className="chat-container">
             {/* Sidebar with hosts */}
             <div className="sidebar">
                 <header className="sidebar-header">
                     <h2>Messages</h2>
+                    <button className="ios-return-btn" onClick={handleReturnClick}>
+                        <i className="fas fa-chevron-left"></i> Return to All Contacts
+                    </button>
                 </header>
+
 
                 {contacts.length > 0 ? (
                     contacts.map((contact) => {
@@ -142,7 +150,7 @@ const Chat = () => {
                                 key={contact.id}
                                 className={`contact-item ${hostId === contact.id ? 'selected' : ''}`}
                                 onClick={() => handleSelectContact(contact.id)}
-                                style={{ borderBottom: '1px solid #ddd' }} // Add a separator between contacts
+                                style={{borderBottom: '1px solid #ddd'}} // Add a separator between contacts
                             >
                                 <div className="contact-avatar-container">
                                     <img
@@ -173,7 +181,8 @@ const Chat = () => {
                                     </div>
 
                                     <p className="time-as-host">
-                                        <strong>Time as Host:</strong> {contact.timeAsHost.years} years, {contact.timeAsHost.months} months
+                                        <strong>Time as
+                                            Host:</strong> {contact.timeAsHost.years} years, {contact.timeAsHost.months} months
                                     </p>
                                 </div>
                             </div>

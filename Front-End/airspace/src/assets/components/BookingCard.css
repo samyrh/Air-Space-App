@@ -5,8 +5,7 @@
     margin: 20px auto;
     padding: 12px; /* Reduced padding */
     border-radius: 12px; /* Slightly smaller border radius */
-    background: linear-gradient(to bottom, #ffffff, #f9f9f9);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* Slightly smaller shadow */
+    background: #ffffff;
     font-family: 'SF Pro Display', sans-serif;
     display: flex;
     flex-direction: row;

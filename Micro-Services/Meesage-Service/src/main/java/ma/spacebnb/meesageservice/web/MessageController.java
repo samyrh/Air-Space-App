@@ -4,6 +4,8 @@ package ma.spacebnb.meesageservice.web;
 import ma.spacebnb.meesageservice.dao.entity.Message;
 import ma.spacebnb.meesageservice.dao.repository.MessageRepo;
 import ma.spacebnb.meesageservice.dto.Host;
+import ma.spacebnb.meesageservice.dto.NotificationRequest;
+import ma.spacebnb.meesageservice.feignclients.NotificationClient;
 import ma.spacebnb.meesageservice.services.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,6 +25,8 @@ public class MessageController {
     private MessageService messageService;
     @Autowired
     private MessageRepo messageRepo;
+    @Autowired
+    private NotificationClient notificationClient;
 
     @PostMapping("/guest/host/add")
     public ResponseEntity<?> createMessageFromGuestToHost(@RequestParam String message,
@@ -31,6 +35,14 @@ public class MessageController {
         try {
             // Call the service to create and save the message
             Message createdMessage = messageService.createMessageFromGuestToHost(message, hostId, guestId);
+            // Create the notification request
+            NotificationRequest notificationRequest = new NotificationRequest();
+            notificationRequest.setGuestId(guestId);
+            notificationRequest.setHostId(hostId);
+            notificationRequest.setMessage("A Guest has sent you a message.");
+
+            // Send notification to the Notification microservice
+            notificationClient.sendNotificationFromGuestToHost(notificationRequest);
 
             // Return a response with the created message
             return ResponseEntity.status(HttpStatus.CREATED).body(createdMessage);

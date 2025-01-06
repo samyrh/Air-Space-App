@@ -11,12 +11,19 @@ function Navbar() {
     const navigate = useNavigate();
     const location = useLocation(); // Get the current location
 
+    // Set selected option based on current route
+    useEffect(() => {
+        if (location.pathname === "/guest/contacts") {
+            setSelectedOption("Inbox");
+        }
+    }, [location.pathname]);
+
     // Map paths to button names
     const linkMap = {
         "/": "Home",
         "/about": "About",
         "/services": "Services",
-        "/contact": "Contact",
+        "/guest/contacts": "Contact",
     };
 
     const activeButton = linkMap[location.pathname] || null; // Determine active button or set to null if no match
@@ -33,7 +40,7 @@ function Navbar() {
                 navigate("/services"); // Navigate to Services route
                 break;
             case "Contact":
-                navigate("/contact"); // Navigate to Contact route
+                navigate("/guest/contacts"); // Navigate to Contact route
                 break;
             default:
                 navigate("/"); // Default to Home
@@ -47,6 +54,20 @@ function Navbar() {
     const handleSelectChange = (option) => {
         setSelectedOption(option);
         setDropdownVisible(false);
+
+        if (option === "Inbox") {
+            navigate("/guest/contacts"); // Navigate to /guest/contacts when "Inbox" is selected
+        } else if (option === "Logout") {
+            // Remove JWT token from localStorage or sessionStorage
+            localStorage.removeItem("jwtToken");  // Assuming the token is stored in localStorage
+            sessionStorage.removeItem("jwtToken"); // If it's stored in sessionStorage, remove it too
+
+            // Optionally, you can clear other sensitive data as well
+            alert('You have been logged out successfully.');
+
+            // Redirect to the login page
+            navigate("/login");
+        }
     };
 
     const handleClickOutside = (event) => {
@@ -128,7 +149,12 @@ function Navbar() {
                     <span>{selectedOption || "Profile"}</span>
                 </div>
                 <div ref={dropdownRef} className={`navbar-dropdown ${dropdownVisible ? "visible" : ""}`}>
-                    <div onClick={() => handleSelectChange("Inbox")}>Inbox</div>
+                    <div
+                        className={selectedOption === "Inbox" ? "selected" : ""}
+                        onClick={() => handleSelectChange("Inbox")}
+                    >
+                        Inbox
+                    </div>
                     <div onClick={() => handleSelectChange("Trips")}>Trips</div>
                     <div onClick={() => handleSelectChange("Favorites")}>Favorites</div>
                     <div onClick={() => handleSelectChange("List my property")}>List my property</div>

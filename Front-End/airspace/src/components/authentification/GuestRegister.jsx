@@ -134,6 +134,7 @@ const Register = () => {
                                 placeholder="Enter your full name"
                             />
                         </div>
+
                         <div className="register-field">
                             <label htmlFor="username">Username</label>
                             <input

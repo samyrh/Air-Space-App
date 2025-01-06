@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 @RestController
 @RequestMapping("/api/properties")
 @CrossOrigin(origins = "*")
@@ -40,7 +39,6 @@ public class PropertyController {
         }
     }
 
-
     @GetMapping("/{id}")
     public ResponseEntity<Optional<Property>> getPropertyById(@PathVariable Long id) {
         try {
@@ -56,4 +54,26 @@ public class PropertyController {
         }
     }
 
+    // New API to fetch properties by hostId
+    @GetMapping("/host/{hostId}")
+    public ResponseEntity<List<Property>> getPropertiesByHostId(@PathVariable String hostId) {
+        try {
+            // Assuming properties have a 'hostId' or equivalent field to match
+            List<Property> properties = propertyRepository.findByHostId(hostId);
+
+            if (properties.isEmpty()) {
+                return ResponseEntity.notFound().build();  // No properties found for the host
+            }
+
+            return ResponseEntity.ok(properties);  // Return the list of properties for this host
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).build();
+        }
+    }
+
+    @GetMapping("/top-rated")
+    public List<Property> getTopRatedProperties() {
+        return propertyService.getTop6RatedProperties();
+    }
 }

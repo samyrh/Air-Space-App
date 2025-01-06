@@ -272,4 +272,10 @@ public class PropertyService {
         }
         property.setAmenities(amenities);
     }
+
+
+
+    public List<Property> getTop6RatedProperties() {
+        return propertyRepository.findTop6ByRating();
+    }
 }

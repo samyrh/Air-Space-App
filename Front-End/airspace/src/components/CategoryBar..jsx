@@ -56,7 +56,7 @@ const CategoryBar = ({ onApplyFilters }) => {
                     maxWidth: { xs: '90vw', sm: '80vw' },
                     width: '100%',
                     borderRadius: '30px',
-                    background: 'linear-gradient(135deg, #b3e0ff, #ffd1dc)',
+                    background: 'linear-gradient(135deg, #f5f5f5, #e0e0e0)',
                     boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)',
                     position: 'absolute',
                     bottom: { xs: '10px', sm: '20px' },

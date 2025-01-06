@@ -33,7 +33,7 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/api/auth/authenticate/**", "/api/auth/register/**", "/api/clients/**","/api/hosts/**","https://api.apify.com/v2/datasets/rz5FbJFUsCk67YGdD/items?clean=true&format=json").permitAll()
+                        .requestMatchers("/api/auth/authenticate/**", "/api/auth/register/**", "/api/clients/**","/api/hosts/**","/api/auth/**","https://api.apify.com/v2/datasets/rz5FbJFUsCk67YGdD/items?clean=true&format=json").permitAll()
                         .anyRequest().authenticated()
                 )
 

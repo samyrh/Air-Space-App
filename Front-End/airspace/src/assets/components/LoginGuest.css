@@ -1,42 +1,30 @@
-/* Reset and Base */
-/*
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: "Inter", sans-serif;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    background-size: cover;
-}
-*/
-/* Container */
+/* Ensure login container takes full viewport */
 .login-container {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
-    height: 100%;
+    height: 100vh; /* Ensure full viewport height */
     padding: 30px;
+    background-image: linear-gradient(to bottom, #dce0d9, #e2e4dd, #e8e8e1, #edece5, #f3f0e9, #f4efe7, #f5efe6, #f6eee4, #f3e8dc, #f0e3d3, #edddcb, #ead7c3);
+    background-size: cover; /* Full background */
+    margin: 0;
+    box-sizing: border-box;
 }
-
+/* Login glass container */
 .login-glass {
-    background: rgba(255, 255, 255, 0.15);
-    border-radius: 30px;
-    box-shadow: 0 10px 50px rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    padding: 50px;
-    max-width: 600px;
+    background: rgba(255, 255, 255, 0.1); /* Reduced opacity for a more subtle effect */
+    border-radius: 20px; /* Reduced border-radius */
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.2); /* Slightly smaller shadow */
+    backdrop-filter: blur(15px); /* Reduced blur effect */
+    -webkit-backdrop-filter: blur(15px); /* Reduced blur effect */
+    padding: 30px; /* Reduced padding */
+    max-width: 450px; /* Reduced max-width */
     width: 100%;
     text-align: center;
     color: #ffffff;
 }
+
 
 /* Branding */
 .branding h1 {
@@ -70,34 +58,40 @@ body {
 
 /* Form Fields */
 .login-field {
-    margin-bottom: 30px;
+    margin-bottom: 25px; /* Adjusted margin for more spacing */
     text-align: left;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center fields */
 }
 
+/* Label */
 .login-field label {
     display: block;
-    font-size: 1.1rem;
+    font-size: 1.2rem; /* Increased font size */
     color: #333333;
-    margin-bottom: 8px;
-    font-weight: 500;
+    margin-bottom: 10px; /* Increased margin */
+    font-weight: 600; /* Bold font */
 }
 
+/* Input */
 .login-field input {
-    width: 100%;
-    padding: 18px;
+    width: 90%; /* Increased width for slightly bigger input */
+    padding: 16px; /* Increased padding */
     border: none;
-    border-radius: 15px;
+    border-radius: 15px; /* Slightly larger border radius */
     background: rgba(255, 255, 255, 0.2);
     color: #333333;
-    font-size: 1.1rem;
+    font-size: 1.3rem; /* Increased font size */
     outline: none;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* Increased box-shadow */
 }
 
+/* Focus effect */
 .login-field input:focus {
     background: rgba(255, 255, 255, 0.3);
-    box-shadow: 0 6px 40px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25); /* Increased focus shadow */
 }
 
 /* Button */
@@ -155,6 +149,7 @@ body {
 .login-link:hover {
     text-decoration: underline;
 }
+
 /* Ultra-Smooth Shake Animation */
 @keyframes shake {
     0% {
@@ -185,5 +180,3 @@ body {
     overflow: hidden; /* Ensure content inside respects the rounded edges */
     transition: border-color 0.3s ease; /* Subtle border-color transition */
 }
-
-

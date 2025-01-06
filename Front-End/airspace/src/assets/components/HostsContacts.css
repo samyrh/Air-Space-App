@@ -80,16 +80,38 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 15px;  /* Reduced margin */
+    margin-bottom: 20px; /* Slightly increased margin for spacing */
 }
 
 .host-avatar {
     border-radius: 50%;
-    width: 80px;  /* Smaller avatar */
-    height: 80px;
+    width: 120px;  /* Increased avatar size */
+    height: 120px; /* Increased avatar size */
     object-fit: cover;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); /* Slightly darker shadow for depth */
+    border: 3px solid #ddd; /* Optional: Light border for a polished look */
 }
+
+.host-rating {
+    margin-top: 5px; /* Slightly reduced spacing */
+    margin-bottom: 10px; /* Space below the rating section */
+    display: flex;
+    align-items: center;
+    font-size: 16px; /* Modern and readable font size */
+    color: #333; /* Darker text for "Rating:" label */
+}
+
+.host-rating i {
+    margin-right: 3px;
+    font-size: 18px; /* Slightly larger stars for emphasis */
+}
+
+.host-rating span {
+    font-size: 14px;
+    color: #888; /* Subtle text for the numeric rating */
+    margin-left: 5px;
+}
+
 /* Host Info Styling */
 .host-info {
     text-align: left;
@@ -108,26 +130,41 @@
 
 /* Host Location Styling */
 .host-location {
-    font-size: 14px;  /* Smaller font size for location */
-    color: #bbb;  /* Lighter grey for location */
-    margin-bottom: 12px;
+    font-size: 18px; /* Larger font size for prominence */
+    font-weight: 700; /* Bold for emphasis */
+    color: #000; /* Black text for strong visibility */
+    margin-bottom: 16px;
+    letter-spacing: 0.5px; /* Slight spacing for elegance */
+    text-transform: uppercase; /* Optional: All caps for emphasis */
 }
 
 /* Host Details Styling */
 .host-details {
-    font-size: 12px;  /* Smaller font size for details */
-    color: #bbb;  /* Lighter grey for the details */
+    font-size: 16px; /* Larger font size for readability */
+    font-weight: 600; /* Semi-bold for a modern look */
+    color: #000; /* Black text for clarity */
+    line-height: 1.6; /* Increased line height for better readability */
+    margin-bottom: 20px;
+    letter-spacing: 0.3px; /* Slight spacing for a polished look */
 }
 
 /* Individual Details Item */
 .details-item {
-    margin-bottom: 10px;
+    margin-bottom: 12px; /* Slightly increased margin for spacing */
+    padding: 6px 0; /* Added padding for cleaner layout */
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Subtle divider for separation */
 }
 
 /* Strong Text within Details */
 .details-item strong {
-    color: #000;  /* Black color for strong text */
+    font-size: 18px; /* Larger font size for key details */
+    font-weight: 700; /* Bold black for emphasis */
+    color: #000; /* Black color for strong text */
+    display: inline-block; /* Ensures strong text stands out */
+    margin-right: 6px; /* Adds spacing between the label and content */
+    text-transform: capitalize; /* Optional: Capitalize for readability */
 }
+
 
 /* Buttons Styling */
 .host-actions {

@@ -1,38 +1,35 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate hook
+import { useNavigate } from "react-router-dom";
 import "../assets/components/HostsContacts.css";
 import { jwtDecode } from "jwt-decode";
 
 const Hosts = () => {
-    const [hosts, setHosts] = useState([]);  // State to store fetched hosts
+    const [hosts, setHosts] = useState([]);
+    const [properties, setProperties] = useState([]); // For storing properties of hosts
     const [currentPage, setCurrentPage] = useState(1);
-    const [loading, setLoading] = useState(true);  // Loading state
-    const [error, setError] = useState(null);  // Error state for handling API errors
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-    const itemsPerPage = 5;  // Update this to 5
+    const itemsPerPage = 5;
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentItems = hosts.slice(indexOfFirstItem, indexOfLastItem);
 
     const totalPages = Math.ceil(hosts.length / itemsPerPage);
-    const [guestId, setGuestId] = useState(null);  // State to store guestId
+    const [guestId, setGuestId] = useState(null);
 
-    const navigate = useNavigate(); // Initialize useNavigate
+    const navigate = useNavigate();
 
     useEffect(() => {
-        // Retrieve the JWT token from localStorage
         const token = localStorage.getItem("jwt");
 
         if (token) {
-            // Decode the JWT token to extract user information
             const decodedToken = jwtDecode(token);
-            const extractedGuestId = decodedToken.guestId;  // Adjust based on your token structure
-            setGuestId(extractedGuestId); // Set the guestId in state
-
-            // Fetch hosts data from the API
+            const extractedGuestId = decodedToken.guestId;
+            setGuestId(extractedGuestId);
             fetchHosts(extractedGuestId);
         }
-    }, []);  // Empty dependency array ensures this effect runs once on mount
+    }, []);
 
     const fetchHosts = async (guestId) => {
         try {
@@ -41,8 +38,8 @@ const Hosts = () => {
             const data = await response.json();
 
             if (response.ok) {
-                setHosts(data); // Set the fetched hosts data to state
-                console.log(data);
+                setHosts(data);
+                fetchProperties(data);  // Fetch properties after getting hosts data
             } else {
                 setError("Failed to fetch hosts data");
             }
@@ -53,20 +50,54 @@ const Hosts = () => {
         }
     };
 
+    const fetchProperties = async (hostsData) => {
+        try {
+            const hostRefHosts = hostsData.map((host) => host.refHost); // Extract the refHost (String)
+            const propertiesData = await Promise.all(
+                hostRefHosts.map((refHost) =>
+                    fetch(`http://localhost:8989/api/properties/host/${refHost}`).then((res) => res.json())
+                )
+            );
+            setProperties(propertiesData);
+            console.log(propertiesData)// Assuming propertiesData is an array of properties for each host
+        } catch (error) {
+            setError("An error occurred while fetching properties");
+        }
+    };
+
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
 
     const handleChatButtonClick = (hostId) => {
-        navigate("/inbox", { state: { guestId, hostId } }); // Pass guestId and hostId to /inbox
+        navigate("/inbox", { state: { guestId, hostId } });
+    };
+
+    const renderStars = (rating) => {
+        const maxStars = 5;
+        const fullStars = Math.floor(rating);
+        const halfStar = rating % 1 >= 0.5;
+        const emptyStars = maxStars - fullStars - (halfStar ? 1 : 0);
+
+        return (
+            <>
+                {Array.from({ length: fullStars }, (_, i) => (
+                    <i key={`full-${i}`} className="fas fa-star" style={{ color: "#FFD700" }}></i>
+                ))}
+                {halfStar && <i className="fas fa-star-half-alt" style={{ color: "#FFD700" }}></i>}
+                {Array.from({ length: emptyStars }, (_, i) => (
+                    <i key={`empty-${i}`} className="far fa-star" style={{ color: "#FFD700" }}></i>
+                ))}
+            </>
+        );
     };
 
     if (loading) {
-        return <div>Loading...</div>;  // Display loading message
+        return <div>Loading...</div>;
     }
 
     if (error) {
-        return <div>{error}</div>;  // Display error message
+        return <div>{error}</div>;
     }
 
     return (
@@ -82,7 +113,7 @@ const Hosts = () => {
                             <img src={host.profileImage} alt={host.name} className="host-avatar" />
                         </div>
                         <div className="host-info">
-                            <h2>{host.name}</h2>
+                            <h2>Host: {host.name}</h2>
                             <p className="host-location">{host.location}</p>
                             <div className="host-details">
                                 <div className="details-item">
@@ -92,11 +123,14 @@ const Hosts = () => {
                                     <strong>Email:</strong> {host.email}
                                 </div>
                             </div>
+                            <div className="host-rating">
+                                <strong>Rating:</strong> {renderStars(host.ratingAverage)}
+                                <span> ({host.ratingAverage.toFixed(1)})</span>
+                            </div>
                             <div className="host-actions">
                                 <button className="chat-btn" onClick={() => handleChatButtonClick(host.id)}>
                                     Chat
                                 </button>
-                                <a href={host.propertyLink} className="view-property-btn">View Property</a>
                             </div>
                         </div>
                     </div>
@@ -108,7 +142,7 @@ const Hosts = () => {
                         key={index}
                         className={`pagination-button ${currentPage === index + 1 ? "active" : ""}`}
                         onClick={() => handlePageChange(index + 1)}
-                        disabled={currentPage === index + 1}  // Optionally disable the active page
+                        disabled={currentPage === index + 1}
                     >
                         {index + 1}
                     </button>

@@ -16,27 +16,36 @@ body {
 }
 */
 /* Container */
+/* Ensure login container takes full viewport */
+/* Ensure register container takes full viewport */
 .register-container {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
-    height: 100%;
+    height: 100vh; /* Ensure full viewport height */
     padding: 30px;
+    background-image: linear-gradient(to bottom, #dce0d9, #e2e4dd, #e8e8e1, #edece5, #f3f0e9, #f4efe7, #f5efe6, #f6eee4, #f3e8dc, #f0e3d3, #edddcb, #ead7c3);
+    background-size: cover; /* Full background */
+    margin: 0;
+    box-sizing: border-box;
 }
 
+/* Register glass container */
 .register-glass {
-    background: rgba(255, 255, 255, 0.15);
-    border-radius: 30px;
-    box-shadow: 0 10px 50px rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    padding: 50px;
-    max-width: 600px;
+    background: rgba(255, 255, 255, 0.1); /* Reduced opacity for a more subtle effect */
+    border-radius: 20px; /* Reduced border-radius */
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.2); /* Slightly smaller shadow */
+    backdrop-filter: blur(15px); /* Reduced blur effect */
+    -webkit-backdrop-filter: blur(15px); /* Reduced blur effect */
+    padding: 40px; /* Increased padding for more space */
+    max-width: 700px; /* Significantly wider container */
     width: 100%;
     text-align: center;
     color: #ffffff;
 }
+
+
 .register-row {
     display: flex;
     justify-content: space-between;
@@ -48,18 +57,24 @@ body {
     display: flex;
     flex-direction: column;
 }
+
 .register-field label {
     margin-bottom: 5px;
-    font-size: 1rem;
+    font-size: 0.9rem; /* Smaller font size for labels */
     font-weight: bold;
 }
+
 .register-field input {
-    padding: 10px;
-    font-size: 1rem;
-    border-radius: 10px;
+    padding: 2px; /* Reduced padding further */
+    font-size: 0.6rem; /* Even smaller font size */
+    border-radius: 4px; /* Smaller border-radius */
     border: 1px solid #ccc;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Smaller shadow */
+    width: 100%; /* Full width */
+    max-width: 300px; /* Reduced max-width for even smaller input */
 }
+
+
 
 /* Adjusting Form Grid */
 .register-grid {
@@ -165,7 +180,7 @@ body {
 
 /* Button */
 .register-button {
-    width: 100%;
+    width: 60%; /* Reduced width by 40% */
     padding: 18px;
     font-size: 1.3rem;
     font-weight: bold;
@@ -177,6 +192,7 @@ body {
     transition: all 0.3s ease;
     box-shadow: 0 6px 30px rgba(0, 0, 0, 0.3);
 }
+
 
 .register-button:disabled {
     background: linear-gradient(135deg, #9c9c9c, #c4c4c4);

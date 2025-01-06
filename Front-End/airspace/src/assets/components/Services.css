@@ -1,0 +1,503 @@
+/* Services Page Styles */
+:root {
+    --primary-font: 'Arial', sans-serif;
+    --primary-color: #111;
+    --secondary-color: #444;
+    --highlight-color: black;
+    --background-color: #fff;
+    --hover-shadow-color: rgba(0, 0, 0, 0.15);
+    --transition-time: 0.3s; /* Faster transition time */
+    --mobile-max-width: 768px;
+}
+
+/* Services Page */
+.services-page {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 60px 10%;
+    background-color: var(--background-color);
+    font-family: var(--primary-font);
+    color: var(--primary-color);
+}
+
+/* Lazy Load Transition */
+.section {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 2s ease-out, transform 2s ease-out;
+}
+
+.section.fade-in {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.intro-content h1, .intro-content p {
+    font-family: 'Circular Std', 'Helvetica Neue', Arial, sans-serif; /* Modern font style */
+    font-weight: 700; /* Bold text */
+    color: black; /* Black text */
+    line-height: 1.4; /* Improve line spacing for readability */
+}
+
+.intro-content h1 {
+    font-size: 4rem; /* Increase font size for the title */
+    margin-bottom: 20px; /* Add spacing below the title */
+}
+
+
+.services-description {
+    font-size: 1.4rem;
+    font-weight: 700; /* Bold text */
+    color: black; /* Black text */
+    line-height: 1.8; /* Adjust line height for better spacing */
+    margin-bottom: 25px;
+}
+
+.cta-button {
+    background-color: #111; /* Dark background for button */
+    color: white; /* White text */
+    padding: 16px 40px;
+    font-size: 1.2rem;
+    font-weight: 700; /* Bold text */
+    border: 2px solid transparent;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease-out; /* Smooth transition */
+    text-transform: uppercase;
+}
+
+.cta-button:hover {
+    background-color: white;
+    color: #111; /* Change text color on hover */
+    border: 2px solid #111;
+    transform: translateY(-10px);
+}
+
+/* Image Styling */
+.intro-image img {
+    width: 100%;
+    max-width: 1000px; /* Set a max width for the image */
+    height: auto;
+    border-radius: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease-out;
+    margin-top: 40px; /* Move the image slightly downwards */
+    float: right; /* Float the image to the right */
+    margin-left: 20px; /* Add left margin to create space between the image and the text */
+}
+
+.intro-image img:hover {
+    transform: scale(1.05);
+}
+
+/* Service Section */
+.services-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.service-item {
+    flex: 1;
+    min-width: 300px;
+    height: 380px; /* Fixed height for the service items */
+    background-color: var(--background-color);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+    color: var(--primary-color);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.service-item:hover {
+    transform: translateY(-12px);
+    box-shadow: 0 12px 30px var(--hover-shadow-color);
+}
+
+.service-item .service-image {
+    width: 100%;
+    height: 150px; /* Fixed height for the image */
+    object-fit: cover;
+    border-radius: 10px;
+    transition: transform 0.3s ease-out;
+}
+
+.service-item:hover .service-image {
+    transform: scale(1.05);
+}
+
+.service-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-grow: 1; /* Makes the info section flexible */
+}
+
+.service-item h3 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+    overflow: hidden; /* Prevents text overflow */
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.service-item p {
+    font-size: 1.1rem;
+    color: #555;
+    margin-bottom: 10px;
+    flex-grow: 1;
+    overflow: hidden;
+    text-overflow: ellipsis; /* Prevent text overflow */
+}
+
+
+
+.cta-button {
+    background-color: white;
+    color: black;
+    padding: 10px 20px;
+    border: 2px solid black;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+    font-weight: 600;
+}
+
+.cta-button:hover {
+    background-color: black;
+    color: white;
+}
+
+    /* Features Section */
+
+    .features-section {
+        padding: 50px 0;
+        text-align: center;
+        background-color: var(--background-color);
+    }
+
+    .features-container {
+        display: flex;
+        justify-content: space-between;
+        gap: 30px;
+        flex-wrap: wrap;
+    }
+
+    .feature-item {
+        flex: 1;
+        min-width: 300px;
+        background-color: var(--background-color);
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+        color: var(--primary-color);
+    }
+
+    .feature-item:hover {
+        transform: translateY(-12px);
+        box-shadow: 0 12px 30px var(--hover-shadow-color);
+    }
+
+    .feature-item h3 {
+        font-size: 1.6rem;
+        font-weight: 700;
+        color: var(--primary-color);
+        margin-bottom: 15px;
+    }
+
+    .feature-item p {
+        font-size: 1.1rem;
+        color: #555;
+    }
+
+    /* Contact Section */
+
+    .contact-section {
+        background-color: var(--background-color);
+        text-align: center;
+        padding: 50px 0;
+    }
+
+    .contact-section p {
+        font-size: 1.2rem;
+        color: #555;
+        margin-bottom: 25px;
+    }
+
+    /* Mobile Responsiveness */
+    @media (max-width: var(--mobile-max-width)) {
+        .team-container,
+        .services-container,
+        .features-container {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .team-member,
+        .service-item,
+        .feature-item {
+            min-width: 80%;
+        }
+
+        .intro-section {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .intro-content {
+            max-width: 100%;
+            padding-right: 0;
+            text-align: center;
+        }
+
+        .intro-image img {
+            max-width: 90%;
+        }
+    }
+/* Testimonial Section */
+.testimonial-section {
+    text-align: center; /* Center-align the title */
+    padding: 40px 20px; /* Add some space around the section */
+}
+
+/* Section Title Centering */
+.testimonial-section .section-title {
+    text-align: center; /* Center the title text */
+    font-size: 2rem; /* Adjust font size */
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 40px; /* Space below the title */
+}
+
+/* Testimonial Wrapper */
+.testimonial-wrapper {
+    position: relative;
+    max-width: 100%;
+    overflow-x: scroll; /* Enable horizontal scrolling */
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 20px 0;
+    cursor: grab;
+
+    /* Hide horizontal scrollbar */
+    -ms-overflow-style: none;  /* For Internet Explorer */
+    scrollbar-width: none;  /* For Firefox */
+}
+
+/* Hide the scrollbar in Webkit browsers (Chrome, Safari) */
+.testimonial-wrapper::-webkit-scrollbar {
+    display: none;
+}
+
+/* Testimonial Container */
+.testimonial-container {
+    display: flex; /* Horizontal layout */
+    gap: 20px; /* Space between items */
+    flex-wrap: nowrap; /* Prevent items from wrapping to the next line */
+}
+
+/* Testimonial Item */
+.testimonial-item {
+    flex: 0 0 auto; /* Prevent the items from shrinking or expanding */
+    width: 280px; /* Reduced width for a smaller look */
+    padding: 20px; /* Reduced padding */
+    background-color: #fff;
+    border-radius: 12px; /* Smaller border-radius */
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.3s ease-in-out;
+}
+
+.testimonial-item:hover {
+    transform: translateY(-5px); /* Hover effect */
+}
+
+/* Image Styling */
+.testimonial-image {
+    width: 120px; /* Increased image size */
+    height: 120px;
+    border-radius: 50%;
+    margin-bottom: 15px;
+    object-fit: cover;
+    border: 3px solid #f0f4f8; /* Smaller border */
+}
+
+/* Testimonial Text */
+.testimonial-text {
+    font-style: italic;
+    color: #666;
+    margin-bottom: 15px;
+    font-size: 1rem; /* Smaller text */
+    line-height: 1.5;
+}
+
+/* Testimonial Name */
+.testimonial-name {
+    font-weight: 600;
+    font-size: 1.1rem; /* Slightly smaller name font */
+    color: #333;
+    margin-bottom: 5px;
+}
+
+/* Testimonial Location */
+.testimonial-location {
+    font-size: 0.9rem; /* Slightly smaller location font */
+    color: #777;
+}
+
+/* Mobile Responsiveness */
+@media screen and (max-width: 768px) {
+    .testimonial-wrapper {
+        height: 300px; /* Adjust height for mobile */
+    }
+
+    .testimonial-item {
+        width: 80%; /* Adjust width for smaller screens */
+        margin: 0 auto;
+        margin-bottom: 25px;
+    }
+}
+
+
+
+
+
+
+
+/* Image Slider Section */
+.image-slider-section {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+    border-radius: 20px; /* Increased radius for a smoother, more polished look */
+    padding-top: 50px; /* Padding for title above slider */
+}
+
+.slider-title {
+    font-size: 3rem; /* Make title larger */
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 20px; /* Space between title and slider */
+    color: #333;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* Image Slider Container */
+.image-slider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.slider-container {
+    display: flex;
+    transition: transform 0s ease-in-out; /* Instant transition for sliding */
+}
+
+.slider-item {
+    min-width: 100%;
+    position: relative;
+    overflow: hidden;
+    border-radius: 20px; /* Matching border-radius for consistency */
+    height: 750px; /* Increased height for much larger images */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 1;
+}
+
+/* Adjust images to maintain aspect ratio and make them even bigger */
+.slider-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 20px; /* Same radius on images */
+    transition: transform 0.3s ease-in-out, filter 0.3s ease-in-out; /* Smooth scaling and filter */
+}
+
+/* Hover effect to scale the image */
+.slider-item:hover .slider-image {
+    transform: scale(1.15); /* Enlarge image more on hover */
+    filter: brightness(1.2); /* Increase brightness slightly */
+}
+
+/* Gradient Overlay */
+.slider-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3); /* 30% opacity black gradient */
+    border-radius: 20px; /* Consistent radius for overlay */
+    z-index: 1;
+}
+
+.slider-image {
+    z-index: 0; /* Image stays behind the gradient overlay */
+}
+
+/* Button transitions for a smoother effect */
+.slider-button {
+    background-color: transparent;
+    border: none;
+    color: white;
+    font-size: 2.5rem; /* Slightly bigger buttons */
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    z-index: 2;
+    transform: translateY(-50%);
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+.slider-button:hover {
+    transform: translateY(-50%) scale(1.2); /* Enlarge buttons on hover */
+    opacity: 0.9;
+}
+
+.prev-button {
+    left: 20px;
+}
+
+.next-button {
+    right: 20px;
+}
+
+.slider-button:focus {
+    outline: none;
+}
+
+/* Optional: Adjustments for responsive design */
+@media (max-width: 768px) {
+    .image-slider-section {
+        max-width: 100%;
+    }
+    .slider-item {
+        height: 500px; /* Slightly smaller height on mobile */
+    }
+    .slider-title {
+        font-size: 2rem; /* Adjust title size on mobile */
+    }
+}
+
+
+
+

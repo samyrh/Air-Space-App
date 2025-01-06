@@ -7,6 +7,9 @@ import ProtectedRoute from './ProtectedRoute';
 import Booking from "../layers/Booking.jsx";
 import Inbox from "../layers/Inbox.jsx";
 import ContactsHost from "../layers/ContactsHost.jsx";
+import AboutSection from "../layers/AboutLayer.jsx";
+import ServicesLayer from "../layers/ServicesLayer.jsx";
+import BecomeHost from "../components/BecomeHost.jsx";
 
 const AppRoutes = () => (
     <Routes>
@@ -31,6 +34,21 @@ const AppRoutes = () => (
         <Route path="/guest/contacts" element={
             <ProtectedRoute>
                 <ContactsHost   />
+            </ProtectedRoute>
+        } />
+        <Route path="/about" element={
+            <ProtectedRoute>
+                <AboutSection   />
+            </ProtectedRoute>
+        } />
+        <Route path="/services" element={
+            <ProtectedRoute>
+                <ServicesLayer   />
+            </ProtectedRoute>
+        } />
+        <Route path="/becomeHost" element={
+            <ProtectedRoute>
+                <BecomeHost   />
             </ProtectedRoute>
         } />
     </Routes>

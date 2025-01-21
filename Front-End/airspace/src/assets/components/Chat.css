@@ -1,7 +1,7 @@
 /* General Container */
 .chat-container {
     display: flex;
-    height: 90vh; /* Reduced height to avoid excessive scrolling */
+    height: 100vh; /* Reduced height to avoid excessive scrolling */
     background-color: #f5f5f7;
     font-family: "San Francisco", sans-serif;
 }

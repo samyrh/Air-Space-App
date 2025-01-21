@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import '../assets/components/Services.css';
 import { useInView } from 'react-intersection-observer';
-import axios from 'axios'; // Import axios for API calls
-
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 const ServicesPage = () => {
+
     const [currentIndex, setCurrentIndex] = useState(0);
     const [topRatedProperties, setTopRatedProperties] = useState([]); // State to hold fetched properties
     const [loading, setLoading] = useState(true); // Loading state
@@ -11,7 +12,7 @@ const ServicesPage = () => {
         triggerOnce: false,
         threshold: 0.2,
     });
-
+    const navigate = useNavigate();
     const { ref: servicesRef, inView: servicesInView } = useInView({
         triggerOnce: false,
         threshold: 0.2,
@@ -92,6 +93,10 @@ const ServicesPage = () => {
 
         return () => clearInterval(interval); // Cleanup on component unmount
     }, [images.length]);
+    const handleMoreDetails = (propertyId) => {
+        // Navigate to the booking layer with the property ID
+        navigate(`/booking/property/${propertyId}`);
+    };
 
     return (
         <div className="services-page">
@@ -138,7 +143,12 @@ const ServicesPage = () => {
                                 <img src={property.images[0]} alt={`Service ${index}`} className="service-image"/>
                                 <h3 className="service-name">{property.title}</h3>
                                 <p className="service-description">{property.metaDescription}</p>
-                                <button className="cta-button">Check Now</button>
+                                <button
+                                    className="cta-button"
+                                    onClick={() => handleMoreDetails(property.id)} // Pass the property ID here
+                                >
+                                    Check Now
+                                </button>
                             </div>
                         ))
                     )}

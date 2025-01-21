@@ -5,11 +5,11 @@ import Login from "../components/authentification/Login.jsx";
 import GuestRegister from "../components/authentification/GuestRegister.jsx";
 import ProtectedRoute from './ProtectedRoute';
 import Booking from "../layers/Booking.jsx";
-import Inbox from "../layers/Inbox.jsx";
 import ContactsHost from "../layers/ContactsHost.jsx";
 import AboutSection from "../layers/AboutLayer.jsx";
 import ServicesLayer from "../layers/ServicesLayer.jsx";
-import BecomeHost from "../components/BecomeHost.jsx";
+import Chat from "../components/Chat.jsx";
+import FavoritesLayer from "../layers/FavoritesLayer.jsx";
 
 const AppRoutes = () => (
     <Routes>
@@ -28,7 +28,8 @@ const AppRoutes = () => (
         } />
         <Route path="/inbox" element={
             <ProtectedRoute>
-                <Inbox />
+                {/* eslint-disable-next-line react/jsx-no-undef */}
+                <Chat />
             </ProtectedRoute>
         } />
         <Route path="/guest/contacts" element={
@@ -46,9 +47,9 @@ const AppRoutes = () => (
                 <ServicesLayer   />
             </ProtectedRoute>
         } />
-        <Route path="/becomeHost" element={
+        <Route path="/favorites" element={
             <ProtectedRoute>
-                <BecomeHost   />
+                <FavoritesLayer   />
             </ProtectedRoute>
         } />
     </Routes>

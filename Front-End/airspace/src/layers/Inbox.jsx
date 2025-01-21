@@ -7,7 +7,6 @@ import Chat from "../components/Chat.jsx";
 const Inbox = () => {
     return (
         <div>
-            <Navbar />
             <Chat/>
         </div>
     );

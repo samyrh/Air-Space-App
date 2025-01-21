@@ -1,0 +1,225 @@
+.favorites-container {
+    max-width: 1800px; /* Further increase the max-width for a wider container */
+    margin: 5px auto; /* Add more margin on top for space between container and first card */
+    padding: 0 40px; /* Add padding to the left and right of the container for spacing */
+    border-radius: 12px;
+    overflow-x: auto; /* Allow horizontal scrolling if needed */
+    background-color: #fff; /* Ensure container has white background */
+}
+
+.favorites-title {
+    font-size: 45px; /* Title size */
+    font-weight: bold;
+    color: #000; /* Black color for the title */
+    margin-bottom: 40px;
+    border-bottom: 4px solid #000; /* Black border for the title */
+    padding-bottom: 10px;
+}
+
+.favorites-grid {
+    display: flex;
+    gap: 40px; /* Increase the gap between items */
+    overflow-x: scroll; /* Horizontal scroll if more than 5 items */
+    padding-bottom: 20px;
+    padding-right: 5px; /* Further decrease the space between the last item and the container's right edge */
+
+    /* Hide the scrollbar */
+    scrollbar-width: none; /* Firefox */
+}
+
+.favorites-grid::-webkit-scrollbar {
+    display: none; /* Chrome, Safari */
+}
+
+
+.property-card {
+    background-color: #fff; /* White background for the card */
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1); /* Lighter shadow */
+    transition: transform 0.3s ease;
+    width: 350px; /* Adjust the width of each property card */
+    flex-shrink: 0; /* Prevent items from shrinking */
+    border: 1px solid #000; /* Black border around the cards */
+}
+
+.property-image-container {
+    width: 100%;
+    height: 250px; /* Increased height for images */
+    overflow: hidden;
+}
+
+.property-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.property-info {
+    padding: 25px; /* More padding for the property info */
+    text-align: left;
+    background-color: #fff; /* White background for the info section */
+}
+
+.property-name {
+    font-size: 24px; /* Font size for property name */
+    font-weight: bold;
+    color: #000; /* Black text for name */
+    margin-bottom: 12px;
+}
+
+.property-location {
+    font-size: 18px; /* Font size for location */
+    color: #555; /* Slightly lighter black for location */
+    margin-bottom: 15px;
+}
+
+.property-price {
+    font-size: 22px; /* Larger font size for price */
+    font-weight: bold;
+    color: #000; /* Black price text */
+}
+
+.favorite-remove-btn {
+    display: inline-block;
+    width: 40%; /* Smaller width for both buttons */
+    padding: 10px; /* Reduced padding for smaller size */
+    background-color: #ff5a5f; /* Red background for Remove button */
+    color: white; /* White text */
+    font-weight: bold;
+    text-align: center;
+    border: none;
+    border-radius: 20px; /* Slightly smaller rounded corners */
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-right: 3%; /* Reduced space between the buttons */
+    font-size: 12px; /* Smaller font for a more compact look */
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    margin-bottom: 8px; /* Reduced space below for separation */
+}
+
+.favorite-remove-btn:hover {
+    background-color: #e03c40; /* Darker red on hover */
+    transform: translateY(-3px); /* Slight lift effect */
+}
+
+.favorite-remove-btn:focus {
+    outline: none;
+}
+
+.book-now-btn {
+    display: inline-block;
+    width: 40%; /* Smaller width for both buttons */
+    padding: 10px; /* Reduced padding for smaller size */
+    background-color: #000; /* Black background for Book Now button */
+    color: white; /* White text */
+    font-weight: bold;
+    text-align: center;
+    border: none;
+    border-radius: 20px; /* Slightly smaller rounded corners */
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 12px; /* Smaller font for a more compact look */
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    margin-bottom: 8px; /* Reduced space below for separation */
+}
+
+.book-now-btn:hover {
+    background-color: #333; /* Darker black on hover */
+    transform: translateY(-3px); /* Slight lift effect */
+}
+
+.book-now-btn:focus {
+    outline: none;
+}
+
+.buttons-container {
+    display: flex;
+    justify-content: center; /* Center buttons horizontally */
+    gap: 5px; /* Reduced gap between buttons */
+    margin-top: -15px; /* Move buttons higher */
+}
+.bio-section {
+    max-width: 1800px; /* Further increase the max-width for a wider container */
+    margin: 5px auto; /* Add more margin on top for space between container and first card */
+    padding: 0 40px; /* Add padding to the left and right of the container for spacing */
+    border-radius: 12px;
+    overflow-x: auto; /* Allow horizontal scrolling if needed */
+    background-color: #fff; /* Ensure container has white background */
+}
+
+.bio-title {
+    font-size: 45px; /* Title size */
+    font-weight: bold; /* Make the title bold */
+    color: #000; /* Black color for the title */
+    margin-bottom: 40px; /* Margin below the title */
+    border-bottom: 4px solid #000; /* Black border line under the title */
+    padding-bottom: 10px; /* Space between title and the line */
+    text-align: left; /* Align title to the left */
+}
+
+
+.bio-content {
+    display: flex; /* Display content side by side (in row) */
+    gap: 40px; /* Space between text and image */
+    justify-content: flex-start; /* Align content to the left */
+    align-items: flex-start; /* Align content at the top */
+    padding: 20px 0;
+    overflow-x: auto; /* Allow horizontal scrolling if needed */
+    max-width: 100%; /* Ensure it spans the full width */
+}
+
+.bio-text-content {
+    flex: 5; /* Increased flex to give more space to the text container */
+    font-size: 24px; /* Font size for better readability */
+    color: #333; /* Darker color for text */
+    font-weight: bold; /* Make the text bold */
+    line-height: 1.8; /* Spacing between lines */
+    text-align: justify; /* Justify text */
+    padding: 20px 30px; /* More padding for spacious content */
+    width: 100%; /* Ensure full width */
+    max-width: 900px; /* Limit maximum width */
+    margin-top: -50px; /* Move the text up */
+}
+
+.bio-text-content p {
+    margin-bottom: 25px; /* Increase margin for more spacing between paragraphs */
+}
+
+
+
+.bio-image-content {
+    flex-shrink: 0; /* Prevent the image from shrinking */
+    width: 100%; /* Set the image container width */
+    max-width: 900px; /* Control image width */
+    border-radius: 15px; /* Rounded corners for the image */
+    overflow: hidden;
+}
+
+.bio-image-content img {
+    width: 100%; /* Ensure the image fills the container */
+    height: auto; /* Maintain aspect ratio */
+    object-fit: cover; /* Ensure the image covers the container */
+    border-radius: 12px; /* Rounded corners for the image */
+    transition: transform 0.3s ease-in-out; /* Smooth transition effect */
+}
+
+.bio-image-content img:hover {
+    transform: scale(1.05); /* Slight zoom effect on hover */
+}
+
+@media (max-width: 1024px) {
+    .bio-content {
+        flex-direction: column; /* Stack text and image on smaller screens */
+        align-items: center;
+    }
+
+    .bio-image-content {
+        width: 90%; /* Increase width on small screens */
+        margin-top: 20px; /* Add space between text and image */
+    }
+
+    .bio-text-content {
+        max-width: 100%; /* Ensure text container uses full width */
+    }
+}

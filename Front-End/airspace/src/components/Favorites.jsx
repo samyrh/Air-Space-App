@@ -1,92 +1,120 @@
-import React from 'react';
-import '../assets/components/Favorites.css'; // Import custom CSS for styling
+import React, { useEffect, useState } from 'react';
+import { jwtDecode } from "jwt-decode"; // Import custom CSS for styling
+import '../assets/components/Favorites.css';
 
 const Favorites = () => {
-    const properties = [
-        {
-            image: require('../assets/images/pic1.jpg'),
-            name: 'Cozy Cottage',
-            location: 'Paris, France',
-            price: 120
-        },
-        {
-            image: require('../assets/images/pic1.jpg'),
-            name: 'Modern Loft',
-            location: 'New York, USA',
-            price: 200
-        },
-        {
-            image: require('../assets/images/pic1.jpg'),
-            name: 'Beachfront Villa',
-            location: 'Malibu, USA',
-            price: 350
-        },
-        {
-            image: require('../assets/images/pic1.jpg'),
-            name: 'Mountain Cabin',
-            location: 'Aspen, USA',
-            price: 180
-        },
-        {
-            image: require('../assets/images/pic1.jpg'),
-            name: 'City Apartment',
-            location: 'Tokyo, Japan',
-            price: 150
-        },
-        {
-            image: require('../assets/images/pic1.jpg'),
-            name: 'Luxury Penthouse',
-            location: 'London, UK',
-            price: 500
-        },
-        {
-            image: require('../assets/images/pic1.jpg'),
-            name: 'Downtown Studio',
-            location: 'Berlin, Germany',
-            price: 140
-        },
-        {
-            image: require('../assets/images/pic1.jpg'),
-            name: 'Suburban Retreat',
-            location: 'Sydney, Australia',
-            price: 220
-        },
-        {
-            image: require('../assets/images/pic1.jpg'),
-            name: 'Countryside Villa',
-            location: 'Rome, Italy',
-            price: 250
+    const [guestId, setGuestId] = useState(null); // State to hold the decoded guestId
+    const [favorites, setFavorites] = useState([]); // State to hold the favorites for the guest
+    const [notification, setNotification] = useState(""); // State for showing notification
+    const [showNotification, setShowNotification] = useState(false); // State for triggering notification visibility
+
+    useEffect(() => {
+        const token = localStorage.getItem("jwt"); // Retrieve the JWT token
+        if (token) {
+            try {
+                const decodedToken = jwtDecode(token);
+                const extractedGuestId = decodedToken.guestId;
+                setGuestId(extractedGuestId);
+
+                // Fetch favorites from localStorage
+                const storedFavorites = JSON.parse(localStorage.getItem(extractedGuestId)) || [];
+                setFavorites(storedFavorites);
+                console.log(storedFavorites);
+            } catch (error) {
+                console.error('Error decoding token:', error);
+            }
+        } else {
+            console.warn('No JWT token found in localStorage.');
         }
-    ];
+    }, []);
+
+    // Handle removing a property from favorites
+    const removeFromFavorites = (propertyId) => {
+        const updatedFavorites = favorites.filter(fav => fav.id !== propertyId);
+        setFavorites(updatedFavorites);
+        if (guestId) {
+            localStorage.setItem(guestId, JSON.stringify(updatedFavorites));
+        }
+
+        // Show notification with more text
+        setNotification("You have successfully removed this property from your favorites. Check out other amazing places on Staybnb!");
+        setShowNotification(true); // Show the notification
+
+        // Automatically hide notification after 5 seconds
+        setTimeout(() => {
+            setShowNotification(false); // Hide the notification
+        }, 5000); // Duration increased to 5 seconds
+    };
+
+    // Handle closing the notification
+    const closeNotification = () => {
+        setShowNotification(false); // Hide notification when close button (X) is clicked
+    };
 
     return (
         <div className="favorites-container">
+            {/* Notification Pop-up */}
+            {showNotification && (
+                <div className="notification active">
+                    <button className="close-btn" onClick={closeNotification}>×</button>
+                    <p>{notification}</p>
+                </div>
+            )}
+
             {/* First Section: Favorite Properties */}
             <section className="favorites-section">
                 <h2 className="favorites-title">Your Favorite Properties</h2>
                 <div className="favorites-grid">
-                    {properties.map((property, index) => (
-                        <div key={index} className="property-card">
-                            <div className="property-image-container">
-                                <img
-                                    src={property.image}
-                                    alt={property.name}
-                                    className="property-image"
-                                />
-                            </div>
-                            <div className="property-info">
-                                <h3 className="property-name">{property.name}</h3>
-                                <p className="property-location">{property.location}</p>
-                                <p className="property-price">${property.price} / night</p>
-                            </div>
-                            <div className="button-container">
-                                <button className="favorite-remove-btn">Remove</button>
-                                <button className="book-now-btn">Book Now</button>
-                            </div>
+                    {favorites.length === 0 ? (
+                        <div className="empty-wishlist-container">
+                            <i className="fa fa-bag-shopping"></i>
+                            <p>Your wishlist is empty!</p>
                         </div>
-                    ))}
+                    ) : (
+                        favorites.map((property) => (
+                            <div key={property.id} className="property-card">
+                                <div className="property-image-container">
+                                    {/* Loop through the images list and display each one */}
+                                    {property.images && property.images.length > 0 ? (
+                                        property.images.map((image, index) => (
+                                            <img
+                                                key={index}
+                                                src={image}
+                                                alt={`${property.name} - Image ${index + 1}`}
+                                                className="property-image"
+                                            />
+                                        ))
+                                    ) : (
+                                        <div className="empty-wishlist-container">
+                                            <i className="fa fa-heart-broken"></i>
+                                            <p>Wishlist is empty</p>
+                                        </div>
+                                    )}
+                                </div>
+                                <div className="property-info">
+                                    <h3 className="property-name">{property.name}</h3>
+                                    <p className="property-location">{property.city}</p>
+                                    <p className="property-price">${property.pricePerNight} / night</p>
+                                </div>
+                                <div className="button-container">
+                                    <button
+                                        className="favorite-remove-btn"
+                                        onClick={() => removeFromFavorites(property.id)}
+                                    >
+                                        Remove
+                                    </button>
+
+                                    <button className="book-now-btn">
+                                        Book Now
+                                    </button>
+                                </div>
+                            </div>
+                        ))
+                    )}
                 </div>
             </section>
+
+            {/* About Section */}
             <section className="bio-section">
                 <h2 className="bio-title">About Staybnb</h2>
                 <div className="bio-content">
@@ -114,11 +142,10 @@ const Favorites = () => {
                         </p>
                     </div>
                     <div className="bio-image-content">
-                        <img src={require('../assets/images/favo.jpg')} alt="Staybnb"/>
+                        <img src={require('../assets/images/favo.jpg')} alt="Staybnb" />
                     </div>
                 </div>
             </section>
-
         </div>
     );
 };

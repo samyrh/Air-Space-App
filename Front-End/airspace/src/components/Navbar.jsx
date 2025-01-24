@@ -11,12 +11,14 @@ function Navbar() {
     const navigate = useNavigate();
     const location = useLocation(); // Get the current location
 
-    // Set selected option based on current route
     useEffect(() => {
         if (location.pathname === "/guest/contacts") {
             setSelectedOption("Inbox");
+        } else if (location.pathname === "/favorites") {
+            setSelectedOption("Favorites");
         }
     }, [location.pathname]);
+
 
     // Map paths to button names
     const linkMap = {
@@ -57,7 +59,11 @@ function Navbar() {
 
         if (option === "Inbox") {
             navigate("/guest/contacts"); // Navigate to /guest/contacts when "Inbox" is selected
-        } else if (option === "Logout") {
+        }
+        else if (option === "Favorites"){
+            navigate("/favorites");
+        }
+        else if (option === "Logout") {
             // Remove JWT token from localStorage or sessionStorage
             localStorage.removeItem("jwtToken");  // Assuming the token is stored in localStorage
             sessionStorage.removeItem("jwtToken"); // If it's stored in sessionStorage, remove it too

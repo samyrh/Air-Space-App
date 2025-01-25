@@ -264,3 +264,8 @@
 .navbar-search i:hover {
     color: #3db4e3;
 }
+.navbar-logo img {
+    width: 100px; /* Adjust the size of the logo */
+    height: auto; /* Keep the aspect ratio of the image */
+    border-radius: 8px; /* Optional: Add rounded corners */
+}

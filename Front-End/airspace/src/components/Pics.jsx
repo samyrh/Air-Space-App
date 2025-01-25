@@ -12,6 +12,9 @@ const ProGallery = () => {
     const [favorites, setFavorites] = useState([]);
     const [error, setError] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [notification, setNotification] = useState(""); // State for the notification message
+    const [showNotification, setShowNotification] = useState(false); // Control notification visibility
+
     useEffect(() => {
         const token = localStorage.getItem("jwt");
         if (token) {
@@ -56,9 +59,11 @@ const ProGallery = () => {
     const handleThumbnailClick = (image) => {
         setSelectedImage(image);
     };
+
     const handleModalToggle = () => {
         setIsModalOpen(!isModalOpen);
     };
+
     const handleLikeClick = () => {
         if (!guestId) return;
 
@@ -68,11 +73,26 @@ const ProGallery = () => {
             const updatedFavorites = [...favorites, property];
             setFavorites(updatedFavorites);
             localStorage.setItem(guestId, JSON.stringify(updatedFavorites));
+            // Show notification when property is liked
+            setNotification("You have added this property to your favorites!");
+            setShowNotification(true);
         } else {
             const updatedFavorites = favorites.filter(fav => fav.id !== property.id);
             setFavorites(updatedFavorites);
             localStorage.setItem(guestId, JSON.stringify(updatedFavorites));
+            // Show notification when property is removed from favorites
+            setNotification("You have removed this property from your favorites.");
+            setShowNotification(true);
         }
+
+        // Hide the notification after 5 seconds
+        setTimeout(() => {
+            setShowNotification(false);
+        }, 5000);
+    };
+
+    const closeNotification = () => {
+        setShowNotification(false); // Close the notification manually
     };
 
     if (error) {
@@ -87,6 +107,14 @@ const ProGallery = () => {
 
     return (
         <div className="pro-gallery-container">
+            {/* Notification Pop-up */}
+            {showNotification && (
+                <div className="notification active">
+                    <button className="close-btn" onClick={closeNotification}>×</button>
+                    <p>{notification}</p>
+                </div>
+            )}
+
             <div className="gallery-header">
                 <h2 className="gallery-title">{property.title}</h2>
                 <button

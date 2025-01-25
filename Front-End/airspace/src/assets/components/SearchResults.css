@@ -1,0 +1,280 @@
+/* General styles */
+.search-results-page {
+    padding: 2rem;
+    background: linear-gradient(135deg, #f5f5f5, #e0e0e0); /* Soft grey background */
+}
+
+/* Header Section */
+.results-header-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 2rem; /* Reduced margin for less space between title and link */
+}
+
+/* Styling for the static title */
+.results-header-page h1 {
+    font-size: 4rem; /* Larger title */
+    font-weight: 800;
+    color: #000000; /* Dark text for the title */
+    text-align: center;
+    letter-spacing: -0.5px;
+    margin: 0;
+    line-height: 1.2;
+    max-width: 90%; /* Ensures the title doesn’t span the entire screen width */
+}
+
+/* Styling for the "Go to Home" text */
+.home-link-text {
+    font-size: 1.4rem; /* Slightly bigger text */
+    color: #000; /* Black color for the link */
+    cursor: pointer;
+    margin-top: 0.5rem; /* Decreased space between the title and link */
+    text-decoration: underline; /* Underline effect for link */
+    transition: color 0.3s ease;
+}
+
+.home-link-text:hover {
+    color: #333; /* Darker color on hover */
+}
+
+/* Search Bar Styling */
+.search-input-page {
+    padding: 1rem 1.5rem;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 50px; /* Rounded corners for a modern touch */
+    border: 1px solid #ccc; /* Lighter border */
+    margin-top: -10px; /* Reduced space between the link and search input */
+    font-size: 1.1rem;
+    background-color: #fff; /* White background for the input */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    transition: all 0.3s ease; /* Smooth transition for all properties */
+}
+
+/* Hover effect to enlarge search input */
+.search-input-page:hover {
+    transform: scale(1.05); /* Slightly enlarge the input field */
+    border-color: #1f1f1f; /* Darker border color on hover */
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2); /* Larger shadow effect */
+}
+
+/* Focus effect for search bar */
+.search-input-page:focus {
+    border-color: #1f1f1f; /* Focus effect to highlight search bar */
+    outline: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Subtle focus shadow */
+}
+
+/* Horizontal Line Separator Styling */
+.separator-line-search {
+    border: none;
+    height: 1px; /* Lighter thickness */
+    background-color: #1f1f1f; /* Lighter gray color for a softer look */
+    width: 70%; /* Shortened width for a cleaner, more focused line */
+    margin: 0.5rem auto; /* Reduced margin to bring the line closer */
+    transform: translateY(-15px); /* Moves the line slightly higher */
+}
+/* Filters Section */
+.filters-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem; /* Reduced gap */
+    background-color: #f3f3f3;
+    border-radius: 12px; /* Slightly smaller radius */
+    padding: 1.5rem; /* Reduced padding */
+    box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.1); /* Slightly smaller shadow */
+    max-width: 1000px; /* Reduced max-width */
+    margin: 0 auto;
+    color: #333;
+}
+
+/* Filter Row */
+.filter-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem; /* Reduced gap */
+    justify-content: space-between;
+}
+
+/* Filter Category */
+.filter-category {
+    flex: 1;
+    min-width: 220px; /* Reduced min-width */
+    max-width: 300px; /* Reduced max-width */
+    padding: 1.2rem; /* Reduced padding */
+    transition: box-shadow 0.3s ease;
+}
+
+/* Filter Category Title */
+.filter-category h3 {
+    font-size: 1.25rem; /* Slightly smaller font size */
+    font-weight: 900;
+    margin-bottom: 1.5rem; /* Reduced margin */
+    color: #000;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 0.5rem; /* Reduced padding */
+}
+
+/* Filter Item Label */
+.filter-item label {
+    font-size: 1rem; /* Reduced font size */
+    font-weight: 700;
+    color: #000;
+}
+
+/* Filter Item */
+.filter-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem; /* Slightly reduced gap */
+    margin-bottom: 1rem; /* Reduced margin */
+}
+
+/* Range Input */
+.filter-item input[type="range"] {
+    width: 100%;
+    accent-color: #ff385c;
+    cursor: pointer;
+    background: linear-gradient(to right, #ff385c, #d6d6d6);
+    border-radius: 8px;
+    height: 6px; /* Smaller track height */
+    appearance: none;
+    transition: all 0.3s ease;
+}
+
+/* Customizing the Range Thumb */
+.filter-item input[type="range"]::-webkit-slider-thumb {
+    width: 18px; /* Smaller thumb size */
+    height: 18px; /* Smaller thumb size */
+    border-radius: 50%;
+    background-color: #ff385c;
+    border: 2px solid #fff;
+    cursor: pointer;
+}
+
+.filter-item input[type="range"]::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background-color: #ff385c;
+    border: 2px solid #fff;
+    cursor: pointer;
+}
+
+.filter-item input[type="range"]:hover {
+    background: linear-gradient(to right, #ff3a60, #d6d6d6);
+}
+
+/* Star Rating */
+.star-rating {
+    display: flex;
+    gap: 0.5rem; /* Smaller gap between stars */
+    align-items: center;
+}
+
+.star {
+    font-size: 3.5rem; /* Slightly smaller stars */
+    cursor: pointer;
+    color: #bbb;
+    transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.star:hover {
+    color: #f1c40f;
+    transform: scale(1.05); /* Slightly smaller hover scale */
+}
+
+.star.filled {
+    color: #f1c40f;
+}
+
+/* Checkbox Group */
+.checkbox-group {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.8rem; /* Slightly reduced gap */
+    max-height: none;
+    overflow-y: auto;
+    padding-right: 0.5rem;
+    scrollbar-width: thin;
+    scrollbar-color: #d6d6d6 #f3f3f3;
+}
+
+.checkbox-group::-webkit-scrollbar {
+    width: 6px; /* Smaller scrollbar */
+}
+
+.checkbox-group::-webkit-scrollbar-thumb {
+    background-color: #d6d6d6;
+    border-radius: 4px;
+}
+
+.checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem; /* Slightly smaller gap */
+}
+
+.checkbox-item input[type="checkbox"] {
+    accent-color: #333; /* Dark grey accent color */
+    width: 18px; /* Smaller checkbox */
+    height: 18px;
+    appearance: none;
+    border: 2px solid #666; /* Dark grey border */
+    border-radius: 4px;
+    background-color: #fff;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.checkbox-item input[type="checkbox"]:checked {
+    background-color: #333; /* Dark grey background when checked */
+    border-color: #333; /* Dark grey border when checked */
+}
+
+.checkbox-item input[type="checkbox"]:checked::after {
+    content: '\2713';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 12px; /* Smaller checkmark */
+}
+
+/* Modern Numeric Input */
+.modern-input {
+    width: 100%;
+    max-width: 50%; /* Set width to 50% of the container */
+    padding: 0.5rem 0.7rem; /* Smaller padding */
+    font-size: 0.9rem; /* Slightly smaller font size */
+    font-weight: 500;
+    color: #333;
+    background: #f4f4f4;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    outline: none;
+    transition: all 0.3s ease;
+    -moz-appearance: textfield;
+}
+
+.modern-input:hover {
+    background: #e9e9e9;
+    border-color: #bbb;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.08);
+}
+
+.modern-input:focus {
+    background: #f4f4f4;
+    border-color: #ccc;
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Optional - Style for Error */
+.modern-input.error {
+    border-color: #ff6b6b;
+    background: #fff5f5;
+    color: #ff3b3b;
+    box-shadow: 0 4px 6px rgba(255, 107, 107, 0.2);
+}

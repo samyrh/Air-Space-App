@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { jwtDecode } from "jwt-decode"; // Import custom CSS for styling
 import '../assets/components/Favorites.css';
+import {useNavigate} from "react-router-dom";
 
 const Favorites = () => {
     const [guestId, setGuestId] = useState(null); // State to hold the decoded guestId
     const [favorites, setFavorites] = useState([]); // State to hold the favorites for the guest
     const [notification, setNotification] = useState(""); // State for showing notification
     const [showNotification, setShowNotification] = useState(false); // State for triggering notification visibility
+    const navigate = useNavigate();  // Initialize useNavigate
 
     useEffect(() => {
         const token = localStorage.getItem("jwt"); // Retrieve the JWT token
@@ -51,6 +53,11 @@ const Favorites = () => {
         setShowNotification(false); // Hide notification when close button (X) is clicked
     };
 
+
+    const handleMoreDetails = (propertyId) => {
+        // Navigate to the booking layer with the property ID
+        navigate(`/booking/property/${propertyId}`);
+    };
     return (
         <div className="favorites-container">
             {/* Notification Pop-up */}
@@ -104,7 +111,7 @@ const Favorites = () => {
                                         Remove
                                     </button>
 
-                                    <button className="book-now-btn">
+                                    <button className="book-now-btn" onClick={() => handleMoreDetails(property.id)}>
                                         Book Now
                                     </button>
                                 </div>

@@ -4,7 +4,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 
 function Navbar() {
     const [dropdownVisible, setDropdownVisible] = useState(false);
-    const [selectedOption, setSelectedOption] = useState("Profile");
+    const [selectedOption, setSelectedOption] = useState("Home");
     const [navbarShrink, setNavbarShrink] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
     const dropdownRef = useRef(null);
@@ -18,7 +18,6 @@ function Navbar() {
             setSelectedOption("Favorites");
         }
     }, [location.pathname]);
-
 
     // Map paths to button names
     const linkMap = {
@@ -96,7 +95,8 @@ function Navbar() {
 
     const handleSearchIconClick = () => {
         if (searchQuery.trim()) {
-            alert('Searching for: ' + searchQuery);
+            // Navigate to SearchResults page with the search query
+            navigate(`/results?query=${searchQuery.trim()}`);
         } else {
             alert('Please enter a search query.');
         }
@@ -152,7 +152,7 @@ function Navbar() {
                     alt="User Avatar"
                 />
                 <div className="navbar-profile-button" onClick={handleProfileClick}>
-                    <span>{selectedOption || "Profile"}</span>
+                    <span>{selectedOption || "Home"}</span>
                 </div>
                 <div ref={dropdownRef} className={`navbar-dropdown ${dropdownVisible ? "visible" : ""}`}>
                     <div

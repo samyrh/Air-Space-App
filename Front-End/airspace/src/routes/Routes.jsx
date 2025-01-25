@@ -10,6 +10,7 @@ import AboutSection from "../layers/AboutLayer.jsx";
 import ServicesLayer from "../layers/ServicesLayer.jsx";
 import Chat from "../components/Chat.jsx";
 import FavoritesLayer from "../layers/FavoritesLayer.jsx";
+import SearchResult from "../layers/SearchResult.jsx";
 
 const AppRoutes = () => (
     <Routes>
@@ -50,6 +51,11 @@ const AppRoutes = () => (
         <Route path="/favorites" element={
             <ProtectedRoute>
                 <FavoritesLayer   />
+            </ProtectedRoute>
+        } />
+        <Route path="/results" element={
+            <ProtectedRoute>
+                <SearchResult  />
             </ProtectedRoute>
         } />
     </Routes>

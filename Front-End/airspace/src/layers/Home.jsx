@@ -6,6 +6,7 @@ import CardContainer from "../components/CardContainer.jsx";
 import Footer from "../components/Footer.jsx";
 import ScrollToTopButton from "../components/ScrollToTopButton.jsx";
 import axios from "axios";
+import Chatbot from "../components/Chatbot.jsx";
 
 const Home = () => {
     const [allProperties, setAllProperties] = useState([]);
@@ -120,12 +121,13 @@ const Home = () => {
 
     return (
         <div>
-            <Navbar />
-            <SearchBar />
-            <FilterBar onApplyFilters={applyFilters} /> {/* Pass the applyFilters function */}
-            <CardContainer properties={filteredProperties} />
-            <ScrollToTopButton />
-            <Footer />
+            <Navbar/>
+            <SearchBar/>
+            <FilterBar onApplyFilters={applyFilters}/> {/* Pass the applyFilters function */}
+            <CardContainer properties={filteredProperties}/>
+            <Chatbot/>
+            <ScrollToTopButton/>
+            <Footer/>
         </div>
     );
 };

@@ -278,3 +278,51 @@
     color: #ff3b3b;
     box-shadow: 0 4px 6px rgba(255, 107, 107, 0.2);
 }
+.no-results {
+    text-align: center;
+    margin: -40px auto;
+    padding: 60px;
+    max-width: 900px;
+    font-family: 'Airbnb Cereal App', sans-serif;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.no-results h2 {
+    font-size: 50px;
+    font-weight: 900;
+    color: #FF385C; /* Airbnb Red */
+    margin-bottom: 20px;
+    letter-spacing: -1px;
+}
+
+.no-results p {
+    font-size: 24px;
+    font-weight: 500;
+    color: #4A4A4A;
+    margin-bottom: 15px;
+    opacity: 0.9;
+}
+
+.no-results a {
+    font-size: 22px;
+    font-weight: 700;
+    color: #FF385C;
+    text-decoration: none;
+    border-bottom: 3px solid #FF385C;
+    padding-bottom: 4px;
+    display: inline-block;
+    margin-top: 15px;
+    transition: all 0.3s ease-in-out;
+}
+
+.no-results a:hover {
+    color: #D70444;
+    border-bottom-color: #D70444;
+    transform: scale(1.1);
+}
+
+/* Smooth fade-in animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}

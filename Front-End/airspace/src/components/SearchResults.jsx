@@ -247,6 +247,14 @@ const SearchResults = () => {
             </div>
 
             <CardContainer properties={filteredProperties}/>
+            {filteredProperties.length === 0 && (
+                <div className="no-results">
+                    <h2>Oops! No results found 😢</h2>
+                    <p>Try changing your filters or searching for something else.</p>
+                    <a href="/">Return to Homepage</a>
+                </div>
+            )}
+
         </div>
     );
 };

@@ -45,6 +45,7 @@
     "react-router-dom": "^7.0.2",
     "react-scripts": "5.0.1",
     "react-select": "^5.8.3",
+    "react-toastify": "^11.0.3",
     "react-tweet": "^3.2.1",
     "styled-components": "^6.1.13",
     "sweetalert2": "^11.15.3",

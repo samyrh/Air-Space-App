@@ -5,13 +5,14 @@ import { useNavigate } from "react-router-dom";
 const HostForm = () => {
     const [formData, setFormData] = useState({
         bio: "",
-        hostingExperience: "",
         profileImage: "",
         highlights: "",
         hostDetails: "",
+        years: 2,  // Initialize with a default value
     });
     const [guestData, setGuestData] = useState(null);
     const [error, setError] = useState("");
+    const [imagePreview, setImagePreview] = useState(null); // Manage image preview
     const navigate = useNavigate();
 
     // Fetch guest data on mount
@@ -28,6 +29,16 @@ const HostForm = () => {
         setFormData((prev) => ({ ...prev, [name]: value }));
     };
 
+    // Handle image upload and set the profile image URL for preview
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const imageUrl = URL.createObjectURL(file); // Create a local object URL for preview
+            setImagePreview(imageUrl); // Update the preview
+            setFormData((prev) => ({ ...prev, profileImage: file }));
+        }
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!guestData) {
@@ -39,10 +50,10 @@ const HostForm = () => {
             const postData = {
                 guestId: guestData?.guestId,
                 bio: formData.bio || "",
-                profileImage: formData.profileImage || "default.jpg",
+                profileImage: formData.profileImage || "default.jpg", // Handle default image if not selected
                 highlights: formData.highlights.split(",").map((highlight) => highlight.trim()),
                 hostDetails: formData.hostDetails.split(",").map((detail) => detail.trim()),
-                years: 2,
+                years: formData.years, // Use years from formData
                 months: 6,
             };
 
@@ -54,11 +65,12 @@ const HostForm = () => {
                 postData
             );
 
+            console.log("Response Status:", response.status);
             console.log("Response Data:", response.data);
 
-            if (response.status === 200) {
-                alert("Successfully converted to host!");
-                navigate("/"); // Redirect to another page after successful submission
+            if (response.status === 201) {
+                // Redirect to home page after successful submission
+                navigate("/");
             }
         } catch (error) {
             console.error("Error converting to host:", error.response?.data || error.message);
@@ -66,7 +78,6 @@ const HostForm = () => {
         }
     };
 
-    // Styles embedded directly
     const styles = {
         container: {
             display: "flex",
@@ -99,8 +110,8 @@ const HostForm = () => {
             color: "#333",
         },
         input: {
-            width: "100%",
-            padding: "15px",
+            width: "calc(100% - 36px)", // Ensures equal left & right padding inside container
+            padding: "15px 18px", // Even left & right padding
             border: "none",
             borderRadius: "10px",
             background: "rgba(255, 255, 255, 0.2)",
@@ -109,15 +120,17 @@ const HostForm = () => {
             outline: "none",
             boxShadow: "0 4px 20px rgba(0, 0, 0, 0.15)",
             transition: "all 0.3s ease",
+            boxSizing: "border-box",
         },
-        inputFocus: {
-            background: "rgba(255, 255, 255, 0.3)",
-            boxShadow: "0 6px 40px rgba(0, 0, 0, 0.3)",
+        buttonContainer: {
+            display: "flex",
+            justifyContent: "center", // Centers the button horizontally
+            marginTop: "15px",
+            gap: "10px", // Adds spacing between the two buttons
         },
         button: {
-            width: "100%",
-            padding: "15px",
-            fontSize: "1.2rem",
+            padding: "12px 36px", // Increased width
+            fontSize: "1rem", // Adjusted font size
             fontWeight: "bold",
             color: "#333",
             background: "#ead7c3",
@@ -125,11 +138,19 @@ const HostForm = () => {
             borderRadius: "10px",
             cursor: "pointer",
             transition: "all 0.3s ease",
-            boxShadow: "0 6px 30px rgba(0, 0, 0, 0.3)",
+            boxShadow: "0 4px 20px rgba(0, 0, 0, 0.2)",
         },
-        buttonHover: {
-            background: "#b19b88",
-            boxShadow: "0 8px 40px rgba(0, 0, 0, 0.4)",
+        goHomeButton: {
+            padding: "12px 36px",
+            fontSize: "1rem",
+            fontWeight: "bold",
+            color: "#fff", // White text color
+            background: "#333", // Dark grey background
+            border: "1px solid #292929", // Slightly lighter border for contrast
+            borderRadius: "10px",
+            cursor: "pointer",
+            transition: "all 0.3s ease",
+            boxShadow: "0 4px 20px rgba(0, 0, 0, 0.2)",
         },
         error: {
             background: "rgba(255, 0, 0, 0.2)",
@@ -141,21 +162,25 @@ const HostForm = () => {
             textAlign: "left",
             fontWeight: "500",
         },
+        imagePreview: {
+            marginTop: "10px",
+            maxWidth: "200px",
+            maxHeight: "200px",
+            objectFit: "cover",
+            borderRadius: "10px",
+            marginBottom: "20px",
+        }
     };
 
     return (
         <div style={styles.container}>
             <div style={styles.glass}>
-                <h1>Become a Host</h1>
+                <h1>Become a Host Now</h1>
                 {error && <div style={styles.error}>{error}</div>}
                 <form onSubmit={handleSubmit}>
-                    {[
-                        { name: "bio", type: "textarea", placeholder: "Tell us about yourself" },
-                        { name: "hostingExperience", type: "text", placeholder: "e.g., 2 years of hosting" },
-                        { name: "profileImage", type: "text", placeholder: "Enter a URL for your profile image" },
+                    {[{ name: "bio", type: "textarea", placeholder: "Tell us about yourself" },
                         { name: "highlights", type: "text", placeholder: "Enter highlights (comma separated)" },
-                        { name: "hostDetails", type: "text", placeholder: "Enter host details (comma separated)" },
-                    ].map(({ name, type, placeholder }) => (
+                        { name: "hostDetails", type: "text", placeholder: "Enter host details (comma separated)" }].map(({ name, type, placeholder }) => (
                         <div style={styles.field} key={name}>
                             <label style={styles.label} htmlFor={name}>
                                 {name.charAt(0).toUpperCase() + name.slice(1).replace(/([A-Z])/g, " $1")}
@@ -182,14 +207,58 @@ const HostForm = () => {
                             )}
                         </div>
                     ))}
-                    <button
-                        type="submit"
-                        style={styles.button}
-                        onMouseOver={(e) => (e.target.style.background = styles.buttonHover.background)}
-                        onMouseOut={(e) => (e.target.style.background = styles.button.background)}
-                    >
-                        Submit
-                    </button>
+
+                    {/* Profile Image */}
+                    <div style={styles.field}>
+                        <label style={styles.label} htmlFor="profileImage">
+                            Profile Image (Enter Path)
+                        </label>
+                        <input
+                            id="profileImage"
+                            name="profileImage"
+                            type="text" // Changed to text input for path
+                            value={formData.profileImage} // Bind value to formData
+                            onChange={handleChange} // Handle input changes
+                            style={styles.input}
+                            placeholder="Enter image file path"
+                        />
+                    </div>
+
+
+                    {/* Years Input */}
+                    <div style={styles.field}>
+                        <label style={styles.label} htmlFor="years">
+                            Years of Hosting Experience
+                        </label>
+                        <input
+                            id="years"
+                            name="years"
+                            type="number"
+                            value={formData.years}
+                            onChange={handleChange}
+                            style={styles.input}
+                            placeholder="Enter years"
+                        />
+                    </div>
+
+                    <div style={styles.buttonContainer}>
+                        <button
+                            type="submit"
+                            style={styles.button}
+                            disabled={!formData.bio || !formData.highlights || !formData.hostDetails || formData.years <= 0}
+                        >
+                            Submit
+                        </button>
+
+                        {/* Go Home Button */}
+                        <button
+                            type="button"
+                            style={styles.goHomeButton}
+                            onClick={() => navigate("/")}
+                        >
+                            Go Home
+                        </button>
+                    </div>
                 </form>
             </div>
         </div>

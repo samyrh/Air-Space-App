@@ -269,3 +269,26 @@
     height: auto; /* Keep the aspect ratio of the image */
     border-radius: 8px; /* Optional: Add rounded corners */
 }
+/* Add this to your Navbar.css or global styles */
+.welcome-message {
+    font-size: 1.1rem;
+    font-weight: 500;
+    padding: 8px 16px;
+    margin-left: -10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 250px; /* Adjust width as needed */
+    white-space: nowrap; /* Prevent text from wrapping */
+    overflow: hidden; /* Hide overflowing text if necessary */
+    text-overflow: ellipsis; /* Add ellipsis for overflowed text */
+}
+
+.welcome-message span {
+    font-size: 1rem;
+}
+
+.welcome-message strong {
+    color: #000000;
+}
+

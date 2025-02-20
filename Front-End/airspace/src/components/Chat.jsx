@@ -194,7 +194,7 @@ const Chat = () => {
             </div>
 
             <div className="chat">
-                <header className="chat-header">
+                <header className="chat-header-inbox">
                     <div className="chat-header-content">
                         <h2>{hostId ? `Chat with Host: ${contacts.find(contact => contact.id === hostId)?.name || "Host Not Found"}` : "Select a Host"}</h2>
                         <p className="chat-subtitle">Conversation about your reservation.</p>

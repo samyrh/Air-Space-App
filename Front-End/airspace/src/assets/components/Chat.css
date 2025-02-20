@@ -295,7 +295,7 @@
 }
 
 /* Chat Header */
-.chat-header {
+.chat-header-inbox {
     display: flex;
     justify-content: space-between;
     border-bottom: 1px solid #ddd; /* Subtle border */

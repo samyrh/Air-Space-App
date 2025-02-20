@@ -125,7 +125,6 @@ const Home = () => {
             <SearchBar/>
             <FilterBar onApplyFilters={applyFilters}/> {/* Pass the applyFilters function */}
             <CardContainer properties={filteredProperties}/>
-            <Chatbot/>
             <ScrollToTopButton/>
             <Footer/>
         </div>

@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import '../assets/components/Navbar.css';
 import { useNavigate, useLocation } from "react-router-dom";
-
+import axios from 'axios';
 function Navbar() {
     const [dropdownVisible, setDropdownVisible] = useState(false);
     const [selectedOption, setSelectedOption] = useState("Home");
@@ -25,7 +25,9 @@ function Navbar() {
         "/about": "About",
         "/services": "Services",
         "/guest/contacts": "Contact",
+        "http://localhost:8080/": "Chatbot", // Absolute URL for the chatbot
     };
+
 
     const activeButton = linkMap[location.pathname] || null; // Determine active button or set to null if no match
 
@@ -43,6 +45,9 @@ function Navbar() {
             case "Contact":
                 navigate("/guest/contacts"); // Navigate to Contact route
                 break;
+            case "Chatbot":
+                window.location.href = "http://localhost:8080/"; // Navigate to external site
+                break;
             default:
                 navigate("/"); // Default to Home
         }
@@ -52,14 +57,14 @@ function Navbar() {
         setDropdownVisible((prev) => !prev);
     };
 
-    const handleSelectChange = (option) => {
+    const handleSelectChange = async (option) => { // Marking the function as async
         setSelectedOption(option);
         setDropdownVisible(false);
 
         if (option === "Inbox") {
             navigate("/guest/contacts"); // Navigate to /guest/contacts when "Inbox" is selected
         }
-        else if (option === "Favorites"){
+        else if (option === "Favorites") {
             navigate("/favorites");
         }
         else if (option === "Logout") {
@@ -72,6 +77,34 @@ function Navbar() {
 
             // Redirect to the login page
             navigate("/login");
+        }
+        else if (option === "Refer a host") {
+            try {
+                const token = localStorage.getItem("jwt");
+                if (!token) {
+                    throw new Error("User not logged in");
+                }
+
+                // Decode the JWT token to get the username
+                const decodedToken = JSON.parse(atob(token.split(".")[1])); // Decode JWT payload
+                const username = decodedToken.sub; // Assuming 'sub' contains the username
+
+                const response = await axios.put(
+                    `http://localhost:2424/api/clients/become-host/${username}`, // Correct string interpolation
+                    {}, // Empty body, can be omitted if not needed
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`, // Correctly interpolate the token
+                        },
+                    }
+                );
+
+                alert(response.data); // Show success message
+                navigate("/refer-host"); // Navigate to the host registration form
+            } catch (error) {
+                console.error("Error referring to host:", error);
+                alert("Failed to update to host. Please try again.");
+            }
         }
     };
 

@@ -20,7 +20,7 @@ public class Host {
     private Long id;
 
     @Column(name = "ref_host", nullable = false)
-    private String refHost = UUID.randomUUID().toString(); // Default to UUID if not provided
+    private String refHost = UUID.randomUUID().toString();
 
     private String name;
 
@@ -45,7 +45,7 @@ public class Host {
 
     private String profileImage;
 
-    // Instead of using List<String>, use List<HostHighlight> and List<HostDetail> for proper mapping
+    // ElementCollection for highlights and host details
     @ElementCollection
     @CollectionTable(name = "host_highlights", joinColumns = @JoinColumn(name = "host_id"))
     private List<String> highlights;
@@ -63,6 +63,4 @@ public class Host {
         private int years;
         private int months;
     }
-
-
 }

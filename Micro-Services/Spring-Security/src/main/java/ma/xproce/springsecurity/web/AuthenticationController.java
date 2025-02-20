@@ -1,9 +1,13 @@
 package ma.xproce.springsecurity.web;
 
 import ma.xproce.springsecurity.dao.entity.Guest;
+import ma.xproce.springsecurity.dao.entity.Host;
 import ma.xproce.springsecurity.dao.repositories.GuestRepository;
+import ma.xproce.springsecurity.dao.repositories.HostRepository;
+import ma.xproce.springsecurity.dto.HostRegistrationRequest;
 import ma.xproce.springsecurity.security.JwtUtil;
 import ma.xproce.springsecurity.security.CustomUserDetailsService;
+import ma.xproce.springsecurity.services.HostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +18,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.security.authentication.BadCredentialsException;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -34,6 +40,12 @@ public class AuthenticationController {
 
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
+
+    @Autowired
+    private HostRepository hostRepository;
+
+    @Autowired
+    private GuestRepository guestRepository;
 
     @PostMapping("/authenticate")
     public String createAuthenticationToken(@RequestBody String loginRequest) throws Exception {
@@ -100,4 +112,52 @@ public class AuthenticationController {
     public ResponseEntity<String> logout() {
         return ResponseEntity.ok("Successfully logged out");
     }
+
+
+    @PostMapping("/converttohost")
+    public ResponseEntity<String> convertToHost(@RequestBody HostRegistrationRequest hostRequest) {
+        // Check if the Guest exists
+        Guest guest = guestRepository.findById(hostRequest.getGuestId())
+                .orElseThrow(() -> new RuntimeException("Guest not found"));
+
+        // Convert the Guest to Host
+        Host host = new Host();
+        host.setName(guest.getName());
+        host.setUsername(guest.getUsername());
+        host.setPhone(guest.getPhone());
+        host.setEmail(guest.getEmail());
+        host.setPassword(passwordEncoder.encode(guest.getPassword())); // Encode password
+        host.setRefHost(UUID.randomUUID().toString()); // Generate new refHost
+        host.setSuperHost(false); // Default value, can be modified
+        host.setVerified(false); // Default value, can be modified
+        host.setProfileImage(hostRequest.getProfileImage());
+        host.setAbout(hostRequest.getBio());
+        host.setTimeAsHost(new Host.TimeAsHost());
+        host.getTimeAsHost().setYears(hostRequest.getYears());
+        host.getTimeAsHost().setMonths(hostRequest.getMonths());
+
+        // Save the Host entity first to generate host_id
+        hostRepository.save(host);
+
+        // Now set the highlights and host details only if the host is saved and has a valid host_id
+        if (hostRequest.getHighlights() != null && !hostRequest.getHighlights().isEmpty()) {
+            host.setHighlights(hostRequest.getHighlights());
+        }
+
+        if (hostRequest.getHostDetails() != null && !hostRequest.getHostDetails().isEmpty()) {
+            host.setHostDetails(hostRequest.getHostDetails());
+        }
+
+        // Save the updated Host entity with highlights and host details
+        hostRepository.save(host);
+
+        // Mark the Guest as converted to Host
+        guest.setHost(true);
+        guestRepository.save(guest);
+
+        // Return success response
+        return new ResponseEntity<>("Successfully converted to Host", HttpStatus.CREATED);
+    }
+
+
 }

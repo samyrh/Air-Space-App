@@ -33,5 +33,5 @@ public class Guest {
     private String password;
 
 
-
+    private boolean isHost;
 }
